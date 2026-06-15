@@ -1,0 +1,333 @@
+@import url('tanker.css');
+
+/* ==========================================================================
+   RESET & SYSTEM VARIABLE DEFAULTS
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --brand-green: #245A32;       /* The deep forest green from your layout screenshot */
+    --accent-light: #EBF3ED;      /* Soft background tint */
+    --text-dark: #1E293B;
+    --font-primary: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --line-height-hero: 1.15;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: #fffff0;
+    color: var(--text-dark);
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   HERO CONTAINER & BACKDROP SCENERY
+   ========================================================================== */
+.hero-section {
+    position: relative;
+    height: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
+    background-image: url('../assets/topographical_map_art_bg.svg');
+    background-size: cover; 
+    background-position: center bottom;
+    background-repeat: no-repeat;
+}
+
+/* ==========================================================================
+   NAVIGATION DESKTOP SPECIFICATION
+   ========================================================================== */
+.navbar {
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 80, 136, 0.08);
+    background-color: #fffff0;
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-img {
+    height: 36px;
+    width: auto;
+    
+    display: block;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 32px;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #475569;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-item:hover {
+    color: var(--brand-green);
+}
+
+/* Hamburger UI Blueprint */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.menu-toggle .bar {
+    width: 100%;
+    height: 2px;
+    background-color: var(--brand-green);
+    transition: all 0.3s ease;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY & RUNNING TICKER LOGIC
+   ========================================================================== */
+.hero-content {
+    flex-grow: 1;
+    display: flex;
+    
+    align-items: flex-start; 
+    justify-content: center;
+    
+    padding: 25vh 10px 40px
+}
+
+.headline-stack {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Apply the font to the static text, the active line container, AND the individual scrolling words */
+.static-line, 
+.action-line, 
+.ticker-item {
+    font-family: 'Tanker-Regular', sans-serif;
+    letter-spacing: 0.02em; /* Adjusted slightly since Tanker is already tightly spaced */
+}
+
+.ticker-item-gold {
+    font-family: 'Tanker-Regular', sans-serif;
+    letter-spacing: 0.02em; /* Adjusted slightly since Tanker is already tightly spaced */
+    color: #cba31e; /* Gold color for the highlighted ticker item */
+}
+
+/* Your original sizing properties remain exactly as they were */
+.static-line {
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    color: var(--brand-green);
+    line-height: var(--line-height-hero);
+}
+
+.action-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-weight: 900;
+    color: var(--brand-green);
+    letter-spacing: -0.02em;
+    line-height: var(--line-height-hero);
+}
+
+/* The structural framework window masking out overflowing items */
+.ticker-wrapper {
+    display: inline-block;
+    height: calc(clamp(2.5rem, 6vw, 5.5rem) * var(--line-height-hero));
+    overflow: hidden;
+    position: relative;
+    vertical-align: bottom;
+}
+
+.ticker-track {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.ticker-item {
+    display: block;
+    white-space: nowrap;
+    height: calc(clamp(2.5rem, 6vw, 5.5rem) * var(--line-height-hero));
+}
+
+/* ==========================================================================
+   INFINITE MASONRY BRICK SCROLLER (MARQUEE)
+   ========================================================================== */
+.portfolio-preview {
+    width: 100%;
+    background-color: var(--accent-light);
+    padding: 60px 0;
+    overflow: hidden;
+}
+
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+}
+
+.marquee-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: scrollMarquee 40s linear infinite;
+}
+
+/* Staggered dynamic sizing simulating satisfying asymmetric tiles */
+.masonry-brick {
+    height: 320px; /* Locked frame elevation */
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.masonry-brick:hover {
+    transform: translateY(-8px) scale(1.02);
+}
+
+/* Dynamic Aspect Ratio Classes to create the "Brick Setup" */
+.img-square { width: 320px; }
+.img-wide   { width: 460px; }
+.img-tall   { width: 240px; }
+
+/* Staggering offsets to create the "Wonky / Asymmetrical" artistic feel */
+.masonry-brick:nth-child(odd) { transform: translateY(12px); }
+.masonry-brick:nth-child(even) { transform: translateY(-12px); }
+.masonry-brick:nth-child(3n) { transform: translateY(4px) rotate(1deg); }
+
+/* Temporary Placeholder Styling - Swap out with your raw assets later */
+.placeholder-art {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: rgba(36, 90, 50, 0.7);
+    font-size: 1.1rem;
+}
+
+.p-1 { background-color: #C6DCD0; }
+.p-2 { background-color: #B4CFC1; }
+.p-3 { background-color: #A3C3B2; }
+.p-4 { background-color: #92B6A3; }
+.p-5 { background-color: #81A994; }
+.p-6 { background-color: #709D85; }
+.p-7 { background-color: #609076; }
+
+@keyframes scrollMarquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* Snaps seamlessly halfway through due to clone */
+}
+
+/* ==========================================================================
+   SCROLL TESTING FILLER SECTION
+   ========================================================================== */
+.scroll-filler {
+    max-width: 800px;
+    margin: 120px auto;
+    padding: 0 24px;
+    text-align: center;
+}
+
+.scroll-filler h2 {
+    font-size: 2rem;
+    color: var(--brand-green);
+    margin-bottom: 20px;
+}
+
+.scroll-filler p {
+    font-size: 1.2rem;
+    color: #64748B;
+    line-height: 1.7;
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS AND COLLAPSIBLE HAMBURGER BLUEPRINT
+   ========================================================================== */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.98);
+        border-bottom: 1px solid rgba(0, 80, 136, 0.08);
+        flex-direction: column;
+        gap: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out;
+    }
+
+    .nav-links.active {
+        max-height: 350px; /* Expands to fit links safely */
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-item {
+        display: block;
+        padding: 20px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.02);
+    }
+
+    /* Animated Close Icon for Menu Button Toggle */
+    .menu-toggle.open .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .menu-toggle.open .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .menu-toggle.open .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Tighten typography sizing for small mobile viewports */
+    .action-line {
+        flex-direction: column;
+        align-items: center;
+    }
+    .action-static {
+        margin-right: 0;
+    }
+}
