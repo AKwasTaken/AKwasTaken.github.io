@@ -1,0 +1,64 @@
+/* ==========================================================================
+   NAVIGATION DESKTOP SPECIFICATION & GENERAL SECTIONS
+   ========================================================================== */
+.navbar {
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 80, 136, 0.08);
+  background-color: #fffff0;
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-img {
+  height: 36px;
+  width: auto;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #475569;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-item:hover {
+  color: var(--brand-green);
+}
+
+.scroll-filler {
+  max-width: 800px;
+  margin: 120px auto;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.scroll-filler h2 {
+  font-size: 2rem;
+  color: var(--brand-green);
+  margin-bottom: 20px;
+}
+
+.scroll-filler p {
+  font-size: 1.2rem;
+  color: #64748b;
+  line-height: 1.7;
+}

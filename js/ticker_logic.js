@@ -1,24 +1,42 @@
 const track = document.getElementById('ticker-track');
 const items = track.children;
-const totalItems = items.length; // This is now 7
-let index = 0;
+const totalItems = items.length;
+let tickerIndex = 0;
 
-setInterval(() => {
-    // 1. Enable standard smooth animation transitions
-    track.style.transition = "transform 0.6s cubic-bezier(0.76, 0, 0.24, 1)";
-    index++;
+function playTicker() {
+    // 1. SPEED UP THE SLIDE: Dropped from 0.6s to 0.25s (250ms)
+    // This gives it a punchy, mechanical click-into-place look
+    track.style.transition = "transform 0.25s cubic-bezier(0.25, 1, 0.5, 1)";
+    tickerIndex++;
+    track.style.transform = `translateY(-${tickerIndex * (100 / totalItems)}%)`;
+
+    // 2. YOUR TARGET DELAY: 400ms total loop window budget
+    // The slide takes 250ms, meaning the text rests perfectly still for 150ms
+    let nextDelay = 400; 
     
-    // Move to the next word
-    track.style.transform = `translateY(-${index * (100 / totalItems)}%)`;
-
-    // 2. When we hit the cloned item at the very bottom...
-    if (index === totalItems - 1) {
-        setTimeout(() => {
-            // Instantly kill the animation transition styles
-            track.style.transition = "none";
-            // Snap back to the absolute top item instantly
-            index = 0;
-            track.style.transform = `translateY(0%)`;
-        }, 600); // 600ms matches the exact duration of your slide effect
+    let checkIndex = tickerIndex;
+    if (checkIndex === totalItems - 1) {
+        checkIndex = 0; 
     }
-}, 1000); // Cycles every 2.5 seconds
+    const currentItem = items[checkIndex];
+
+    // 3. Gold delay check remains untouched
+    if (currentItem.classList.contains('ticker-item-gold')) { 
+        nextDelay = 5000; 
+    }
+
+    // 4. Seamless Reset Check: Executes EXACTLY at 250ms when the fast slide finishes
+    if (tickerIndex === totalItems - 1) {
+        setTimeout(() => {
+            track.style.transition = "none"; // Kill transitions instantly
+            tickerIndex = 0;
+            track.style.transform = `translateY(0%)`; // Clean reset
+        }, 25000 / 100); // Evaluates to exactly 250ms to match the new slide duration
+    }
+
+    // Queue the next slide block
+    setTimeout(playTicker, nextDelay);
+}
+
+// Start running immediately
+setTimeout(playTicker, 400);

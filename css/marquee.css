@@ -1,0 +1,67 @@
+/* ==========================================================================
+   INFINITE MASONRY BRICK SCROLLER (MARQUEE)
+   ========================================================================== */
+.portfolio-preview {
+  width: 100%;
+  background-color: var(--accent-light);
+  padding: 60px 0;
+  overflow: hidden;
+}
+
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: scrollMarquee 40s linear infinite;
+}
+
+.masonry-brick {
+  height: 320px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.masonry-brick:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+.img-square { width: 320px; }
+.img-wide   { width: 460px; }
+.img-tall   { width: 240px; }
+
+.masonry-brick:nth-child(odd) { transform: translateY(12px); }
+.masonry-brick:nth-child(even) { transform: translateY(-12px); }
+.masonry-brick:nth-child(3n) { transform: translateY(4px) rotate(1deg); }
+
+.placeholder-art {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: rgba(36, 90, 50, 0.7);
+  font-size: 1.1rem;
+}
+
+.p-1 { background-color: #c6dcd0; }
+.p-2 { background-color: #b4cfc1; }
+.p-3 { background-color: #a3c3b2; }
+.p-4 { background-color: #92b6a3; }
+.p-5 { background-color: #81a994; }
+.p-6 { background-color: #709d85; }
+.p-7 { background-color: #609076; }
+
+@keyframes scrollMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
