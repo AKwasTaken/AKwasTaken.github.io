@@ -42,8 +42,6 @@
   align-items: center;
   justify-content: center;
   transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-
-  filter: drop-shadow(0px 0px 10px var(--background-color));
 }
 
 /* Slight micro-interaction on hover */
@@ -57,4 +55,59 @@
   
   object-fit: contain;
   display: block;
+}
+
+
+/* ==========================================================================
+   INLINE SVG NATIVE VECTOR STYLING (OPTIMIZED)
+   ========================================================================== */
+
+/* Spacing out the third row cleanly under the second row */
+.tertiary-stack {
+  margin-top: 40px;
+}
+
+.lang-svg-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+
+  /* THE ENGINE: Use currentColor to control both variables at once safely */
+  --lang-color: #939393; /* Default color for all icons in the stack */
+  color: var(--lang-color);
+  
+  /* Smooth color transition engine */
+  transition: color 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.icon-flex-row-lang {
+  display: flex;
+  flex-wrap: wrap; /* AUTOMATION: The secret sauce that forces items to drop down when they run out of space */
+  justify-content: center; /* Centers the leftover icons on the bottom rows */
+  align-items: center;
+  gap: 24px 5px; /* 24px gap vertically when wrapped, 5px gap horizontally between items */
+  width: 100%;
+}
+
+/* INTERACTIVE STATE: Targets the container wrapper hover state */
+.tertiary-stack .icon-item:hover .lang-svg-icon {
+  color: var(--lang-color); /* Change to the hover color defined in variables.css */
+}
+
+/* THE CORE FIX: Target EVERY possible vector node type inside the SVG layout.
+  By mapping them to 'currentColor', they will automatically look at whatever 
+  hex code is assigned to the parent '.lang-svg-icon' container.
+*/
+.lang-svg-icon path,
+.lang-svg-icon circle,
+.lang-svg-icon rect,
+.lang-svg-icon polygon,
+.lang-svg-icon g {
+
+  fill: currentColor;
+}
+
+/* Quick CSS fallback rule to make sure strokes match currentColor smoothly */
+.lang-svg-icon [stroke] {
+  stroke: currentColor;
 }

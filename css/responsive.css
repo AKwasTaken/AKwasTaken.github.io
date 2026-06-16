@@ -1,32 +1,67 @@
 @import url('variables.css');
 
 /* ==========================================================================
-   MOBILE RESPONSIVENESS AND COLLAPSIBLE HAMBURGER BLUEPRINT
+   1. GLOBAL STYLING (Applies to all screen sizes by default)
    ========================================================================== */
+.menu-toggle {
+  display: none; /* CRITICAL: Keeps it completely hidden on desktop mode */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
 
-/* THE FIX: Wrap your layout definitions inside a mobile media target block */
+.menu-toggle .bar {
+  width: 100%;
+  height: 2px;
+  background-color: var(--brand-green);
+  transition: all 0.3s ease;
+}
+
+
+/* ==========================================================================
+   2. TABLET / LAPTOP BREAKPOINT (Under 1100px)
+   ========================================================================== */
+@media (max-width: 1100px) {
+  /* FIXED: Removed the display: flex rule from here so it doesn't pop up early */
+  
+  .action-line {
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+    gap: 0; 
+  }
+
+  .ticker-wrapper {
+    width: 100%; 
+  }
+
+  .ticker-track {
+    align-items: center; 
+  }
+
+  .ticker-item, 
+  .ticker-item-gold {
+    text-align: center; 
+  }
+}
+
+
+/* ==========================================================================
+   3. MOBILE NAV DRAWER BREAKPOINT (Under 768px)
+   ========================================================================== */
 @media (max-width: 768px) {
   .nav-container {
     position: relative;
   }
 
+  /* UNHIDE IT ONLY HERE: Now it safely displays right when the menu collapses */
   .menu-toggle {
-    display: flex; /* Change from 'none' to 'flex' so it unhides on mobile screens */
-    flex-direction: column;
-    justify-content: space-between;
-    width: 24px;
-    height: 18px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 1001;
-  }
-
-  .menu-toggle .bar {
-    width: 100%;
-    height: 2px;
-    background-color: var(--brand-green);
-    transition: all 0.3s ease;
+    display: flex; 
   }
 
   /* Add these missing rules so your existing JS can open the menu drawer */
@@ -35,7 +70,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: #fffff0; /* Matches your background color precisely */
+    background-color: #fffff0; 
     flex-direction: column;
     align-items: center;
     gap: 0;
@@ -47,13 +82,8 @@
 
   /* Triggers when your JS script executes classList.toggle("active") */
   .nav-links.active {
-    max-height: 350px; /* Your existing open height limit */
-    
-    /* THE FIX: Casts a subtle, soft drop shadow strictly downward from the tray 
-       offset-x: 0px, offset-y: 10px, blur: 25px, color: a muted 8% transparent dark grey */
+    max-height: 350px; 
     box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
-    
-    /* Keeps a subtle border edge right on the bottom line for extra crispness */
     border-bottom: 1px solid rgba(var(--brand-green), 0.1);
   }
 
@@ -77,30 +107,5 @@
   }
   .menu-toggle.open .bar:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
-  }
-}
-
-/* ==========================================================================
-   HERO TEXT WRAPPING BREAKPOINT (STYLING FOR 3 STACKED LINES)
-   ========================================================================== */
-@media (max-width: 1100px) {
-  .action-line {
-    flex-direction: column; 
-    align-items: center;
-    justify-content: center;
-    gap: 0; 
-  }
-
-  .ticker-wrapper {
-    width: 100%; 
-  }
-
-  .ticker-track {
-    align-items: center; 
-  }
-
-  .ticker-item, 
-  .ticker-item-gold {
-    text-align: center; 
   }
 }
