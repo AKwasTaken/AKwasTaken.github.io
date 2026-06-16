@@ -37,7 +37,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 27vh 10px 40px;
+  padding: 28vh 10px 40px;
 }
 
 .headline-stack {
@@ -50,7 +50,7 @@
 .stroke-text {
   color: transparent;
   -webkit-text-stroke-width: 2.5px; /* Clean, distinct edge thickness */
-  -webkit-text-stroke-color: var(--brand-green);
+  -webkit-text-stroke-color: var(--accent-main);
 
   font-weight: normal;
   font-synthesis: none;
@@ -64,8 +64,8 @@
 
 /* Make sure your hover state doesn't trigger a re-render glitch */
 .name-button:hover {
-  color: var(--brand-green);
-  -webkit-text-stroke-color: var(--brand-green);
+  color: var(--accent-main);
+  -webkit-text-stroke-color: var(--accent-main);
 }
 
 .static-line,
@@ -83,7 +83,7 @@
 
 .static-line {
   font-size: clamp(4rem, 10vw, 5.5rem);
-  color: var(--brand-green);
+  color: var(--accent-main);
   line-height: var(--line-height-hero);
 }
 
@@ -93,7 +93,7 @@
   justify-content: center;
   font-size: clamp(4rem, 10vw, 5.5rem);
   font-weight: 900;
-  color: var(--brand-green);
+  color: var(--accent-main);
   letter-spacing: -0.02em;
   line-height: var(--line-height-hero);
 }
@@ -113,7 +113,7 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: var(--brand-green);
+  background-color: var(--accent-main);
   z-index: 2;
   pointer-events: none;
 }

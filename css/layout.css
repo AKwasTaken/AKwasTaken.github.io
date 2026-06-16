@@ -43,7 +43,7 @@
 }
 
 .nav-item:hover {
-  color: var(--brand-green);
+  color: var(--accent-main);
 }
 
 .scroll-filler {
@@ -55,7 +55,7 @@
 
 .scroll-filler h2 {
   font-size: 2rem;
-  color: var(--brand-green);
+  color: var(--accent-main);
   margin-bottom: 20px;
 }
 

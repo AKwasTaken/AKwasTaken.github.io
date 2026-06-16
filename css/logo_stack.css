@@ -4,13 +4,16 @@
    SOFTWARE STACK FOOTER LOGOS
    ========================================================================== */
 .software-stack-container {
+  position: absolute;
+  top: 70vh; 
+
+  width: max-content; 
+  z-index: 10;
+  
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  max-width: 720px; /* Restricts the max horizontal footprint so rows stay tight and organized */
-  margin: 10vh auto 0; /* Creates breathing space below your hero text */
   text-align: center;
 }
 
@@ -18,7 +21,7 @@
   font-family: "Tanker-Regular", sans-serif;
   font-size: 1.1rem;
   letter-spacing: 0.25em;
-  color: var(--brand-green);
+  color: var(--accent-main);
   opacity: 0.8;
   margin-bottom: 20px;
 }
@@ -33,9 +36,10 @@
   width: 100%;
 }
 
+/* 
 .secondary-stack {
   margin-top: 10px; 
-}
+} */
 
 .icon-item {
   display: flex;
@@ -64,7 +68,7 @@
 
 /* Spacing out the third row cleanly under the second row */
 .tertiary-stack {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .lang-svg-icon {

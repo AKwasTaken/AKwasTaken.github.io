@@ -10,7 +10,7 @@
 }
 
 :root {
-  --brand-green: #245a32; 
+  --accent-main: #4a637b; 
   --accent-light: #ebf3ed;
   --accent-text: #475569; 
   --text-dark: #1e293b;
@@ -37,7 +37,7 @@ body {
 }
 
 .checkerboard-divider {
-  --accent-color1: var(--brand-green);
+  --accent-color1: var(--accent-main);
   --accent-color2: transparent;
   --checkerboard-height: 40px;
 }
