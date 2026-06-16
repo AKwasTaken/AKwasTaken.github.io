@@ -13,13 +13,14 @@
   --brand-green: #245a32; 
   --accent-light: #ebf3ed; 
   --text-dark: #1e293b;
+  --background-color: #fffff0;
   --font-primary: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --line-height-hero: 1.15;
 }
 
 body {
   font-family: var(--font-primary);
-  background-color: #fffff0;
+  background-color: var(--background-color);
   color: var(--text-dark);
   overflow-x: hidden;
 }
@@ -32,4 +33,10 @@ body {
   font-weight: 400;
   font-display: swap;
   font-style: normal;
+}
+
+.checkerboard-divider {
+  --accent-color1: var(--brand-green);
+  --accent-color2: transparent;
+  --checkerboard-height: 40px;
 }

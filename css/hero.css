@@ -1,3 +1,5 @@
+@import url('variables.css');
+
 /* ==========================================================================
    HERO CONTAINER, TYPOGRAPHY & RUNNING TICKER LOGIC
    ========================================================================== */
@@ -30,20 +32,23 @@
 
 .stroke-text {
   color: transparent;
-  -webkit-text-stroke-width: 0.5px; /* Note: Bumped up slightly from 0.02px so the outline doesn't disappear on high-res displays */
+  -webkit-text-stroke-width: 2.5px; /* Clean, distinct edge thickness */
   -webkit-text-stroke-color: var(--brand-green);
-}
 
-.name-button {
-  text-decoration: none; /* Removes the default browser link underline */
-  cursor: pointer;
+  font-weight: normal;
+  font-synthesis: none;
+  
   display: inline-block;
-    transition:
-    color 0.2s ease
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease,
+              -webkit-text-stroke-color 0.3s ease;
 }
 
+/* Make sure your hover state doesn't trigger a re-render glitch */
 .name-button:hover {
   color: var(--brand-green);
+  -webkit-text-stroke-color: var(--brand-green);
 }
 
 .static-line,
