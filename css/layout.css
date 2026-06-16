@@ -96,3 +96,31 @@
 
   background-color: var(--color-two); 
 }
+
+.logo-svg-icon {
+  width: 48px;  /* Set whatever custom size dimensions you want for your branding */
+  height: 48px;
+  display: block;
+
+  /* 💡 THE CORE ENGINE: Define your base color here */
+  color: var(--special-accent);
+  
+  /* Smooth color morph transition */
+  transition: color 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.logo-svg-icon:hover {
+  color: var(--accent-text);
+}
+
+.logo-svg-icon path,
+.logo-svg-icon circle,
+.logo-svg-icon rect,
+.logo-svg-icon polygon,
+.logo-svg-icon g {
+  fill: currentColor !important;
+}
+
+.logo-svg-icon [stroke] {
+  stroke: currentColor !important;
+}

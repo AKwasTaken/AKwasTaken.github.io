@@ -78,7 +78,7 @@
 .ticker-item-gold {
   font-family: "Tanker-Regular", sans-serif;
   letter-spacing: 0.02em;
-  color: #cba31e;
+  color: var(--special-accent);
 }
 
 .static-line {

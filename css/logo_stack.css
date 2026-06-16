@@ -95,13 +95,9 @@
 
 /* INTERACTIVE STATE: Targets the container wrapper hover state */
 .tertiary-stack .icon-item:hover .lang-svg-icon {
-  color: var(--lang-color); /* Change to the hover color defined in variables.css */
+  color: var(--lang-color);
 }
 
-/* THE CORE FIX: Target EVERY possible vector node type inside the SVG layout.
-  By mapping them to 'currentColor', they will automatically look at whatever 
-  hex code is assigned to the parent '.lang-svg-icon' container.
-*/
 .lang-svg-icon path,
 .lang-svg-icon circle,
 .lang-svg-icon rect,

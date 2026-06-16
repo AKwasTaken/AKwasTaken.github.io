@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".lang-link-icon").forEach(async (el) => {
+  document.querySelectorAll(".link-icon, .logo-item").forEach(async (el) => {
     const url = el.getAttribute("data-src");
     if (!url) return;
 
@@ -13,8 +13,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const svgElement = xmlDoc.querySelector("svg");
 
       if (svgElement) {
-        // Apply your design layout hooks directly to the injected element
-        svgElement.setAttribute("class", "lang-svg-icon");
+        if (el.classList.contains("logo-item")) {
+          svgElement.setAttribute("class", "logo-svg-icon");
+        } else {
+          svgElement.setAttribute("class", "lang-svg-icon");
+        }
+        
         el.replaceWith(svgElement);
       }
     } catch (err) {
