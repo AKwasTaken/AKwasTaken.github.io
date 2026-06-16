@@ -6,7 +6,7 @@
 .navbar {
   width: 100%;
   border-bottom: 1px solid rgba(0, 80, 136, 0.08);
-  background-color: #fffff0;
+  background-color: var(--background-color);
   backdrop-filter: blur(8px);
   position: sticky;
   top: 0;
@@ -36,7 +36,7 @@
 
 .nav-item {
   text-decoration: none;
-  color: #475569;
+  color: var(--accent-text);
   font-size: 1rem;
   font-weight: 500;
   transition: color 0.2s ease;

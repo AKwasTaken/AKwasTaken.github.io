@@ -3,49 +3,102 @@
 /* ==========================================================================
    MOBILE RESPONSIVENESS AND COLLAPSIBLE HAMBURGER BLUEPRINT
    ========================================================================== */
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 18px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 1001;
-}
 
-.menu-toggle .bar {
-  width: 100%;
-  height: 2px;
-  background-color: var(--brand-green);
-  transition: all 0.3s ease;
+/* THE FIX: Wrap your layout definitions inside a mobile media target block */
+@media (max-width: 768px) {
+  .nav-container {
+    position: relative;
+  }
+
+  .menu-toggle {
+    display: flex; /* Change from 'none' to 'flex' so it unhides on mobile screens */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  .menu-toggle .bar {
+    width: 100%;
+    height: 2px;
+    background-color: var(--brand-green);
+    transition: all 0.3s ease;
+  }
+
+  /* Add these missing rules so your existing JS can open the menu drawer */
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fffff0; /* Matches your background color precisely */
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.1s ease-in-out;
+    z-index: 999;
+  }
+
+  /* Triggers when your JS script executes classList.toggle("active") */
+  .nav-links.active {
+    max-height: 350px; /* Your existing open height limit */
+    
+    /* THE FIX: Casts a subtle, soft drop shadow strictly downward from the tray 
+       offset-x: 0px, offset-y: 10px, blur: 25px, color: a muted 8% transparent dark grey */
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
+    
+    /* Keeps a subtle border edge right on the bottom line for extra crispness */
+    border-bottom: 1px solid rgba(var(--brand-green), 0.1);
+  }
+
+  .nav-links li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-item {
+    display: block;
+    padding: 16px 0;
+    width: 100%;
+  }
+
+  /* Animates the bars into an 'X' when your JS executes classList.toggle("open") */
+  .menu-toggle.open .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .menu-toggle.open .bar:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle.open .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
 }
 
 /* ==========================================================================
    HERO TEXT WRAPPING BREAKPOINT (STYLING FOR 3 STACKED LINES)
    ========================================================================== */
 @media (max-width: 1100px) {
-  /* 1. Forces "AND I'M" and the ticker box to separate into vertical lines */
   .action-line {
     flex-direction: column; 
     align-items: center;
     justify-content: center;
-    gap: 0; /* Remove any side-gaps since they are stacked now */
+    gap: 0; 
   }
 
-  /* 2. Expands the ticker wrapper box to the full width of the screen 
-     so the text inside has room to align to the dead center */
   .ticker-wrapper {
     width: 100%; 
   }
 
-  /* 3. Re-aligns the moving track grid/flex pillar to the horizontal center */
   .ticker-track {
     align-items: center; 
   }
 
-  /* 4. Swaps text alignment from left to center for that perfect symmetry */
   .ticker-item, 
   .ticker-item-gold {
     text-align: center; 

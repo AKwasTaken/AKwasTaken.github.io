@@ -11,7 +11,8 @@
 
 :root {
   --brand-green: #245a32; 
-  --accent-light: #ebf3ed; 
+  --accent-light: #ebf3ed;
+  --accent-text: #475569; 
   --text-dark: #1e293b;
   --background-color: #fffff0;
   --font-primary: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;

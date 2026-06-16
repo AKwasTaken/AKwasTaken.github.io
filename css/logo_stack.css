@@ -1,0 +1,60 @@
+@import url("variables.css");
+
+/* ==========================================================================
+   SOFTWARE STACK FOOTER LOGOS
+   ========================================================================== */
+.software-stack-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 720px; /* Restricts the max horizontal footprint so rows stay tight and organized */
+  margin: 10vh auto 0; /* Creates breathing space below your hero text */
+  text-align: center;
+}
+
+.stack-label {
+  font-family: "Tanker-Regular", sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.25em;
+  color: var(--brand-green);
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+/* THE WRAPPING CONTAINER */
+.icon-flex-row {
+  display: flex;
+  flex-wrap: wrap; /* AUTOMATION: The secret sauce that forces items to drop down when they run out of space */
+  justify-content: center; /* Centers the leftover icons on the bottom rows */
+  align-items: center;
+  gap: 24px 10px; /* 24px gap vertically when wrapped, 32px gap horizontally between items */
+  width: 100%;
+}
+
+.secondary-stack {
+  margin-top: 10px; 
+}
+
+.icon-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+
+  filter: drop-shadow(0px 0px 10px var(--background-color));
+}
+
+/* Slight micro-interaction on hover */
+.icon-item:hover {
+  transform: translateY(-4px) scale(1.5);
+}
+
+.stack-icon {
+  height: 32px;
+  width: 32px;
+  
+  object-fit: contain;
+  display: block;
+}
