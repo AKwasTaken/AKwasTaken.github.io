@@ -3,6 +3,12 @@
   --masonry-gap: 15px;
 }
 
+.gallery-preview {
+  width: 100%;
+  padding: var(--masonry-gap) 0;
+  background-color: var(--secondary-background);
+}
+
 #dynamic-gallery-target {
   width: 100%;
   display: block;
