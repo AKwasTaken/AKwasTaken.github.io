@@ -5,27 +5,27 @@
 .bento-grid-container {
   width: 100%;
   max-width: 100vw;
-  padding: 12px; 
+  padding: 2vw;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .bento-grid {
   display: grid;
   width: 100%;
   
-  /* 📱 MOBILE VIEW: Hard 6-column matrix (A, B, C, D, E, F)
-     🚀 SQUARE MATH: Each column is ~16.66% of screen width.
-     Setting rows to 16.1vw (accounting for the 12px gaps) forces every single 
-     cell block to form a perfect geometric square on the screen. */
+  /* Hard 6-column matrix (A, B, C, D, E, F) */
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(18, 16.1vw); 
-  gap: 12px;
+  grid-template-rows: repeat(18, calc((100vw - 80px) / 6)); 
+  gap: 2vw;
 }
 
 .bento-item {
   background-color: #3a3a3a; 
+  stroke: #ffffff;
+  stroke-width: 200px;
   color: #fff;
-  border-radius: 8px; 
+  border-radius: 1vw; 
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -45,6 +45,10 @@
 /* ==========================================================================
    📱 MOBILE PLACEMENT MAP (Perfect Square Multiples)
    ========================================================================== */
+
+.item-0 img{
+    object-position: top;
+}
 
 /* Ref 0: A1-C3 -> Forms a perfect 3x3 macro square block */
 .item-0 { 
@@ -88,41 +92,40 @@
   grid-row: 16 / span 3; 
 } 
 
-
 /* ==========================================================================
-   🖥️ DESKTOP MASTER MEDIA QUERY (768px and up)
-   ========================================================================= */
+   🖥️ EDGE-TO-EDGE DESKTOP MASTER MEDIA QUERY (768px and up)
+   ========================================================================== */
 @media (min-width: 768px) {
   .bento-grid-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 16px; /* Total horizontal padding = 32px */
+    width: 100%;
+    max-width: 100vw;
+    margin: 0;
+    box-sizing: border-box;
+    overflow-x: hidden; /* Safety guard against microscopic horizontal subpixel scrolls */
   }
 
   .bento-grid {
     display: grid;
+    width: 100%;
+    
+    /* Hard 12-column widescreen track */
     grid-template-columns: repeat(12, 1fr);
     
-    /* 🚀 THE PERFECT SQUARE ENGINE: 
-       Takes the fluid width of the container, subtracts the left/right padding (32px),
-       subtracts the space taken up by the 11 grid gaps (11 * 16px = 176px), and divides 
-       the remainder by 12. This makes every single row cell a perfect 1:1 square. */
-    grid-template-rows: repeat(10, calc((100vw - 32px - 176px) / 12));
+    /* 💎 THE ULTRA-WIDE SQUARE ENGINE:
+       Takes full screen width (100vw), subtracts the exact pixels consumed by your 11 gaps 
+       (11 * 16px = 176px), and divides what is left cleanly by 12. 
+       This forces the grid cells to stay perfect squares forever, no matter how wide the screen is. */
+    grid-template-rows: repeat(10, calc((100vw - 176px) / 12));
     gap: 16px;
-  }
-
-  /* 🔒 MAX-WIDTH LOCK: Once the container hits your 1200px max-width boundary, 
-     we lock the row heights to exactly 82px so they stop expanding and stay squares. */
-  @media (min-width: 1200px) {
-    .bento-grid {
-      grid-template-rows: repeat(10, 82px);
-    }
   }
 
   /* ==========================================================================
      DESKTOP PLACEMENT MAP (3 grid columns = 1 layout column)
      ========================================================================== */
 
+  .item-0 img{
+    object-position: top;
+}
   /* Item 0: Old Col 1 | Rows 1 to 7 */
   .item-0 { 
     grid-column: 1 / span 3; 

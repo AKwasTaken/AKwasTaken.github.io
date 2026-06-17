@@ -3,7 +3,7 @@
    ========================================================================== */
 
 /* This scales everything globally on mobile screens while leaving the background untouched */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   :root {
     /* Drops the standard browser base metric down. 
        This instantly shrinks all text, icons, and containers using rem/em by 20% */
@@ -25,8 +25,8 @@
   
   /* Force global padding reductions to buy horizontal safety space */
   body {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    overflow-x: hidden; /* Hard safety rail to kill horizontal touch scrolling */
+    padding-left: 0rem;
+    padding-right: 0rem;
   }
 }
+

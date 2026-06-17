@@ -7,3 +7,23 @@
 @import url("gallery.css");
 @import url("responsive.css");
 @import url("window.css");
+
+@font-face {
+  font-family: 'Tanker-Regular';
+  src: url('../fonts/tanker/Tanker-Regular.woff2') format('woff2'),
+       url('../fonts/tanker/Tanker-Regular.woff') format('woff'),
+       url('../fonts/tanker/Tanker-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geometr706-Cond';
+  src: url('../fonts/Geometr706/Geometr706.woff2') format('woff2'),
+       url('../fonts/Geometr706/Geometr706.woff') format('woff'),
+       url('../fonts/Geometr706/Geometr706.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
