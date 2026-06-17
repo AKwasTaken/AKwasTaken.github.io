@@ -16,7 +16,7 @@
 .nav-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 24px;
+  padding: 15px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -98,15 +98,13 @@
 }
 
 .logo-svg-icon {
-  width: 48px;  /* Set whatever custom size dimensions you want for your branding */
-  height: 48px;
+  width: 40px;  /* Set whatever custom size dimensions you want for your branding */
+  height: 40px;
   display: block;
 
-  /* 💡 THE CORE ENGINE: Define your base color here */
+  padding: 2px;
   color: var(--special-accent);
-  
-  /* Smooth color morph transition */
-  transition: color 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: color 0.2s ease;
 }
 
 .logo-svg-icon:hover {

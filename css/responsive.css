@@ -56,7 +56,12 @@
    ========================================================================== */
 @media (max-width: 768px) {
   .nav-container {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background: var(--background-color); /* Makes the navbar transparent so the hero map shows through the gaps! */
   }
 
   /* UNHIDE IT ONLY HERE: Now it safely displays right when the menu collapses */

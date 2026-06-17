@@ -2,28 +2,21 @@
    GLOBAL LAYOUT SCALER (ZOOM CONTROL)
    ========================================================================== */
 
-/* This scales everything globally on mobile screens while leaving the background untouched */
 @media (max-width: 768px) {
   :root {
-    /* Drops the standard browser base metric down. 
-       This instantly shrinks all text, icons, and containers using rem/em by 20% */
     font-size: 13px; 
   }
 
-  /* Target your hero content wrapper and force a micro-scale factor */
   .hero-content,
   .software-stack-container,
   nav {
-    /* Scales down the element geometry transformations globally */
     transform: scale(0.9);
-    transform-origin: center top; /* Keeps everything perfectly centered as it shrinks */
+    transform-origin: center top; 
     
-    /* Prevent container boxes from spilling over the 375px-414px device rails */
     max-width: 100vw;
     box-sizing: border-box;
   }
   
-  /* Force global padding reductions to buy horizontal safety space */
   body {
     padding-left: 0rem;
     padding-right: 0rem;

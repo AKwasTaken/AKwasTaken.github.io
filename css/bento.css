@@ -5,7 +5,7 @@
 .bento-grid-container {
   width: 100%;
   max-width: 100vw;
-  padding: 2vw;
+  padding: 2vw; /* Total horizontal padding = 4vw */
   box-sizing: border-box;
   overflow-x: hidden;
 }
@@ -13,11 +13,9 @@
 .bento-grid {
   display: grid;
   width: 100%;
-  
-  /* Hard 6-column matrix (A, B, C, D, E, F) */
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(18, calc((100vw - 80px) / 6)); 
   gap: 2vw;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(18, calc((100vw - 14vw) / 6)); 
 }
 
 .bento-item {
@@ -102,6 +100,8 @@
     margin: 0;
     box-sizing: border-box;
     overflow-x: hidden; /* Safety guard against microscopic horizontal subpixel scrolls */
+    overflow-y: auto;
+
   }
 
   .bento-grid {

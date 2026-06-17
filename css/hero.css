@@ -38,6 +38,13 @@
   align-items: flex-start;
   justify-content: center;
   padding: 28vh 10px 40px;
+  /* transform: translateY(-50%); */
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    padding: 40vh 10px 20px;
+  }
 }
 
 .headline-stack {

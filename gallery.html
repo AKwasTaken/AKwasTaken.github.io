@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | Gallery</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="logo-link">
+          <div class="logo-item" data-src="assets/logo.svg"></div>
+        </a>
+
+        <!-- Hamburger Toggle (Hidden on desktop) -->
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#" class="nav-item">Gallery</a></li>
+          <li><a href="#" class="nav-item">Projects</a></li>
+          <li><a href="#" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="#" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <h1 class="page-heading">GALLERY</h1>
+
+    <div class="gallery-container" id="async-gallery-target"></div>
+
+    <script src="js/fetch-gallery.js"></script>
+
+    <script src="js/nav_menu.js"></script>
+    <script src="js/load_icons.js"></script>
+    <script src="js/nav_menu.js"></script>
+    <script src="js/load_icons.js"></script>
+  </body>
+</html>

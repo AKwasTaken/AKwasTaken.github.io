@@ -1,0 +1,66 @@
+@import url('variables.css');
+
+/* ==========================================================================
+   DYNAMIC MASONRY ENGINE (FLUID-FLEXING COLUMN MATRIX)
+   ========================================================================== */
+
+/* Ensure the container behaves like a block and hides horizontal overflow */
+.gallery-container {
+  width: 100%;
+  max-width: 100%;
+  padding: 2vw;
+  box-sizing: border-box;
+  overflow-x: hidden; /* Stops images from creating horizontal window scrolls */
+}
+
+/* Force the masonry grid to scale exactly to its parent container */
+.masonry-grid {
+  column-count: 4;
+  column-width: 280px;
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-top: 2vh;
+}
+
+/* Force every image inside the dynamic masonry grid to match the column width */
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 16px;
+  width: 100%; /* Keeps the item bounding box constrained */
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 1.3vw;
+  
+  display: inline-block;
+  -webkit-column-break-inside: avoid;
+}
+
+.masonry-item img {
+  width: 100% !important;   /* 🚀 CRITICAL: Forces image width to match the column */
+  max-width: 100% !important;
+  height: auto !important;    /* Keeps the aspect ratio from squishing */
+  display: block;
+}
+
+/* ==========================================================================
+   📱 MOBILE SAFETY GUARD (Forces minimum of 2 columns)
+   ========================================================================== */
+@media (max-width: 768px) { /* Matched to your page-heading breakpoint */
+  .masonry-grid {
+    /* 🚀 THE FIX: 'auto' forces the browser to abandon the 280px rule 
+       and split the visible screen space 50/50 instead */
+    column-count: 2 !important;
+    column-width: auto !important; 
+    gap: 12px;
+  }
+  
+  .masonry-item {
+    margin-bottom: 12px;
+  }
+  
+  .gallery-container {
+    padding: 12px;
+  }
+}

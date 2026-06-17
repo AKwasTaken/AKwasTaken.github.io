@@ -1,0 +1,23 @@
+@import url("variables.css");
+
+.page-heading {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 5rem;
+  
+  text-align: center;
+  margin-top: 3rem;
+
+  color: transparent;
+  -webkit-text-stroke-width: 1.5px; /* Clean, distinct edge thickness */
+  -webkit-text-stroke-color: var(--accent-main);
+
+  
+}
+
+@media (max-width: 768px) {
+  .page-heading {
+    margin-top: 7rem;
+  }
+}
