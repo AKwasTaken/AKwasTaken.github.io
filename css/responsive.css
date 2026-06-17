@@ -75,7 +75,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: #fffff0; 
+    background-color: var(--background-color); 
     flex-direction: column;
     align-items: center;
     gap: 0;
