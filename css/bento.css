@@ -1,0 +1,167 @@
+/* ==========================================================================
+   BENTO GRID ARCHITECTURE (SQUARE-BASED MATRIX ENGINE)
+   ========================================================================== */
+
+.bento-grid-container {
+  width: 100%;
+  max-width: 100vw;
+  padding: 12px; 
+  box-sizing: border-box;
+}
+
+.bento-grid {
+  display: grid;
+  width: 100%;
+  
+  /* 📱 MOBILE VIEW: Hard 6-column matrix (A, B, C, D, E, F)
+     🚀 SQUARE MATH: Each column is ~16.66% of screen width.
+     Setting rows to 16.1vw (accounting for the 12px gaps) forces every single 
+     cell block to form a perfect geometric square on the screen. */
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(18, 16.1vw); 
+  gap: 12px;
+}
+
+.bento-item {
+  background-color: #3a3a3a; 
+  color: #fff;
+  border-radius: 8px; 
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.bento-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ==========================================================================
+   📱 MOBILE PLACEMENT MAP (Perfect Square Multiples)
+   ========================================================================== */
+
+/* Ref 0: A1-C3 -> Forms a perfect 3x3 macro square block */
+.item-0 { 
+  grid-column: 1 / span 3; 
+  grid-row: 1 / span 3; 
+} 
+
+/* Ref 2: D1-F5 -> Forms a 3-wide by 5-tall clean vertical rectangle */
+.item-2 { 
+  grid-column: 4 / span 3; 
+  grid-row: 1 / span 5; 
+} 
+
+/* Ref 6: A4-C5 -> Forms a 3-wide by 2-tall landscape rectangle */
+.item-6 { 
+  grid-column: 1 / span 3; 
+  grid-row: 4 / span 2; 
+} 
+
+/* Ref 1: A6-F8 -> Full-width 3-row banner block */
+.item-1 { 
+  grid-column: 1 / span 6; 
+  grid-row: 6 / span 3; 
+} 
+
+/* Ref 5: A9-F12 -> Full-width 4-row banner block */
+.item-5 { 
+  grid-column: 1 / span 6; 
+  grid-row: 9 / span 4; 
+} 
+
+/* Ref 4: A13-F15 -> Full-width 3-row banner block */
+.item-4 { 
+  grid-column: 1 / span 6; 
+  grid-row: 13 / span 3; 
+} 
+
+/* Ref 3: A16-A18 -> Single column, 3-row tall sliver box */
+.item-3 { 
+  grid-column: 1 / span 6; 
+  grid-row: 16 / span 3; 
+} 
+
+
+/* ==========================================================================
+   🖥️ DESKTOP MASTER MEDIA QUERY (768px and up)
+   ========================================================================= */
+@media (min-width: 768px) {
+  .bento-grid-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px; /* Total horizontal padding = 32px */
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    
+    /* 🚀 THE PERFECT SQUARE ENGINE: 
+       Takes the fluid width of the container, subtracts the left/right padding (32px),
+       subtracts the space taken up by the 11 grid gaps (11 * 16px = 176px), and divides 
+       the remainder by 12. This makes every single row cell a perfect 1:1 square. */
+    grid-template-rows: repeat(10, calc((100vw - 32px - 176px) / 12));
+    gap: 16px;
+  }
+
+  /* 🔒 MAX-WIDTH LOCK: Once the container hits your 1200px max-width boundary, 
+     we lock the row heights to exactly 82px so they stop expanding and stay squares. */
+  @media (min-width: 1200px) {
+    .bento-grid {
+      grid-template-rows: repeat(10, 82px);
+    }
+  }
+
+  /* ==========================================================================
+     DESKTOP PLACEMENT MAP (3 grid columns = 1 layout column)
+     ========================================================================== */
+
+  /* Item 0: Old Col 1 | Rows 1 to 7 */
+  .item-0 { 
+    grid-column: 1 / span 3; 
+    grid-row: 1 / span 7; 
+  } 
+
+  /* Item 1: Old Col 2 & 3 combined | Rows 1 to 3 */
+  .item-1 { 
+    grid-column: 4 / span 6; 
+    grid-row: 1 / span 3; 
+  } 
+
+  /* Item 2: Old Col 4 | Rows 1 to 5 */
+  .item-2 { 
+    grid-column: 10 / span 3; 
+    grid-row: 1 / span 5; 
+  } 
+  
+  /* Item 5: Old Col 2 & 3 combined | Rows 4 to 7 */
+  .item-5 { 
+    grid-column: 4 / span 6; 
+    grid-row: 4 / span 4; 
+  } 
+  
+  /* Item 6: Old Col 4 | Rows 6 to 7 */
+  .item-6 { 
+    grid-column: 10 / span 3; 
+    grid-row: 6 / span 2; 
+  } 
+  
+  /* Item 4: Old Col 1 & 2 combined | Rows 8 to 10 */
+  .item-4 { 
+    grid-column: 1 / span 6; 
+    grid-row: 8 / span 3; 
+  } 
+  
+  /* Item 3: Old Col 3 & 4 combined | Rows 8 to 10 */
+  .item-3 { 
+    grid-column: 7 / span 6; 
+    grid-row: 8 / span 3; 
+  } 
+}
