@@ -1,0 +1,111 @@
+@import url('variables.css');
+
+/* ==========================================================================
+   📜 DAILY MOOD QUOTE LAYOUT
+   ========================================================================== */
+.daily-quote-section {
+  width: 100%;
+  padding: 20px;
+  background-color: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quote-container {
+  max-width: 1000px;
+  text-align: center;
+}
+
+.quote-label {
+  font-family: "Outfit", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 1000;
+  letter-spacing: 0.1rem;
+  color: var(--accent-main);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.quote-text {
+  font-family: "Outfit", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #848484; /* Clean muted slate */
+  font-style: italic;
+  margin: 0;
+}
+
+/* ==========================================================================
+   SIMPLE VERTICAL COLUMN FOOTER LAYOUT
+   ========================================================================== */
+
+footer {
+    position: relative;
+    background: var(--dark-background-color);
+    height: auto;
+    padding: 40px 24px;
+    width: 100%;
+    color: var(--accent-light);
+    box-sizing: border-box;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column; /* Stacks everything in a neat vertical line */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.footer-h3 {
+    font-family: "Outfit", sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    line-height: 3rem;
+    margin: 0 0 16px 0;
+}
+
+.footer-p {
+    font-family: "Outfit", sans-serif;
+    font-weight: 400;
+    font-size: 0.8rem;
+    max-width: 400px;
+    line-height: 15px;
+    margin: 0 0 16px 0;
+}
+
+/* Flex Container for the logos - stacked in a column */
+.footer-socials {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Space between each stacked icon link */
+    margin: 12px 0 24px 0;
+}
+
+.social-link {
+    display: block;
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.social-link:hover {
+    transform: scale(1.08); /* Quick hover zoom */
+    opacity: 0.8;
+}
+
+/* 🖼️ LOGO BOX FIX */
+.social-icon {
+    width: 24px;   
+    height: 24px;
+    display: block;
+}
+
+.social-link img {
+    width: 24px !important;
+    height: 24px !important;
+    display: block;
+}
