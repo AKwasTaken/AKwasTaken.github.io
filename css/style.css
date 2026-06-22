@@ -464,9 +464,9 @@ body {
 
 .blog-year {
   color: #888;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 500;
-  margin-bottom: 24px;
+  margin-bottom: 15px;
 }
 
 .blog-list {
@@ -486,14 +486,14 @@ body {
 
 .blog-title {
   color: #222;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   line-height: 1.4;
   word-break: break-word; 
 }
 
 .blog-date {
   color: #aaa;
-  font-size: 1rem;
+  font-size: 1.2rem;
   text-align: right;
 }
 
@@ -508,7 +508,7 @@ body {
 }
 
 .blog-content {
-  max-width: 600px;
+  max-width: 800px;
   margin: 10vh auto;
   padding: 40px 24px;
 }
@@ -518,7 +518,7 @@ body {
   text-align: center;
 }
 
-.blog-title {
+.blog-heading {
   font-family: "Outfit", sans-serif;
   line-height: 2.4rem;
   font-size: 2.5rem;
@@ -527,7 +527,7 @@ body {
   margin-bottom: 10px;
 }
 
-.blog-date {
+.blog-creation-time {
   font-family: "Outfit", sans-serif;
   font-size: 1rem;
   font-weight: 500;
@@ -542,6 +542,51 @@ body {
   color: var(--accent-text);
 }
 
+.blog-body h1 {
+  font-family: "Outfit", sans-serif;
+  font-weight: 800;
+  font-size: 1.7rem;
+  line-height: 1rem;
+  color: var(--accent-main);
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.blog-body h2 {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  color: var(--accent-main);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.blog-body h3 {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  color: var(--accent-main);
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.blog-body ul {
+  margin: 10px 0 10px 20px;
+}
+
+.blog-body hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.blog-image {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  padding: 40px 0 30px;
+}
 
 
 /* --- 2G: UTILITY COMPONENTS (QUOTES, INTERMEDIARY DIVIDERS, SCROLL FILLERS) --- */

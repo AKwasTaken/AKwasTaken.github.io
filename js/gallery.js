@@ -3,7 +3,7 @@ const path = require('path');
 
 // Configure your directory paths
 const galleryDir = path.join(__dirname, '../assets/gallery');
-const outputFile = path.join(__dirname, '../gallery-images.html');
+const outputFile = path.join(__dirname, '../dist/gallery-images.html');
 
 // Supported image extensions
 const supportedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg'];
