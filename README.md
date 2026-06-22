@@ -8,4 +8,4 @@ This is my personal portfolio/project site.
 
 I design everything I believe important in this digital garden, feel free to look around.
 
-[Not yet deployed here.](https://akwastaken.github.io/elysium/)
+[Deployed here.](https://akwastaken.github.io/elysium/)
