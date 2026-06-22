@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AK | Gallery</title>
+    <title>AK | Blogs</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
@@ -44,6 +44,18 @@
 
     <h1 class="page-heading">BLOGS</h1>
 
+    <main class="blog-wrapper">
+      <div id="blog-index" class="blog-index-view">
+        <ul id="posts-list" class="posts-links-grid">
+        </ul>
+      </div>
+
+      <!-- This article viewport stays hidden until a post is selected -->
+      <article id="blog-content" class="blog-post-view" style="display: none;">
+        <a href="blog.html" class="back-to-blog">← Back to Index</a>
+        <div id="markdown-render-target"></div>
+      </article>
+    </main>
 
     <script src="js/nav_menu.js"></script>
     <script src="js/load_icons.js"></script>

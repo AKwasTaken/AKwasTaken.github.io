@@ -35,15 +35,17 @@
 }
 
 .nav-item {
+  font-family: "Outfit", sans-serif;
+  font-variation-settings: "wght" 300;
   text-decoration: none;
   color: var(--accent-text);
   font-size: 1rem;
-  font-weight: 500;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, font-variation-settings 0.2s ease; /* Smooth transition */
 }
 
 .nav-item:hover {
   color: var(--accent-main);
+  font-variation-settings: "wght" 800;
 }
 
 .scroll-filler {
