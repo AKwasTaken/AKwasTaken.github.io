@@ -458,6 +458,8 @@ body {
   max-width: 600px;
   margin: 40px auto; 
   font-family: "Outfit", sans-serif;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 .blog-year {
@@ -504,6 +506,43 @@ body {
   opacity: 1;
   transition: opacity 0.1s ease-in-out;
 }
+
+.blog-content {
+  max-width: 600px;
+  margin: 10vh auto;
+  padding: 40px 24px;
+}
+
+.blog-header {
+  margin-bottom: 35px;
+  text-align: center;
+}
+
+.blog-title {
+  font-family: "Outfit", sans-serif;
+  line-height: 2.4rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--accent-main);
+  margin-bottom: 10px;
+}
+
+.blog-date {
+  font-family: "Outfit", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #909090;
+}
+
+.blog-body {
+  font-family: "Outfit", sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.7rem;
+  text-align: justify;
+  color: var(--accent-text);
+}
+
+
 
 /* --- 2G: UTILITY COMPONENTS (QUOTES, INTERMEDIARY DIVIDERS, SCROLL FILLERS) --- */
 .page-heading {
