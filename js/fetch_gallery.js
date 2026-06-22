@@ -1,4 +1,4 @@
-fetch("../dist/gallery-images.html")
+fetch("../gallery-images.html")
   .then((response) => {
     if (!response.ok)
       throw new Error("Gallery layout component not compiled yet.");

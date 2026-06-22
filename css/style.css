@@ -580,6 +580,10 @@ body {
   margin: 10px 0 10px 20px;
 }
 
+.blog-body ol {
+  margin: 10px 0 10px 20px;
+}
+
 .blog-body hr {
   margin-top: 20px;
   margin-bottom: 20px;
