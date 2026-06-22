@@ -38,8 +38,6 @@ body {
 }
 
 
-@import url('https://fonts.googleapis.com/css2?family=Castoro+Titling&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 @font-face {
   font-family: 'Outfit';
@@ -78,5 +76,80 @@ body {
        url('../fonts/Anton/Anton-Regular.ttf') format('truetype');
   font-weight: 400; /* Added standard weight since this is a regular static font */
   font-display: swap;
+  font-style: normal;
+}
+
+
+
+
+/* 100 - Thin */
+@font-face {
+  font-family: 'Mosk';
+  src: url('../fonts/Mosk/Mosk Thin 100.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+/* 200 - Extra Light */
+@font-face {
+  font-family: 'Mosk';
+  src: url('../fonts/Mosk/Mosk Extra-Light 200.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+/* 300 - Light */
+@font-face {
+  font-family: 'Mosk';
+  src: url('../fonts/Mosk/Mosk Light 300.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* 400 - Normal */
+@font-face {
+  font-family: 'Mosk';
+  src: url('../fonts/Mosk/Mosk Normal 400.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* 500 - Medium */
+@font-face {
+  font-family: 'Mosk';
+  src: url('../fonts/Mosk/Mosk Medium 500.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* 600 - Semi Bold */
+@font-face {
+  font-family: 'Mosk';
+  src: url('../fonts/Mosk/Mosk Semi-Bold 600.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* 700 - Bold */
+@font-face {
+  font-family: 'Mosk';
+  src: url('../fonts/Mosk/Mosk Bold 700.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* 800 - Extra Bold */
+@font-face {
+  font-family: 'Mosk';
+  src: url('../fonts/Mosk/Mosk Extra-Bold 800.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+/* 900 - Ultra Bold */
+@font-face {
+  font-family: 'Mosk';
+  src: url('../fonts/Mosk/Mosk Ultra-Bold 900.ttf') format('truetype');
+  font-weight: 900;
   font-style: normal;
 }

@@ -55,13 +55,30 @@
    3. MOBILE NAV DRAWER BREAKPOINT (Under 768px)
    ========================================================================== */
 @media (max-width: 768px) {
-  .nav-container {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .navbar {
+    /* Ensure the parent remains the structural container */
+    position: fixed; 
+    top: 20px;
     width: 100%;
-    z-index: 10;
-    background: var(--background-color); /* Makes the navbar transparent so the hero map shows through the gaps! */
+    z-index: 1000;
+    
+    /* Apply the blur directly here */
+    background-color: color-mix(in srgb, var(--background-color) 70%, transparent);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+    border-radius: 20px;
+  }
+
+  .nav-container {
+    /* REMOVE position: absolute, top: 0, left: 0 */
+    position: relative; 
+    width: 100%;
+    
+    /* Make this completely transparent so it doesn't block the navbar's blur */
+    background: transparent; 
+    
+
   }
 
   /* UNHIDE IT ONLY HERE: Now it safely displays right when the menu collapses */
