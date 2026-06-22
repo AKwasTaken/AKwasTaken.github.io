@@ -572,6 +572,10 @@ body {
   margin-bottom: 5px;
 }
 
+.blog-body p {
+  margin-bottom: 15px;
+}
+
 .blog-body ul {
   margin: 10px 0 10px 20px;
 }
@@ -588,6 +592,27 @@ body {
   padding: 40px 0 30px;
 }
 
+pre {
+  margin: 0 0 20px;
+  padding: 20px;
+  background-color: #cfe0db; 
+  border-radius: 6px;
+  overflow-x: auto;          /* Adds a horizontal scrollbar if the command is too long for mobile */
+  white-space: pre;          /* Preserves your line breaks and spacing exactly as typed */
+}
+
+pre code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9rem;
+  color: #333333;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9em;
+  letter-spacing: -0.06em;
+}
+
 
 /* --- 2G: UTILITY COMPONENTS (QUOTES, INTERMEDIARY DIVIDERS, SCROLL FILLERS) --- */
 .page-heading {
@@ -598,7 +623,7 @@ body {
   font-size: 10rem;
   color: var(--accent-main);
   text-align: center;
-  margin-top: 3rem;
+  margin-top: 7rem;
 }
 
 .scroll-filler {
