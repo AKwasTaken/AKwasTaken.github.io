@@ -99,7 +99,7 @@ body {
 /* --- 2A: NAVIGATION DRAWER & BRANDING HEADER --- */
 .navbar {
   width: 100%;
-  border-bottom: 1px solid rgba(0, 80, 136, 0.08);
+  border: 2px solid rgba(0, 0, 0, 0.08);
   background-color: color-mix(in srgb, var(--background-color) 70%, transparent);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -790,6 +790,56 @@ footer {
   display: block;
 }
 
+/* --- 2I: ERROR PAGES CONSTRUCTION --- */
+body.error-page-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.error-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;             /* Takes up the remaining space, pushing footer down */
+  padding: 40px 20px;  /* Replaces the margin-top: 30vh safely */
+}
+
+.error-container {
+  max-width: 400px;
+}
+
+.error-container h1 {
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  font-size: 10rem;
+  color: var(--accent-main);
+  margin-bottom: 10px;
+}
+
+.error-container p {
+  font-family: "Outfit", sans-serif;
+  font-weight: 300;
+  font-size: 1.25rem;
+  color: var(--accent-main);
+  margin-bottom: 10px;
+}
+
+.error-container a {
+  font-family: "Outfit", sans-serif;
+  font-weight: 300;
+  font-size: 1.25rem;
+  color: var(--accent-main);
+}
+
+.error-link {
+  margin-top: 20px;
+}
+
+
 
 /* ==========================================================================
    ==========================================================================
@@ -855,67 +905,106 @@ footer {
     padding-right: 0rem;
   }
 
+  /* Fixed: Removed 'nav' from the scale transform to stop text clipping */
   .hero-content,
-  .software-stack-container,
-  nav {
+  .software-stack-container {
     transform: scale(0.9);
     transform-origin: center top; 
     max-width: 100vw;
     box-sizing: border-box;
   }
 
-    .software-stack-container{
-        top: 75vh;
-    }
+  .software-stack-container {
+    top: 75vh;
+  }
 
   /* Structural Modifications */
   .navbar {
     position: fixed; 
     top: 20px;
-    width: 100%;
+    left: 5%;
+    width: 90%; 
     z-index: 1000;
-    background-color: color-mix(in srgb, var(--background-color) 70%, transparent);
-    backdrop-filter: blur(4px);
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.02);
+    
+    /* Holds the styles for the entire bubble wrapper */
+    background-color: color-mix(in srgb, var(--background-color) 70%, transparent);    
+    backdrop-filter: blur(4px); 
     -webkit-backdrop-filter: blur(4px);
     border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+
+    /* Clean height transition engine */
+    max-height: 70px; 
+    overflow: hidden;
+    transition: max-height 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+
+  /* The entire bar stretches down smoothly */
+  .navbar.active {
+    max-height: 450px; 
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
   }
 
   .nav-container {
-    position: relative; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allows links to flow underneath the logo line */
     width: 100%;
+    padding: 15px 24px;
     background: transparent; 
   }
 
-  .menu-toggle { display: flex; }
+  .menu-toggle { 
+    display: flex; 
+  }
 
   .nav-links {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: var(--background-color); 
+    position: relative; 
+    display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
     gap: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-in-out;
-    z-index: 999;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    background-color: transparent; 
+    
+    /* Reveal transitions */
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    pointer-events: none;
   }
 
-  .nav-links.active {
-    max-height: 350px; 
-    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
-    border-bottom: 1px solid rgba(var(--accent-main), 0.1);
+  /* Displays links once the wrapper expands */
+  .navbar.active .nav-links {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
   }
 
-  .nav-links li { width: 100%; text-align: center; }
-  .nav-item { display: block; padding: 16px 0; width: 100%; }
+  .nav-links li { 
+    width: 100%; 
+    text-align: center; 
+    list-style: none;
+  }
+  
+  .nav-item { 
+    display: block; 
+    padding: 12px 0; 
+    width: 100%; 
+  }
 
+  /* Hamburger Menu Animation States */
   .menu-toggle.open .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
   .menu-toggle.open .bar:nth-child(2) { opacity: 0; }
   .menu-toggle.open .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
+  /* Hero & Page Layouts */
   .hero-content { padding: 40vh 10px 20px; }
   .hero-section { margin-top: 0; }
   .page-heading { margin-top: 7rem; }
