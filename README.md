@@ -6,6 +6,6 @@
 
 This is my personal portfolio/project site. 
 
-I design everything I believe important in this digital garden, feel free to look around.
+I accumulate everything I believe important in this digital garden, feel free to look around.
 
 [Deployed here.](https://akwastaken.github.io/elysium/)

@@ -23,8 +23,8 @@
   --accent-text: #475569;
   --special-accent: #bd5d3f;
   --text-dark: #1e293b;
-  --background-color: #f0eee6;
-  --secondary-background: #f0eee6;
+  --background-color: #f5f6f6;
+  --secondary-background: #f5f6f6;
   --dark-background-color: #161616;
   --font-primary: "Outfit", sans-serif;
   --line-height-hero: 1.15;
@@ -614,7 +614,11 @@ body {
 }
 
 .blog-body p {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.blog-body p .katex-display {
+  padding: 20px 0 20px;
 }
 
 .blog-body ul {
