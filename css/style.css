@@ -459,7 +459,7 @@ body {
 }
 
 .masonry-item.skeleton {
-  background: linear-gradient(90deg, #ecefec 25%, #f6f7f6 50%, #ecefec 75%);
+  background: linear-gradient(90deg,  var(--background-color) 25%, #b2b2b2 50%, var(--background-color) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite linear;
 }
