@@ -1,14 +1,15 @@
 const fs = require('fs');
 const path = require('path');
-const sizeOf = require('image-size'); // Run 'npm install image-size' if you haven't yet
+// Import the library directly 
+const imageSize = require('image-size'); 
 
-const galleryDir = path.join(__dirname, '../assets/gallery');
-const templateFile = path.join(__dirname, '../dist/gallery-template.html');
-const outputFile = path.join(__dirname, '../gallery.html');
+const galleryDir = path.resolve(__dirname, '../assets/gallery');
+const templateFile = path.resolve(__dirname, '../dist/gallery-template.html');
+const outputFile = path.resolve(__dirname, '../gallery.html');
 
 const supportedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg'];
 
-console.log('Scanning gallery directory...');
+// console.log('Scanning gallery directory...');
 
 fs.readdir(galleryDir, (err, files) => {
   if (err) {
@@ -32,13 +33,22 @@ fs.readdir(galleryDir, (err, files) => {
     let inlineStyle = '';
 
     try {
-      // Pull exact dimensions for this individual file
-      const dimensions = sizeOf(filePath);
-      if (dimensions.width && dimensions.height) {
+      // 1. Read the file header into a memory buffer
+      const fileBuffer = fs.readFileSync(filePath);
+      
+      // 2. Resolve the function cleanly regardless of default/named exports
+      const parseDimensions = typeof imageSize === 'function' 
+        ? imageSize 
+        : (imageSize.imageSize || imageSize.default);
+
+      // 3. Extract dimensions from the binary buffer
+      const dimensions = parseDimensions(fileBuffer);
+      
+      if (dimensions && dimensions.width && dimensions.height) {
         inlineStyle = ` style="aspect-ratio: ${dimensions.width} / ${dimensions.height};"`;
       }
     } catch (e) {
-      console.warn(`Could not read native dimensions for ${file}. Falling back to default container flow.`);
+      console.warn(`Could not read native dimensions for ${file}:`, e.message);
     }
 
     gridHtml += `  <div class="masonry-item skeleton">\n`;
@@ -46,7 +56,7 @@ fs.readdir(galleryDir, (err, files) => {
     gridHtml += `      src="assets/gallery/${file}" \n`;
     gridHtml += `      alt="${name}" \n`;
     gridHtml += `      loading="lazy"\n`;
-    gridHtml += `     ${inlineStyle}\n`; // Dynamically injects precise dimensions per image
+    gridHtml += `     ${inlineStyle}\n`;
     gridHtml += `    />\n`;
     gridHtml += `  </div>\n`;
   });
@@ -64,7 +74,7 @@ fs.readdir(galleryDir, (err, files) => {
       if (writeErr) {
         console.error('Error writing the final gallery.html file:', writeErr);
       } else {
-        console.log(`Success! Unique aspect ratios mapped for ${imageFiles.length} images.`);
+        console.log(`Compiled: gallery.html with ${imageFiles.length} images.`);
       }
     });
   });

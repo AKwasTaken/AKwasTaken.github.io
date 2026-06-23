@@ -1,0 +1,41 @@
+name: Build and Deploy Portfolio
+
+on:
+  push:
+    branches:
+      - main  # Change this to "master" if your default branch is named master
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout your code so the virtual computer can see it
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Uses a stable Node version
+
+      # 3. Install dependencies (if you have any in package.json)
+      - name: Install Dependencies
+        run: npm install
+
+      # 4. RUN YOUR AUTOMATION SCRIPTS HERE
+      # This triggers the exact "build" script we wrote in your package.json
+      - name: Run Build Scripts
+        run: npm run build
+
+      # 5. Deploy the final static files to GitHub Pages
+      # This automatically pushes the built files to a special branch called 'gh-pages'
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: . # If your scripts output files into a specific folder (like 'dist' or 'build'), change '.' to that folder name. If they modify files directly in the root, leave it as '.'
+          branch: gh-pages

@@ -148,4 +148,4 @@ for (const year of sortedYears) {
 
 const finalIndexHtml = indexTemplate.replace(/\${blogListings}/g, finalIndexMarkup.trim());
 fs.writeFileSync(INDEX_OUTPUT_PATH, finalIndexHtml);
-console.log('Generated index listing page: blog.html');
+console.log('Compiled: blog.html with all blog listings.');

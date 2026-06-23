@@ -4,5 +4,25 @@
     "image-size": "^2.0.2",
     "marked": "^18.0.5",
     "marked-katex-extension": "^5.1.10"
-  }
+  },
+  "name": "elysium",
+  "version": "1.0.0",
+  "description": "> \"41. Trying to be someone else, is a waste of the person you are.\" > > *-an acquaintance*",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "build": "node js/blog_engine.js && node js/build_gallery.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AKwasTaken/elysium.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AKwasTaken/elysium/issues"
+  },
+  "homepage": "https://github.com/AKwasTaken/elysium#readme"
 }
