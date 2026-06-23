@@ -426,11 +426,12 @@ body {
 }
 
 .masonry-grid {
-  column-count: 4;
-  column-width: 280px;
-  gap: 16px;
+  column-count: 5;
+  column-width: 200px;
+  gap: 15px;
   width: 100%;
   max-width: 100%;
+  padding: 0 10px 0 10px;
   box-sizing: border-box;
   margin-top: 2vh;
 }
