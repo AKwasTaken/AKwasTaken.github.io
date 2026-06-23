@@ -37,6 +37,7 @@ body {
   overflow-x: hidden;
 }
 
+
 /* --- Font Engine Implementations --- */
 @font-face {
   font-family: 'Outfit';
@@ -386,7 +387,10 @@ body {
 }
 
 .bento-item {
-  background-color: #3a3a3a; 
+  background: linear-gradient(90deg,  var(--background-color) 25%, #dddddd 50%, var(--background-color) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+
   stroke: #ffffff;
   stroke-width: 200px;
   color: #fff;
@@ -592,6 +596,14 @@ body {
   font-size: 1.25rem;
   line-height: 1.75rem;
   color: var(--accent-main);
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.blog-body a {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  color: var(--accent-text);
   margin-top: 15px;
   margin-bottom: 5px;
 }
