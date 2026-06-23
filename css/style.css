@@ -437,6 +437,7 @@ body {
 }
 
 .masonry-item {
+  position: relative;
   break-inside: avoid;
   margin-bottom: 16px;
   width: 100%; 
@@ -445,6 +446,7 @@ body {
   border-radius: 1.3vw;
   display: inline-block;
   -webkit-column-break-inside: avoid;
+  background-color: #dcdbdb;
 }
 
 .masonry-item img {
@@ -452,6 +454,27 @@ body {
   max-width: 100% !important;
   height: auto !important;    
   display: block;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.masonry-item.skeleton {
+  background: linear-gradient(90deg, #ecefec 25%, #f6f7f6 50%, #ecefec 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+.masonry-item.skeleton img {
+  opacity: 0.3; 
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* --- 2F: TIMELINE GRAPHICS (BLOG GRID LIST) --- */
