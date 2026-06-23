@@ -5,9 +5,9 @@ date: 2026-06-23
 
 ## Prologue
 
-Have you ever wondered how high-quality ASCII art generators actually map pixels to characters? A lot of simple generators out there just use a hardcoded string of characters sorted by vibe and intuitive brightness, like `" .:-=+*#%@"`. While that works as a quick hack, it isn't super precise. Different fonts render characters with entirely different weights, shapes, and aspect ratios.
+I was wondering for a while about how ascii-art generators map pixels to letters, and thought of giving it a go, with a very basic understanding of how it should happen. A lot of simple generators out there just use a hardcoded string of characters sorted by vibe and intuitive brightness, like `" .:-=+*#%@"`. While that works as a quick hack, it isn't super precise, or experimental. Different fonts render characters with entirely different weights, shapes, and aspect ratios.
 
-I wanted to fix that. In this post, we are going to build an intelligent, highly accurate ASCII art generator. It dynamically calculates the absolute visual weight of characters from a real monospaced font (`UbuntuMono-Regular.ttf`), maps them to a normalized 0.0 to 1.0 scale, and turns any monochrome image into a beautiful textual masterpiece.
+I wanted to fix that. In this post, I built an intelligent (debatable), highly accurate ASCII art generator. It dynamically calculates the absolute visual weight of characters from a real monospaced font (`UbuntuMono-Regular.ttf`), maps them to a normalized 0.0 to 1.0 scale, and turns any monochrome image into a beautiful textual masterpiece.
 
 ---
 
@@ -35,7 +35,7 @@ pip install fonttools pillow
 
 ```
 
-Next, let's load the font and read all available characters. TrueType fonts organize their mappings in internal tables. We loop over these tables to extract valid Unicode values and filter out things you can't print.
+Next, I loaded the font and read all available characters. TrueType fonts organize their mappings in internal tables. I looped over these tables to extract valid Unicode values and filter out things I can't print.
 
 ```python
 import sys
@@ -57,7 +57,15 @@ for table in ttf['cmap'].tables:
 
 ### Refining the Dataset
 
-Extracting every single valid character from modern fonts can pull in thousands of weird Unicode glyphs, math operators, or regional scripts that screw up our density curve. To clean this up, we filter our selection down to a curated list saved in `characters.txt`.
+Extracting every single valid character from modern fonts can pull in thousands of weird Unicode glyphs, math operators, and other stuff that screw up our density curve, and/or look weird. To clean this up, we write all the characters into a text file, `characters.txt`, review it manually and delete the unnecessary characters.
+
+```python
+with open("characters.txt", "w") as f:
+    for char in sorted(characters):
+        f.write(f"{char}\n")
+```
+
+After a few minutes of silent manual reviewing, we then import the file and read the characters that survived the plague, that is us.
 
 ```python
 with open("characters.txt", "r") as f:
@@ -72,7 +80,7 @@ characters = sorted([line.strip() for line in lines if line.strip()])
 
 ## Phase 2: Calculating Exact Character Fill Percentages
 
-Now for the fun part. Instead of guessing how "bright" a character is, we render each one onto a black canvas, color the text in pure white (`255`), and find the sum of all pixel values.
+Now for the fun part. Instead of guessing how "bright" a character is, we render each one onto a black canvas, color the text in pure white (`255`), and find the sum of all pixel values. This will be our `grey` value, that we'll use to map to the pixels.
 
 $$\text{Fill Percentage} = \frac{\sum \text{Pixel Values}}{\text{Width} \times \text{Height} \times 255}$$
 
@@ -120,6 +128,8 @@ result.sort(key=lambda x: x[1])
 The fill percentage of an average font will rarely span the absolute extremes of 0% to 100%. For example, a space character ` ` has a `0.0` fill, while a super dense character like `@` or `#` might top out around 35-40%.
 
 To map these nicely to image pixels (which go all the way from fully black to fully white), we apply standard **Min-Max Normalization** to rescale our bounds cleanly between 0 and 1.
+
+The program might remove the space character from the character set, but we need it to denote empty space (or pure white pixels). So we remove the smallest value and replace it with the space character.
 
 ```python
 min_val = min(result, key=lambda x: x[1])
@@ -180,6 +190,8 @@ for y in range(height):
 
 ```
 
+*LANCZOS (a heavily watered down explanation): It's just an anti-aliased resampler on drugs. Scales up or down the image, and adds smoothing to the edges, to make it look better.*
+
 ---
 
 ## Phase 5: Nearest-Neighbor Character Matching
@@ -214,4 +226,4 @@ print("ASCII art successfully generated and saved to ascii_art.txt!")
 
 By analyzing actual font glyph pixel density rather than just guessing weights arbitrarily, we created a generator that customizes its output to match the exact look of `Ubuntu Mono`.
 
-The coolest part? You can swap out the `.ttf` file for any font (like *Courier New*, *Fira Code*, or even *Comic Sans*) to see how font design changes the final texture of the generated artwork!
+We can swap out the `.ttf` file for any font (like *Courier New*, *Fira Code*, or even *Comic Sans*) to see how font design changes the final texture of the generated artwork! (Might look annoyingly bad, since it works best only with mono fonts)

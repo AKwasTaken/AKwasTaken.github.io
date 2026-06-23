@@ -51,8 +51,8 @@
 
         <div class="blog-body">
             <h2>Prologue</h2>
-<p>Have you ever wondered how high-quality ASCII art generators actually map pixels to characters? A lot of simple generators out there just use a hardcoded string of characters sorted by vibe and intuitive brightness, like <code>&quot; .:-=+*#%@&quot;</code>. While that works as a quick hack, it isn&#39;t super precise. Different fonts render characters with entirely different weights, shapes, and aspect ratios.</p>
-<p>I wanted to fix that. In this post, we are going to build an intelligent, highly accurate ASCII art generator. It dynamically calculates the absolute visual weight of characters from a real monospaced font (<code>UbuntuMono-Regular.ttf</code>), maps them to a normalized 0.0 to 1.0 scale, and turns any monochrome image into a beautiful textual masterpiece.</p>
+<p>I was wondering for a while about how ascii-art generators map pixels to letters, and thought of giving it a go, with a very basic understanding of how it should happen. A lot of simple generators out there just use a hardcoded string of characters sorted by vibe and intuitive brightness, like <code>&quot; .:-=+*#%@&quot;</code>. While that works as a quick hack, it isn&#39;t super precise, or experimental. Different fonts render characters with entirely different weights, shapes, and aspect ratios.</p>
+<p>I wanted to fix that. In this post, I built an intelligent (debatable), highly accurate ASCII art generator. It dynamically calculates the absolute visual weight of characters from a real monospaced font (<code>UbuntuMono-Regular.ttf</code>), maps them to a normalized 0.0 to 1.0 scale, and turns any monochrome image into a beautiful textual masterpiece.</p>
 <hr>
 <p><img src="/blogs/asciiart/generated.png" alt="Image" class="blog-image" /></p>
 <h2>The Core Concept</h2>
@@ -69,7 +69,7 @@
 <p>First, we need to install our dependencies. We will use <code>fonttools</code> to look inside the font&#39;s internal character mappings (<code>cmap</code>), and <code>Pillow</code> to handle all the image and text rendering.</p>
 <pre><code class="language-bash">pip install fonttools pillow
 </code></pre>
-<p>Next, let&#39;s load the font and read all available characters. TrueType fonts organize their mappings in internal tables. We loop over these tables to extract valid Unicode values and filter out things you can&#39;t print.</p>
+<p>Next, I loaded the font and read all available characters. TrueType fonts organize their mappings in internal tables. I looped over these tables to extract valid Unicode values and filter out things I can&#39;t print.</p>
 <pre><code class="language-python">import sys
 from fontTools.ttLib import TTFont
 from PIL import Image, ImageDraw, ImageFont
@@ -86,7 +86,12 @@ for table in ttf[&#39;cmap&#39;].tables:
             characters.add(char)
 </code></pre>
 <h3>Refining the Dataset</h3>
-<p>Extracting every single valid character from modern fonts can pull in thousands of weird Unicode glyphs, math operators, or regional scripts that screw up our density curve. To clean this up, we filter our selection down to a curated list saved in <code>characters.txt</code>.</p>
+<p>Extracting every single valid character from modern fonts can pull in thousands of weird Unicode glyphs, math operators, and other stuff that screw up our density curve, and/or look weird. To clean this up, we write all the characters into a text file, <code>characters.txt</code>, review it manually and delete the unnecessary characters.</p>
+<pre><code class="language-python">with open(&quot;characters.txt&quot;, &quot;w&quot;) as f:
+    for char in sorted(characters):
+        f.write(f&quot;{char}\n&quot;)
+</code></pre>
+<p>After a few minutes of silent manual reviewing, we then import the file and read the characters that survived the plague, that is us.</p>
 <pre><code class="language-python">with open(&quot;characters.txt&quot;, &quot;r&quot;) as f:
     lines = f.readlines()
 
@@ -95,7 +100,7 @@ characters = sorted([line.strip() for line in lines if line.strip()])
 </code></pre>
 <hr>
 <h2>Phase 2: Calculating Exact Character Fill Percentages</h2>
-<p>Now for the fun part. Instead of guessing how &quot;bright&quot; a character is, we render each one onto a black canvas, color the text in pure white (<code>255</code>), and find the sum of all pixel values.</p>
+<p>Now for the fun part. Instead of guessing how &quot;bright&quot; a character is, we render each one onto a black canvas, color the text in pure white (<code>255</code>), and find the sum of all pixel values. This will be our <code>grey</code> value, that we&#39;ll use to map to the pixels.</p>
 <p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Fill Percentage</mtext><mo>=</mo><mfrac><mrow><mo>∑</mo><mtext>Pixel Values</mtext></mrow><mrow><mtext>Width</mtext><mo>×</mo><mtext>Height</mtext><mo>×</mo><mn>255</mn></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Fill Percentage} = \frac{\sum \text{Pixel Values}}{\text{Width} \times \text{Height} \times 255}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Fill Percentage</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.3074em;vertical-align:-0.8804em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Width</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">Height</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">255</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">Pixel Values</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.8804em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
 <pre><code class="language-python"># Initialize the font structure at a readable point size
 font = ImageFont.truetype(&quot;UbuntuMono-Regular.ttf&quot;, 20)
@@ -135,6 +140,7 @@ result.sort(key=lambda x: x[1])
 <h2>Phase 3: Min-Max Normalization</h2>
 <p>The fill percentage of an average font will rarely span the absolute extremes of 0% to 100%. For example, a space character <code> </code> has a <code>0.0</code> fill, while a super dense character like <code>@</code> or <code>#</code> might top out around 35-40%.</p>
 <p>To map these nicely to image pixels (which go all the way from fully black to fully white), we apply standard <strong>Min-Max Normalization</strong> to rescale our bounds cleanly between 0 and 1.</p>
+<p>The program might remove the space character from the character set, but we need it to denote empty space (or pure white pixels). So we remove the smallest value and replace it with the space character.</p>
 <pre><code class="language-python">min_val = min(result, key=lambda x: x[1])
 max_val = max(result, key=lambda x: x[1])
 
@@ -184,6 +190,7 @@ for y in range(height):
         row.append(lightness)
     lightness_val.append(row)
 </code></pre>
+<p><em>LANCZOS (a heavily watered down explanation): It&#39;s just an anti-aliased resampler on drugs. Scales up or down the image, and adds smoothing to the edges, to make it look better.</em></p>
 <hr>
 <h2>Phase 5: Nearest-Neighbor Character Matching</h2>
 <p>With our image pixel values and font character densities both normalized between 0 and 1, matching them is incredibly simple. For each pixel, we find the absolute difference between its value and the densities of our character database, picking the closest match.</p>
@@ -205,7 +212,7 @@ print(&quot;ASCII art successfully generated and saved to ascii_art.txt!&quot;)
 <hr>
 <h2>Conclusion</h2>
 <p>By analyzing actual font glyph pixel density rather than just guessing weights arbitrarily, we created a generator that customizes its output to match the exact look of <code>Ubuntu Mono</code>.</p>
-<p>The coolest part? You can swap out the <code>.ttf</code> file for any font (like <em>Courier New</em>, <em>Fira Code</em>, or even <em>Comic Sans</em>) to see how font design changes the final texture of the generated artwork!</p>
+<p>We can swap out the <code>.ttf</code> file for any font (like <em>Courier New</em>, <em>Fira Code</em>, or even <em>Comic Sans</em>) to see how font design changes the final texture of the generated artwork! (Might look annoyingly bad, since it works best only with mono fonts)</p>
 
           <hr>
         </div>
