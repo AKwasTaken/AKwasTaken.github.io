@@ -203,5 +203,32 @@
 
     <script src="js/nav_menu.js"></script>
     <script src="js/load_icons.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const startTime = performance.now();
+        const MIN_DELAY = 300; // 0.3 seconds minimum skeleton runtime
+        const items = document.querySelectorAll('.masonry-item');
+
+        items.forEach(item => {
+          const img = item.querySelector('img');
+          if (!img) return;
+
+          const revealImage = () => {
+            const elapsedTime = performance.now() - startTime;
+            const remainingTime = Math.max(0, MIN_DELAY - elapsedTime);
+
+            setTimeout(() => {
+              item.classList.remove('skeleton');
+            }, remainingTime);
+          };
+
+          if (img.complete) {
+            revealImage();
+          } else {
+            img.addEventListener('load', revealImage);
+          }
+        });
+      });
+    </script>
   </body>
 </html>
