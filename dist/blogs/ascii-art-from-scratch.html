@@ -54,7 +54,7 @@
 <p>I was wondering for a while about how ascii-art generators map pixels to letters, and thought of giving it a go, with a very basic understanding of how it should happen. A lot of simple generators out there just use a hardcoded string of characters sorted by vibe and intuitive brightness, like <code>&quot; .:-=+*#%@&quot;</code>. While that works as a quick hack, it isn&#39;t super precise, or experimental. Different fonts render characters with entirely different weights, shapes, and aspect ratios.</p>
 <p>I wanted to fix that. In this post, I built an intelligent (debatable), highly accurate ASCII art generator. It dynamically calculates the absolute visual weight of characters from a real monospaced font (<code>UbuntuMono-Regular.ttf</code>), maps them to a normalized 0.0 to 1.0 scale, and turns any monochrome image into a beautiful textual masterpiece.</p>
 <hr>
-<p><img src="/blogs/asciiart/generated.png" alt="Image" class="blog-image" /></p>
+<p><img src="../../blogs/asciiart/generated.png" alt="Image" class="blog-image" /></p>
 <h2>The Core Concept</h2>
 <p>The game plan has five key milestones:</p>
 <ol>

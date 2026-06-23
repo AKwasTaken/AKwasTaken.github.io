@@ -10,44 +10,36 @@ const BLOG_TEMPLATE_PATH = path.join(__dirname, '../dist/blog-template.html');
 const INDEX_TEMPLATE_PATH = path.join(__dirname, '../dist/blog-index-template.html');
 const INDEX_OUTPUT_PATH = path.join(__dirname, '../blog.html');
 
-// State variable to update the current blog folder dynamically per file during parsing
-let currentBlogRoutePrefix = '/blogs';
+// State variable to track the relative path from the compiled HTML back to the source image folder
+let relativeImagePrefix = '../../blogs';
 
-// 1. Core initialization + Custom Image Renderer Extension
 const marked = new Marked();
 
+// 1. Simple Custom Image Renderer
 const imageExtension = {
   name: 'customImage',
   level: 'inline',
   start(src) { return src.indexOf('!'); },
-  tokenizer(src, tokens) {
-    // Basic regex capture for markdown image syntax: ![alt](href)
+  tokenizer(src) {
     const match = src.match(/^!\[([\s\S]*?)\]\((.*?)\)/);
     if (match) {
-      return {
-        type: 'customImage',
-        raw: match[0],
-        alt: match[1],
-        href: match[2]
-      };
+      return { type: 'customImage', raw: match[0], alt: match[1], href: match[2] };
     }
   },
   renderer(token) {
     let finalSrc = token.href;
     
-    // Convert relative paths (e.g., ./images/pic.jpg -> /blogs/test/images/pic.jpg)
+    // Convert relative syntax (./image.png or image.png) to a clean step-back reference
     if (finalSrc.startsWith('./')) {
-      finalSrc = path.join(currentBlogRoutePrefix, finalSrc.slice(2));
+      finalSrc = `${relativeImagePrefix}/${finalSrc.slice(2)}`;
     } else if (!finalSrc.startsWith('/') && !finalSrc.startsWith('http')) {
-      finalSrc = path.join(currentBlogRoutePrefix, finalSrc);
+      finalSrc = `${relativeImagePrefix}/${finalSrc}`;
     }
 
-    // Return the img tag with your custom styling class attached
     return `<img src="${finalSrc}" alt="${token.alt}" class="blog-image" />`;
   }
 };
 
-// Chain both the KaTeX and Image render processors
 marked.use(markedKatex({ throwOnError: false, displayMode: false, nonStandard: true }));
 marked.use({ extensions: [imageExtension] });
 
@@ -68,11 +60,10 @@ function compileFolder(dir) {
     }
     if (path.extname(item) !== '.md') continue;
 
-    // --- DYNAMIC BASE FOLDER RESOLUTION ---
-    // Calculates subfolder context relative to your core BLOGS_DIR
+    // --- TRACK CURRENT FOLDER LEVEL ---
     const relativeSubDir = path.relative(BLOGS_DIR, path.dirname(fullPath));
-    // If it's inside "test", route prefix becomes "/blogs/test"
-    currentBlogRoutePrefix = relativeSubDir ? `/blogs/${relativeSubDir}` : '/blogs';
+    // If inside a subfolder like "test", prefix becomes "../../blogs/test"
+    relativeImagePrefix = relativeSubDir ? `../../blogs/${relativeSubDir}` : '../../blogs';
 
     const { data, content } = matter(fs.readFileSync(fullPath, 'utf-8'));
     const title = data.title || path.basename(item, '.md');
@@ -101,13 +92,7 @@ function compileFolder(dir) {
     fs.writeFileSync(path.join(OUTPUT_DIR, `${safeName}.html`), finalHtml);
     console.log(`Compiled: blogs/${safeName}.html`);
 
-    allBlogs.push({
-      title,
-      year,
-      monthIndex,
-      monthName,
-      url: `blogs/${safeName}.html`
-    });
+    allBlogs.push({ title, year, monthIndex, monthName, url: `dist/blogs/${safeName}.html` });
   }
 }
 
@@ -132,7 +117,7 @@ for (const year of sortedYears) {
   let postRows = '';
   for (const blog of groupedByYear[year]) {
     postRows += `
-        <a href="dist/${blog.url}" class="blog-row">
+        <a href="${blog.url}" class="blog-row">
           <span class="blog-title">${blog.title}</span>
           <span class="blog-date">${blog.monthName}</span>
         </a>`;
