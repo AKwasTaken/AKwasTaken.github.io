@@ -1,6 +1,6 @@
 ---
-title: ASCII Art Generator from Scratch
-date: 2026-06-23
+title: ASCII Art from Scratch
+date: 2025-10-12
 ---
 
 ## Prologue

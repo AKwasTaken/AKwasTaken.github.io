@@ -1,6 +1,6 @@
 ---
-title: My Painful Homelabbing Journey
-date: 2026-05-23
+title: A Painful Homelabbing Journey
+date: 2026-04-15
 ---
 
 This is a chronological log of my experience with setting up a personal home server on a Linux Mint Laptop (Acer ES1-132) on a campus network (IISER TVM), known for its heavy restrictions (Sophos firewalls, captive portals, subnets).
