@@ -702,6 +702,13 @@ body {
   padding: 40px 0 30px;
 }
 
+.blog-body img {
+  max-width: 90%;
+  height: auto;
+  display: block;
+  margin: 50px auto; 
+}
+
 pre {
   margin: 0 0 20px;
   padding: 20px;
