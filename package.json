@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AKwasTaken/elysium.git"
+    "url": "git+https://AKwasTaken.github.io/"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/AKwasTaken/elysium/issues"
+    "url": "https://github.com/AKwasTaken/AKwasTaken.github.io/issues"
   },
-  "homepage": "https://github.com/AKwasTaken/elysium#readme"
+  "homepage": "https://github.com/AKwasTaken/AKwasTaken.github.io/#readme"
 }
