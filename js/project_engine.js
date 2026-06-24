@@ -7,15 +7,14 @@ const markedKatex = require('marked-katex-extension');
 const PROJECTS_DIR = path.join(__dirname, '../projects'); 
 const OUTPUT_DIR = path.join(__dirname, '../dist/projects');
 const PROJECT_TEMPLATE_PATH = path.join(__dirname, '../dist/project-template.html');
+const CARD_TEMPLATE_PATH = path.join(__dirname, '../dist/project-card-template.html'); // Added
 const INDEX_TEMPLATE_PATH = path.join(__dirname, '../dist/projects-index-template.html');
 const INDEX_OUTPUT_PATH = path.join(__dirname, '../projects.html');
 
-// State variable to track the relative path from the compiled HTML back to the source image folder
 let relativeImagePrefix = '../../projects';
 
 const marked = new Marked();
 
-// 1. Simple Custom Image Renderer
 const imageExtension = {
   name: 'customImage',
   level: 'inline',
@@ -28,15 +27,12 @@ const imageExtension = {
   },
   renderer(token) {
     let finalSrc = token.href;
-    
-    // Convert relative syntax (./image.png or image.png) to a clean step-back reference
     if (finalSrc.startsWith('./')) {
       finalSrc = `${relativeImagePrefix}/${finalSrc.slice(2)}`;
     } else if (!finalSrc.startsWith('/') && !finalSrc.startsWith('http')) {
       finalSrc = `${relativeImagePrefix}/${finalSrc}`;
     }
-
-    return `<img src="${finalSrc}" alt="${token.alt}" class="blog-image" />`;
+    return `<img src="${finalSrc}" alt="${token.alt}" class="project-image" />`;
   }
 };
 
@@ -44,10 +40,11 @@ marked.use(markedKatex({ throwOnError: false, displayMode: false, nonStandard: t
 marked.use({ extensions: [imageExtension] });
 
 if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-const blogTemplate = fs.readFileSync(PROJECT_TEMPLATE_PATH, 'utf-8');
+const projectTemplate = fs.readFileSync(PROJECT_TEMPLATE_PATH, 'utf-8');
+const cardTemplate = fs.readFileSync(CARD_TEMPLATE_PATH, 'utf-8');
 const indexTemplate = fs.readFileSync(INDEX_TEMPLATE_PATH, 'utf-8');
 
-const allBlogs = [];
+const allProjects = [];
 
 function compileFolder(dir) {
   const items = fs.readdirSync(dir);
@@ -60,77 +57,93 @@ function compileFolder(dir) {
     }
     if (path.extname(item) !== '.md') continue;
 
-    // --- TRACK CURRENT FOLDER LEVEL ---
     const relativeSubDir = path.relative(PROJECTS_DIR, path.dirname(fullPath));
-    // If inside a subfolder like "test", prefix becomes "../../projects/test"
     relativeImagePrefix = relativeSubDir ? `../../projects/${relativeSubDir}` : '../../projects';
 
     const { data, content } = matter(fs.readFileSync(fullPath, 'utf-8'));
     const title = data.title || path.basename(item, '.md');
+    
+    // Clean description to peel off a redundant "Description:" prefix if present
+    let description = data.desc || '';
+    if (description.toLowerCase().startsWith('description:')) {
+      description = description.slice(12).trim();
+    }
+    
+    const sourceLink = data.source || '#';
     const cleanedContent = content.replace(/\s*---\s*$/, '');
+    
+    // Parse individual tags
+    let rawTags = data.tags;
+    let tagsArray = [];
+    if (Array.isArray(rawTags)) {
+      tagsArray = rawTags;
+    } else if (typeof rawTags === 'string') {
+      tagsArray = rawTags.split(',').map(t => t.replace(/['"]+/g, '').trim());
+    }
     
     let dateStr = '';
     let year = 2026; 
     let monthIndex = 0;
-    let monthName = 'Jan';
 
     if (data.date) {
       const dateObj = data.date instanceof Date ? data.date : new Date(data.date);
       year = dateObj.getUTCFullYear();
       monthIndex = dateObj.getUTCMonth();
-      monthName = dateObj.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
       dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
     }
 
     const htmlBody = marked.parse(cleanedContent);
-    const finalHtml = blogTemplate
+    const finalHtml = projectTemplate
       .replace(/\${title}/g, title)
       .replace(/\${date}/g, dateStr)
+      .replace(/\${sourceLink}/g, sourceLink)
       .replace(/\${content}/g, htmlBody);
 
     const safeName = path.basename(item, '.md').toLowerCase().replace(/\s+/g, '-');
     fs.writeFileSync(path.join(OUTPUT_DIR, `${safeName}.html`), finalHtml);
     console.log(`Compiled: projects/${safeName}.html`);
 
-    allBlogs.push({ title, year, monthIndex, monthName, url: `dist/projects/${safeName}.html` });
+    allProjects.push({
+      title,
+      year,
+      monthIndex,
+      description,
+      tags: tagsArray,
+      url: `dist/projects/${safeName}.html`
+    });
   }
 }
 
 compileFolder(PROJECTS_DIR);
 
-allBlogs.sort((a, b) => {
+// Sort projects: Year (Desc), Month (Desc), Title (Asc)
+allProjects.sort((a, b) => {
   if (b.year !== a.year) return b.year - a.year;
   if (b.monthIndex !== a.monthIndex) return b.monthIndex - a.monthIndex;
   return a.title.localeCompare(b.title);
 });
 
-const groupedByYear = {};
-for (const blog of allBlogs) {
-  if (!groupedByYear[blog.year]) groupedByYear[blog.year] = [];
-  groupedByYear[blog.year].push(blog);
+// Build grid items using your exact project template file structure
+let finalGridMarkup = '';
+for (const project of allProjects) {
+  // Map out tags list to span badges
+  const tagSpans = project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('\n');
+
+  // Replace placeholders inside your project card template component
+  const renderedCard = cardTemplate
+    .replace(/\${projectTitle}/g, project.title)
+    .replace(/\${projectYear}/g, project.year)
+    .replace(/\${projectDescription}/g, project.description)
+    .replace(/\${projectTag}/g, tagSpans); // Replaces the container item with your dynamic list
+
+  // Wrap inside the standard anchor link structure
+  finalGridMarkup += `
+    <a href="${project.url}" class="project-card-link">
+      ${renderedCard}
+    </a>\n`;
 }
 
-let finalIndexMarkup = '';
-const sortedYears = Object.keys(groupedByYear).sort((a, b) => b - a);
-
-for (const year of sortedYears) {
-  let postRows = '';
-  for (const blog of groupedByYear[year]) {
-    postRows += `
-        <a href="${blog.url}" class="blog-row">
-          <span class="blog-title">${blog.title}</span>
-          <span class="blog-date">${blog.monthName}</span>
-        </a>`;
-  }
-
-  finalIndexMarkup += `
-    <section class="blog-year-section">
-      <h3 class="blog-year">${year}</h3>
-      <div class="blog-list">${postRows}
-      </div>
-    </section>\n`;
-}
-
-const finalIndexHtml = indexTemplate.replace(/\${blogListings}/g, finalIndexMarkup.trim());
+// Replace placeholder variable inside index template and write out
+const finalIndexHtml = indexTemplate.replace(/\${projectListings}/g, finalGridMarkup.trim());
 fs.writeFileSync(INDEX_OUTPUT_PATH, finalIndexHtml);
-console.log('Compiled: projects.html with all project listings.');
+console.log('Compiled: projects.html with all grid elements.');

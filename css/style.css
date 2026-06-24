@@ -92,6 +92,27 @@ body {
 @font-face { font-family: 'Mosk'; src: url('../fonts/Mosk/Mosk Ultra-Bold 900.ttf') format('truetype'); font-weight: 900; font-style: normal; }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ==========================================================================
    ==========================================================================
    PART 2: STRUCTURAL COMPONENT DESIGN LAYOUTS
@@ -178,6 +199,14 @@ body {
   transition: all 0.3s ease;
 }
 
+
+
+
+
+
+
+
+
 /* --- 2B: HERO STACK ENGINE & TYPOGRAPHY GRAPHICS --- */
 .hero-section {
   position: relative;
@@ -256,6 +285,12 @@ body {
   letter-spacing: -0.02em;
   line-height: var(--line-height-hero);
 }
+
+
+
+
+
+
 
 /* --- 2C: TICKER AND TOOLKIT STACK LAYOUTS --- */
 .ticker-wrapper {
@@ -370,6 +405,13 @@ body {
 .lang-svg-icon path, .lang-svg-icon circle, .lang-svg-icon rect, .lang-svg-icon polygon, .lang-svg-icon g { fill: currentColor; }
 .lang-svg-icon [stroke] { stroke: currentColor; }
 
+
+
+
+
+
+
+
 /* --- 2D: GRID SYSTEMS (BENTO MATRIX ENGINE) --- */
 .bento-grid-container {
   width: 100%;
@@ -420,6 +462,13 @@ body {
 .item-5 { grid-column: 1 / span 6; grid-row: 9 / span 4; } 
 .item-4 { grid-column: 1 / span 6; grid-row: 13 / span 3; } 
 .item-3 { grid-column: 1 / span 6; grid-row: 16 / span 3; } 
+
+
+
+
+
+
+
 
 /* --- 2E: FLUID MASONRY GALLERY SYSTEM --- */
 .gallery-container {
@@ -481,6 +530,12 @@ body {
     background-position: -200% 0;
   }
 }
+
+
+
+
+
+
 
 /* --- 2F: TIMELINE GRAPHICS (BLOG GRID LIST) --- */
 .blog-screen {
@@ -664,6 +719,12 @@ code {
 }
 
 
+
+
+
+
+
+
 /* --- 2G: UTILITY COMPONENTS (QUOTES, INTERMEDIARY DIVIDERS, SCROLL FILLERS) --- */
 .page-heading {
   font-family: "Tanker-Regular", sans-serif;
@@ -750,6 +811,12 @@ code {
   margin: 0;
 }
 
+
+
+
+
+
+
 /* --- 2H: GLOBAL SITE FOOTER CONSTRUCTIONS --- */
 footer {
   position: relative;
@@ -812,6 +879,14 @@ footer {
   display: block;
 }
 
+
+
+
+
+
+
+
+
 /* --- 2I: ERROR PAGES CONSTRUCTION --- */
 body.error-page-body {
   display: flex;
@@ -862,6 +937,15 @@ body.error-page-body {
 }
 
 
+
+
+
+
+
+
+
+
+
 /* --- 2J: PROJECT PAGE CARD DESIGN --- */
 
 .project-grid {
@@ -886,6 +970,10 @@ body.error-page-body {
   border: 1px solid var(--special-accent);
   border-radius: 12px;
   text-decoration: none;
+}
+
+.project-card-link {
+  text-decoration: none; 
 }
 
 .project-header {
@@ -935,7 +1023,10 @@ body.error-page-body {
   margin-top: 20px;
 }
 
-.source-code button {
+.source-button {
+  display: inline-block; /* CRITICAL: Allows the anchor link to behave like a physical button */
+  text-decoration: none;  /* Removes the default underline on links */
+  
   font-family: "Outfit", sans-serif;
   font-size: 1rem;
   font-weight: 500;
@@ -960,7 +1051,8 @@ body.error-page-body {
   background-position: 100% 0;
 }
 
-.source-code button:hover {
+/* Changed selector for hover states */
+.source-button:hover {
   color: #fff;
   
   background-image: linear-gradient(
@@ -973,14 +1065,15 @@ body.error-page-body {
   animation: shimmer 0.3s forwards ease-in-out;
 }
 
-.source-code button:active {
+/* Changed selector for active click animations */
+.source-button:active {
   translate: 0px 0px;
   box-shadow: 2px 3px 0px rgba(0, 0, 0, 0.15);
 
   transition: translate 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
 }
 
-/* The magic that moves the silver streak across the button */
+/* The magic that moves the silver streak across the button remains unchanged */
 @keyframes shimmer {
   0% {
     background-position: 150% 0;
@@ -989,6 +1082,18 @@ body.error-page-body {
     background-position: -50% 0;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* ==========================================================================
@@ -1010,6 +1115,13 @@ body.error-page-body {
   .ticker-track { align-items: center; }
   .ticker-item, .ticker-item-gold { text-align: center; }
 }
+
+
+
+
+
+
+
 
 /* --- 3B: WIDESCREEN DESKTOP DESIGN ENGINES (768px and up) --- */
 @media (min-width: 768px) {
@@ -1044,6 +1156,12 @@ body.error-page-body {
         top: 75vh;
     }
 }
+
+
+
+
+
+
 
 /* --- 3C: MOBILE INTERFACE DESIGN MATRICES (Under 768px) --- */
 @media (max-width: 768px) {
