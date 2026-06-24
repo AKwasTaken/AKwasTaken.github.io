@@ -69,7 +69,8 @@ function compileFolder(dir) {
       description = description.slice(12).trim();
     }
     
-    const sourceLink = data.source || '#';
+    const sourceLink = data.source?.trim() || '#';
+    const siteLink = data.site?.trim() || '#';
     const cleanedContent = content.replace(/\s*---\s*$/, '');
     
     // Parse individual tags
@@ -92,11 +93,25 @@ function compileFolder(dir) {
       dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
     }
 
+    let source = '';
+    let site = '';
+    let projectLinkButtons = '';
+
+    if (sourceLink !== "#") {
+      source = `<span class="source-code"><a href="${sourceLink}" target="_blank" class="source-button">Source Code</a></span>`
+    }
+
+    if (siteLink !== "#") {
+      site = `<span class="site-link"><a href="${siteLink}" target="_blank" class="site-link-button">Project Demo</a></span>`
+    }
+
+    projectLinkButtons = `${source} ${site}`;
+
     const htmlBody = marked.parse(cleanedContent);
     const finalHtml = projectTemplate
       .replace(/\${title}/g, title)
       .replace(/\${date}/g, dateStr)
-      .replace(/\${sourceLink}/g, sourceLink)
+      .replace(/\${projectLinks}/g, projectLinkButtons)
       .replace(/\${content}/g, htmlBody);
 
     // Generate a safe output filename by removing special characters and replacing spaces with underscores
