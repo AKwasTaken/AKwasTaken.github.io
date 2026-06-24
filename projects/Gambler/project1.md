@@ -80,7 +80,7 @@ To break down what this math is actually saying:
 
 By repeating this denoising process all the way down to $x_0$, the model spits out a sharp, highly detailed forecast path $\hat{P}_{t+\tau}$.
 
-![Diagram 1](diagram1.svg)
+![Diagram 1](diagram1.png)
 
 Not many people are using Diffusion models for day-trading right now—mostly because they take a lot of processing power and can be slower than basic models. But we wanted to test it out because it gives us a distribution of multiple possible future realities instead of just a generic, flat average line. This specific output path ($\hat{P}_{t+\tau}$) is what we feed directly into the **Gambler DQN** decision brain.
 
@@ -90,7 +90,7 @@ Not many people are using Diffusion models for day-trading right now—mostly be
 
 The actual brain of the project combines the text insights from **Insider**, the price paths from **Oracle** (which tries to guess where the stock goes next using just past pricing data), and our current portfolio stats. It jams them into a single state vector for our Deep Q-Network (DQN) agent—which is an AI that learns by trial and error to maximize a score.
 
-![Diagram 2](diagram2.svg)
+![Diagram 2](diagram2.png)
 
 ### 3.1 Setting Up the Markov Decision Process (MDP)
 
