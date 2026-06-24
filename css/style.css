@@ -19,8 +19,9 @@
 
 :root {
   --accent-main: #333333; 
-  --accent-light: #ebf3ed;
+  --accent-light: #f8f1ee;
   --accent-text: #475569;
+  --accent-secondary: #888;
   --special-accent: #bd5d3f;
   --text-dark: #1e293b;
   --background-color: #f5f6f6;
@@ -496,7 +497,7 @@ body {
 }
 
 .blog-year {
-  color: #888;
+  color: var(--accent-secondary);
   font-size: 1.3rem;
   font-weight: 500;
   margin-bottom: 15px;
@@ -518,14 +519,14 @@ body {
 }
 
 .blog-title {
-  color: #222;
+  color: var(--accent-main);
   font-size: 1.3rem;
   line-height: 1.4;
   word-break: break-word; 
 }
 
 .blog-date {
-  color: #aaa;
+  color: var(--accent-secondary);
   font-size: 1.2rem;
   text-align: right;
 }
@@ -564,7 +565,7 @@ body {
   font-family: "Outfit", sans-serif;
   font-size: 1rem;
   font-weight: 500;
-  color: #909090;
+  color: var(--accent-secondary);
 }
 
 .blog-body {
@@ -756,7 +757,7 @@ footer {
   height: auto;
   padding: 40px 24px;
   width: 100%;
-  color: var(--accent-light);
+  color: var(--background-color);
   box-sizing: border-box;
 }
 
@@ -860,6 +861,134 @@ body.error-page-body {
   margin-top: 20px;
 }
 
+
+/* --- 2J: PROJECT PAGE CARD DESIGN --- */
+
+.project-grid {
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 24px;
+  padding: 50px; 
+  font-family: "Outfit", sans-serif;
+  
+  max-width: 1000px;
+  margin: 0 auto 200px;
+  box-sizing: border-box;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px;
+  background-color: var(--accent-light);
+  border: 1px solid var(--special-accent);
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.project-title {
+  font-size: 16px; 
+  font-weight: 600; 
+  color: var(--accent-main);
+}
+
+.project-year {
+  font-size: 14px; 
+  color: var(--accent-secondary);
+  flex-shrink: 0
+}
+
+.project-card p {
+  font-size: 13.5px;
+  color: var(--accent-text);
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 400;
+}
+
+.project-tag-container {
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 8px
+}
+
+.project-tag {
+  font-size: 12px;
+  padding: 4px 10px;
+  background-color: var(--special-accent);
+  color: var(--accent-light);
+  border-radius: 6px;
+}
+
+.source-code {
+  display: block; 
+  margin-top: 20px;
+}
+
+.source-code button {
+  font-family: "Outfit", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  
+  color: var(--accent-light);
+  background-color: var(--special-accent); 
+  translate: -2px -1px;
+
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.1);
+  
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.25rem;
+
+  cursor: pointer;
+  /* Smooth transition for the color, and we'll handle the shimmer via keyframes/background-position */
+  transition: color 0.3s ease, border-color 0.3s ease;
+  
+  /* Setup for the shimmer */
+  background-repeat: no-repeat;
+  background-size: 200% 100%;
+  background-position: 100% 0;
+}
+
+.source-code button:hover {
+  color: #fff;
+  
+  background-image: linear-gradient(
+    120deg, 
+    var(--special-accent) 25%, 
+    #e3e3e3 50%, 
+    var(--special-accent) 75%
+  );
+  
+  animation: shimmer 0.3s forwards ease-in-out;
+}
+
+.source-code button:active {
+  translate: 0px 0px;
+  box-shadow: 2px 3px 0px rgba(0, 0, 0, 0.15);
+
+  transition: translate 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+}
+
+/* The magic that moves the silver streak across the button */
+@keyframes shimmer {
+  0% {
+    background-position: 150% 0;
+  }
+  100% {
+    background-position: -50% 0;
+  }
+}
 
 
 /* ==========================================================================
@@ -1039,4 +1168,18 @@ body.error-page-body {
   
   .masonry-item { margin-bottom: 12px; }
   .gallery-container { padding: 12px; }
+
+
+  .project-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 50px; /* Optional: dials down padding on small mobile screens */
+  }
+}
+
+@media (max-width: 570px) {
+  .project-grid {
+    grid-template-columns: 1fr; 
+    padding: 20px; 
+  }
+  
 }
