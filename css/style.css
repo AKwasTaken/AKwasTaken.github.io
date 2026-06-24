@@ -19,7 +19,7 @@
 
 :root {
   --accent-main: #333333; 
-  --accent-light: #f8f1ee;
+  --accent-light: #f8f4f2;
   --accent-text: #475569;
   --accent-secondary: #888;
   --special-accent: #bd5d3f;
@@ -609,11 +609,16 @@ body {
 
 .blog-heading {
   font-family: "Outfit", sans-serif;
+  max-width: 600px;
+  /* Add this to center the 600px box on the screen */
+  margin-left: auto;
+  margin-right: auto; 
+  
   line-height: 2.4rem;
   font-size: 2.5rem;
   font-weight: 600;
   color: var(--accent-main);
-  margin-bottom: 10px;
+  margin-bottom: 10px; /* You can combine this into: margin: 0 auto 10px; */
 }
 
 .blog-creation-time {
@@ -731,10 +736,17 @@ code {
   font-weight: 200;
   letter-spacing: -0.02em;
   font-style: normal;
+  
   font-size: 10rem;
+  
   color: var(--accent-main);
   text-align: center;
   margin-top: 7rem;
+  
+  padding-left: 40px;
+  padding-right: 40px;
+  box-sizing: border-box; /* Ensures padding is calculated inside the element's width */
+  word-wrap: break-word;  /* Fallback to break a word if a device is impossibly narrow */
 }
 
 .scroll-filler {
@@ -949,8 +961,9 @@ body.error-page-body {
 /* --- 2J: PROJECT PAGE CARD DESIGN --- */
 
 .project-grid {
-  display: grid; 
-  grid-template-columns: repeat(3, 1fr); 
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
   gap: 24px;
   padding: 50px; 
   font-family: "Outfit", sans-serif;
@@ -970,10 +983,15 @@ body.error-page-body {
   border: 1px solid var(--special-accent);
   border-radius: 12px;
   text-decoration: none;
+  
+  flex-grow: 1;
 }
 
 .project-card-link {
   text-decoration: none; 
+  display: flex;
+  flex-direction: column; 
+  height: 100%;
 }
 
 .project-header {
@@ -1024,8 +1042,8 @@ body.error-page-body {
 }
 
 .source-button {
-  display: inline-block; /* CRITICAL: Allows the anchor link to behave like a physical button */
-  text-decoration: none;  /* Removes the default underline on links */
+  display: inline-block;
+  text-decoration: none;
   
   font-family: "Outfit", sans-serif;
   font-size: 1rem;
@@ -1042,16 +1060,13 @@ body.error-page-body {
   padding: 0.5rem 1.25rem;
 
   cursor: pointer;
-  /* Smooth transition for the color, and we'll handle the shimmer via keyframes/background-position */
   transition: color 0.3s ease, border-color 0.3s ease;
   
-  /* Setup for the shimmer */
   background-repeat: no-repeat;
   background-size: 200% 100%;
   background-position: 100% 0;
 }
 
-/* Changed selector for hover states */
 .source-button:hover {
   color: #fff;
   
@@ -1065,7 +1080,6 @@ body.error-page-body {
   animation: shimmer 0.3s forwards ease-in-out;
 }
 
-/* Changed selector for active click animations */
 .source-button:active {
   translate: 0px 0px;
   box-shadow: 2px 3px 0px rgba(0, 0, 0, 0.15);
@@ -1073,7 +1087,6 @@ body.error-page-body {
   transition: translate 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
 }
 
-/* The magic that moves the silver streak across the button remains unchanged */
 @keyframes shimmer {
   0% {
     background-position: 150% 0;
@@ -1275,7 +1288,17 @@ body.error-page-body {
   /* Hero & Page Layouts */
   .hero-content { padding: 40vh 10px 20px; }
   .hero-section { margin-top: 0; }
-  .page-heading { margin-top: 7rem; }
+  .page-heading { 
+    padding-top: 2rem;
+  }
+
+  .long-page-heading {
+    font-size: clamp(3.5rem, 20vw, 10rem); 
+  }
+
+  .blog-heading {
+    max-width: clamp(200px, 70vw, 600px);
+  }
 
   /* Gallery Masonry Scaling Down overrides */
   .masonry-grid {
@@ -1287,17 +1310,5 @@ body.error-page-body {
   .masonry-item { margin-bottom: 12px; }
   .gallery-container { padding: 12px; }
 
-
-  .project-grid {
-    grid-template-columns: repeat(2, 1fr);
-    padding: 50px; /* Optional: dials down padding on small mobile screens */
-  }
 }
 
-@media (max-width: 570px) {
-  .project-grid {
-    grid-template-columns: 1fr; 
-    padding: 20px; 
-  }
-  
-}

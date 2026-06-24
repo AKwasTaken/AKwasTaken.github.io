@@ -99,7 +99,10 @@ function compileFolder(dir) {
       .replace(/\${sourceLink}/g, sourceLink)
       .replace(/\${content}/g, htmlBody);
 
-    const safeName = path.basename(item, '.md').toLowerCase().replace(/\s+/g, '-');
+    // Generate a safe output filename by removing special characters and replacing spaces with underscores
+    const outputFileName = title.replace(/[^a-zA-Z ]/g, "").replace(/ /g, "_");
+
+    const safeName = path.basename(outputFileName, '.md').toLowerCase().replace(/\s+/g, '-');
     fs.writeFileSync(path.join(OUTPUT_DIR, `${safeName}.html`), finalHtml);
     console.log(`Compiled: projects/${safeName}.html`);
 
