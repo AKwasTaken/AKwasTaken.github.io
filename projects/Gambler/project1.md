@@ -5,7 +5,7 @@ desc: "Description: A multi-modal day-trading system that extracts real-time sem
 tags: ["ML", "Diffusion", "RL"]
 ---
 
-This project, although incomplete, represents our hands-on understanding of how a highly capable market predictor should actually be built. The core philosophy here is to attack the problem from two completely different angles: reading public sentiment and analyzing raw stock-graph math. By combining real-time human emotion (the chaos of breaking news headlines) with raw statistical trend forecasting, we wanted to build a system that can process market information the same way an actual human day-trader would—just at a much larger, automated scale.
+This project, although incomplete, represents our hands-on understanding of how a highly capable market predictor should actually be built. The core philosophy here is to attack the problem from two completely different angles: reading public sentiment and analyzing raw stock-graph math. By combining real-time human emotion (the chaos of breaking news headlines) with raw statistical trend forecasting, we wanted to build a system that can process market information the same way an actual human day-trader would, just at a much larger, automated scale.
 
 **Gambler** is made of two model/tools, **Insider** and **Oracle**, who's architecture is discussed in detail below.
 
@@ -27,11 +27,13 @@ To turn this messy text into numbers we can actually run math on, we use a high-
 
 $$\vec{v}_i = \Phi(A_i, D_i) \in \mathbb{R}^d$$
 
-This vector conversion captures the deeper vibe of the text—things like semantic intensity (how aggressive the words are), structural themes (what topic it is talking about), and sentiment orientation (whether it's good or bad news). The full collection of these dense embeddings (number clusters) generated during our time window gives us our **News Bracket** $\mathcal{B}_t$:
+*(We could feed in all the collected data, but it would be a huge waste of resources. Based on our predictions, the extra effort just isn't worth the payoff.)* 
+
+This vector conversion captures the deeper vibe of the text, things like semantic intensity (how aggressive the words are), structural themes (what topic it is talking about), and sentiment orientation (whether it's good or bad news). The full collection of these dense embeddings (number clusters) generated during our time window gives us our **News Bracket** $\mathcal{B}_t$:
 
 $$\mathcal{B}_t = \Big\{ \vec{v}_i \in \mathbb{R}^d \;\Big|\; T_i \in [t - \Delta t, t] \Big\}$$
 
-Because we are throwing these into an $d$-dimensional manifold (a multi-dimensional math space), similar news naturally clumps together. If you calculate the Cosine Similarity—which is just a fancy way of measuring the angle between two vectors to see how close they point to the same idea—you'll find that all the political drama sits on one side, tech updates on another, and sports in its own corner:
+Because we are throwing these into an $d$-dimensional manifold (a multi-dimensional math space), similar news naturally clumps together. If you calculate the Cosine Similarity, which is just a fancy way of measuring the angle between two vectors to see how close they point to the same idea, you'll find that all the political drama sits on one side, tech updates on another, and sports in its own corner:
 
 $$\text{Sim}(\vec{v}_i, \vec{v}_j) = \frac{\vec{v}_i \cdot \vec{v}_j}{\|\vec{v}_i\| \|\vec{v}_j\|}$$
 
@@ -41,7 +43,7 @@ $$\text{Sim}(\vec{v}_i, \vec{v}_j) = \frac{\vec{v}_i \cdot \vec{v}_j}{\|\vec{v}_
 
 People don’t read an article and instantly hit buy or sell within a millisecond; there's always a lag. To handle this, we add a buffer zone $\delta$ of about 3 to 5 minutes.
 
-To see how our News Bracket $\mathcal{B}_t$ actually impacts a stock, we use a **Cross-Attention Mechanism**—a technique that lets the model focus on specific words in a massive pile of text that correlate to a specific price jump. We take the raw price ticks of the stock and turn them into a sequence vector $\vec{X}_t$. The price data acts as our Queries ($Q$), while the text vectors in the News Bracket act as the Keys ($K$) and Values ($V$):
+To see how our News Bracket $\mathcal{B}_t$ actually impacts a stock, we use a **Cross-Attention Mechanism**, a technique that lets the model focus on specific words in a massive pile of text that correlate to a specific price jump. We take the raw price ticks of the stock and turn them into a sequence vector $\vec{X}_t$. The price data acts as our Queries ($Q$), while the text vectors in the News Bracket act as the Keys ($K$) and Values ($V$):
 
 $$Q = \mathbf{W}_Q \vec{X}_t, \quad K = \mathbf{W}_K \mathcal{B}_t, \quad V = \mathbf{W}_V \mathcal{B}_t$$
 
@@ -62,7 +64,7 @@ While **Insider** is busy reading the news, **Oracle** focuses purely on the num
 
 ### 2.1 Why Diffusion?
 
-Most traditional financial AI models try to draw a single, boring average line into the future. The problem is that stock markets don't move in clean, predictable lines—they are jagged, chaotic, and jump around. To capture that real-world messiness, we decided to use a **Diffusion Model**.
+Most traditional financial AI models try to draw a single, boring average line into the future. The problem is that stock markets don't move in clean, predictable lines, they are jagged, chaotic, and jump around. To capture that real-world messiness, we decided to use a **Diffusion Model**.
 
 If you've ever used an AI image generator, it uses diffusion: it starts with a canvas of pure random static/noise and slowly cleans it up step-by-step until a sharp image appears. We are doing the exact same thing, but instead of generating an image of a cat, our model starts with a noisy, random scribble of a stock chart and refines it into a highly realistic future price path.
 
@@ -74,27 +76,27 @@ $$p_\theta(x_{0:T} | \vec{X}_t) = p(x_T) \prod_{t=1}^T p_\theta(x_{t-1} | x_t, \
 
 To break down what this math is actually saying:
 
-* $\vec{X}_t$ is our anchor—the actual historical price data we already know.
-* $x_T$ is our starting point for the prediction—pure, random Gaussian noise (essentially digital static).
+* $\vec{X}_t$ is our anchor, the actual historical price data we already know.
+* $x_T$ is our starting point for the prediction, pure, random Gaussian noise (essentially digital static).
 * $p_\theta(x_{t-1} | x_t, \vec{X}_t)$ is the smart part of the network. It looks at the noisy chart ($x_t$), remembers the historical trend ($\vec{X}_t$), and guesses how to clean up a fraction of the noise to get to the next cleaner step ($x_{t-1}$).
 
 By repeating this denoising process all the way down to $x_0$, the model spits out a sharp, highly detailed forecast path $\hat{P}_{t+\tau}$.
 
 ![Diagram 1](diagram1.png)
 
-Not many people are using Diffusion models for day-trading right now—mostly because they take a lot of processing power and can be slower than basic models. But we wanted to test it out because it gives us a distribution of multiple possible future realities instead of just a generic, flat average line. This specific output path ($\hat{P}_{t+\tau}$) is what we feed directly into the **Gambler DQN** decision brain.
+Not many people are using Diffusion models for day-trading right now, mostly because they take a lot of processing power and can be slower than basic models. But we wanted to test it out because it gives us a distribution of multiple possible future realities instead of just a generic, flat average line. This specific output path ($\hat{P}_{t+\tau}$) is what we feed directly into the **Gambler DQN** decision brain.
 
 ---
 
 ## 3. Gambler: The Reinforcement Learning System
 
-The actual brain of the project combines the text insights from **Insider**, the price paths from **Oracle** (which tries to guess where the stock goes next using just past pricing data), and our current portfolio stats. It jams them into a single state vector for our Deep Q-Network (DQN) agent—which is an AI that learns by trial and error to maximize a score.
+The actual brain of the project combines the text insights from **Insider**, the price paths from **Oracle** (which tries to guess where the stock goes next using just past pricing data), and our current portfolio stats. It jams them into a single state vector for our Deep Q-Network (DQN) agent, which is an AI that learns by trial and error to maximize a score.
 
 ![Diagram 2](diagram2.png)
 
 ### 3.1 Setting Up the Markov Decision Process (MDP)
 
-To turn trading into a game the AI can solve, we break it down into an MDP—a math framework for modeling decision-making where outcomes are partly random and partly controlled by the user.
+To turn trading into a game the AI can solve, we break it down into an MDP, a math framework for modeling decision-making where outcomes are partly random and partly controlled by the user.
 
 * **State Space ($s_t \in \mathcal{S}$):** This is everything the model knows about the world at any given moment $t$, put together in a single row:
 
@@ -112,7 +114,7 @@ $$\mathcal{A} = \{ \text{BUY}, \; \text{SELL}, \; \text{HOLD} \}$$
 
 ### 3.2 Training and Optimization
 
-The action-value function $Q(s, a; \theta)$ uses a deep neural network with weights $\theta$ to calculate which action gives the best payout. The model trains by looking at a replay buffer (a memory log of its past trades) and trying to minimize its Bellman error—basically reducing the gap between what it *thought* would happen and what *actually* happened:
+The action-value function $Q(s, a; \theta)$ uses a deep neural network with weights $\theta$ to calculate which action gives the best payout. The model trains by looking at a replay buffer (a memory log of its past trades) and trying to minimize its Bellman error, basically reducing the gap between what it *thought* would happen and what *actually* happened:
 
 $$L(\theta) = \mathbb{E} \left[ \left( r_t + \gamma \max_{a'} Q(s_{t+1}, a'; \theta^-) - Q(s_t, a_t; \theta) \right)^2 \right]$$
 
