@@ -683,11 +683,11 @@ body {
 }
 
 .blog-body ul {
-  margin: 10px 0 10px 20px;
+  margin: 10px 0 10px 30px;
 }
 
 .blog-body ol {
-  margin: 10px 0 10px 20px;
+  margin: 10px 0 10px 30px;
 }
 
 .blog-body hr {
@@ -703,7 +703,7 @@ body {
 }
 
 .blog-body img {
-  max-width: 90%;
+  max-width: 100%;
   height: auto;
   display: block;
   margin: 50px auto; 
