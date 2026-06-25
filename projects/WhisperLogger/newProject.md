@@ -1,7 +1,7 @@
 ---
 title: "WhisperLogger"
 date: 2026-06-25
-desc: "A native macOS menu-bar utility for rapid, distraction-free text logging. Designed for developers and power users to capture structured chronological thoughts instantly without leaving the keyboard or opening a heavy text editor."
+desc: "A native macOS menu-bar utility for rapid, distraction-free text logging. Designed for developers and power users to capture structured chronological thoughts instantly without breaking a beat."
 source: "http://github.com/AKwasTaken/WhisperLogger"
 tags: ["Swift", "MacOS"]
 ---
