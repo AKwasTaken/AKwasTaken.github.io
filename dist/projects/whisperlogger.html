@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | WhisperLogger</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.svg" />
+    <script src="/js/cache_buster.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/index.html" class="logo-link">
+          <div class="logo-item" data-src="/assets/logo.svg"></div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
+          <li><a href="/projects.html" class="nav-item">Projects</a></li>
+          <li><a href="/blog.html" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="/contact.html" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="blog-content">
+        <div class="blog-header">
+            <h1 class="blog-heading">WhisperLogger</h1>
+            <span class="blog-creation-time">June 25, 2026</span>
+            <section class="project-links">
+              <span class="source-code"><a href="http://github.com/AKwasTaken/WhisperLogger" target="_blank" class="source-button">Source Code</a></span> 
+            </section>
+          </div>
+
+        <div class="blog-body">
+            <p><img src="../../projects/WhisperLogger/WhisperLogger_previewBanner.gif" alt="Preview GIF" class="project-image" /></p>
+<p>Every developer needs a friction-free way to jot down rapid logs, temporary scratch notes, or track task statuses throughout the day. Opening a bloated IDE window, a browser tab, or a heavy text editor disrupts your flow state. </p>
+<p>To solve this, I built <strong>WhisperLogger</strong>: a distraction-free, ultra-lightweight <strong>native macOS utility</strong> designed to capture your chronological thoughts without pulling you away from your active workspace. </p>
+<p>Here is a deep dive into the features, design choices, and core engineering behind the application.</p>
+<hr>
+<h2>The Feature Set</h2>
+<h3>1. Zero-Friction Input Workspaces</h3>
+<p>The core UI layout is built explicitly around rapid keyboard entry. It utilizes an AppKit <code>NSTextView</code> backed layout inside a SwiftUI canvas wrapper to maintain highly responsive frame scaling, complete with custom styled prompt hooks (<code>&gt;&gt;&gt;</code>). It natively supports standard power-user text mechanics:</p>
+<ul>
+<li><strong><code>Command + Return</code></strong>: Instantly commits the active log entry to your disk layer.</li>
+<li><strong><code>Escape</code></strong>: Immediately hides the interface panel.</li>
+</ul>
+<h3>2. Streamlined Empty Log File Creation</h3>
+<p>WhisperLogger gives you complete flexibility over your organization. Using the <code>⌘ + Shift + Return</code> keyboard shortcut, you can spin up a freshly timestamped text document on demand completely empty, perfect for initializing a clean daily workspace layout before you even start typing.</p>
+<h3>3. Integrated Live Folder Navigation (<code>⌘ + O</code>)</h3>
+<p>To keep your data highly accessible, pressing <code>⌘ + O</code> directly within the active logging entry window instantly opens your output workspace directory inside a native Finder window so you can view, move, or share your raw text files seamlessly.</p>
+<p><img src="../../projects/WhisperLogger/logPage.png" alt="Log Page" class="project-image" /></p>
+<hr>
+<h2>Under the Hood: The Architecture</h2>
+<p>WhisperLogger is built to be fast and compliant with modern macOS sandboxing rules. Here is how the core engine handles data under the hood:</p>
+<h3>1. Sandboxed File Isolation</h3>
+<p>To respect macOS security layers while keeping your files easily accessible, WhisperLogger isolates its data cleanly away from hidden system configuration paths. By default, it initializes its storage vault directly inside a dedicated, user-facing path: <code>~/Documents/WhisperLogger_Logs</code>. This ensures that the system file viewer can securely trigger Finder access on demand without running into permission boundaries.</p>
+<h3>2. Multithreaded Async Disk I/O Pipeline</h3>
+<p>To prevent dropped keystrokes or interface lag when committing long string streams, the entire file execution layer runs asynchronously:</p>
+<pre><code class="language-swift">DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+    guard let self = self else { return }
+
+    // Secure append and system file synchronization logic  
+    // happens completely out of process
+
+    self.refreshLogFiles()
+}
+</code></pre>
+<p>Moving file serialization onto standard <code>.userInitiated</code> background worker channels ensures that text operations stay fast and concurrent, leaving the main thread completely untethered to keep the UI snappy and responsive.</p>
+<hr>
+<h2>Distribution &amp; Presentation</h2>
+<p>To package the tool cleanly without dealing with bloated layout configuration files, the application is compiled into a drag-and-drop installer image natively aligned to macOS dark-mode standards.</p>
+<p>Your active files are saved cleanly by timestamp, making it incredibly easy to parse your logging history linearly over days or weeks.</p>
+<p><img src="../../projects/WhisperLogger/prefs.png" alt="Preferences Panel" class="project-image" /></p>
+<hr>
+<h2>What’s Coming Next</h2>
+<p>While the application is fully optimized for targeted desktop logging, future lifecycle expansions are on the horizon, including:</p>
+<ul>
+<li><strong>Global Hardware Hotkeys:</strong> Listening to system-wide shortcuts (<code>⌥ + Space</code>) so the entry canvas can drop down instantly from anywhere across the OS.</li>
+<li><strong>File Manager:</strong> A window that can preview all the files created by the application, in the working directory.</li>
+<li><strong>Log-file Support:</strong> Support for log-files, since they are much more comfortable and easier to troubleshoot and work with.</li>
+<li><strong>More UI Preferences:</strong> Self-explanatory.</li>
+</ul>
+<p><em>WhisperLogger is officially running stable. Check out the release page to grab the latest DMG build!</em></p>
+
+          <hr>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <h3 class="footer-h3">Aneeth Kumaar</h3>
+        <p class="footer-p">
+          Made with HTML, CSS and JS, and a lot of frenzy googling. Feel free to
+          check out the source code of this project on my github profile. If you
+          wish to reference or reuse it, I'll be honoured, but please do
+          affiliate me.
+        </p>
+
+        <div class="footer-socials">
+          <a
+            href="https://github.com/AKwasTaken"
+            class="social-link"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img
+              src="/assets/icons/socials/github.svg"
+              class="social-icon"
+              alt="GitHub"
+            />
+          </a>
+
+          <a
+            href="https://instagram.com/akcontinuum"
+            class="social-link"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img
+              src="/assets/icons/socials/instagram.svg"
+              class="social-icon"
+              alt="Instagram"
+            />
+          </a>
+
+          <a
+            href="https://linkedin.com/in/aneeth-kumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/assets/icons/socials/linkedin.svg"
+              class="social-icon"
+              alt="LinkedIn"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/@aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <img
+              src="/assets/icons/socials/youtube.svg"
+              class="social-icon"
+              alt="YouTube"
+            />
+          </a>
+
+          <a
+            href="https://www.fiverr.com/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Fiverr"
+          >
+            <img
+              src="/assets/icons/socials/fiverr.svg"
+              class="social-icon"
+              alt="Fiverr"
+            />
+          </a>
+
+          <a
+            href="https://www.behance.net/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Behance"
+          >
+            <img
+              src="/assets/icons/socials/behance.svg"
+              class="social-icon"
+              alt="Behance"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/nav_menu.js"></script>
+    <script src="/js/load_icons.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMath()"></script>
+    
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    </script>
+  </body>
+</html>

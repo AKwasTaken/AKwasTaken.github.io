@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | ASCII Art from Scratch</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.svg" />
+    <script src="/js/cache_buster.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/index.html" class="logo-link">
+          <div class="logo-item" data-src="/assets/logo.svg"></div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
+          <li><a href="/projects.html" class="nav-item">Projects</a></li>
+          <li><a href="/blog.html" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="/contact.html" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="blog-content">
+        <div class="blog-header">
+            <h1 class="blog-heading">ASCII Art from Scratch</h1>
+            <span class="blog-creation-time">October 12, 2025</span>
+        </div>
+
+        <div class="blog-body">
+            <h2>Prologue</h2>
+<p>I was wondering for a while about how ascii-art generators map pixels to letters, and thought of giving it a go, with a very basic understanding of how it should happen. A lot of simple generators out there just use a hardcoded string of characters sorted by vibe and intuitive brightness, like <code>&quot; .:-=+*#%@&quot;</code>. While that works as a quick hack, it isn&#39;t super precise, or experimental. Different fonts render characters with entirely different weights, shapes, and aspect ratios.</p>
+<p>I wanted to fix that. In this post, I built an intelligent (debatable), highly accurate ASCII art generator. It dynamically calculates the absolute visual weight of characters from a real monospaced font (<code>UbuntuMono-Regular.ttf</code>), maps them to a normalized 0.0 to 1.0 scale, and turns any monochrome image into a beautiful textual masterpiece.</p>
+<hr>
+<p><img src="../../blogs/asciiart/generated.png" alt="Image" class="blog-image" /></p>
+<h2>The Core Concept</h2>
+<p>The game plan has five key milestones:</p>
+<ol>
+<li><strong>Extracting Font Glyphs:</strong> Reading the TrueType font (<code>.ttf</code>) file to grab all the printable characters.</li>
+<li><strong>Measuring Glyph Densities:</strong> Rendering each character onto a temporary canvas using <code>Pillow</code> and calculating the exact percentage of pixels filled.</li>
+<li><strong>Normalization:</strong> Scaling those weight values smoothly across a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[0, 1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span> interval.</li>
+<li><strong>Image Preprocessing:</strong> Tweaking the source image size, stretching or shrinking it to account for the font&#39;s tall character aspect ratio.</li>
+<li><strong>Pixel Mapping:</strong> Matching individual pixel lightness values against our calculated character densities using a nearest-neighbor approach.</li>
+</ol>
+<hr>
+<h2>Phase 1: Environment Setup &amp; Extracting Glyphs</h2>
+<p>First, we need to install our dependencies. We will use <code>fonttools</code> to look inside the font&#39;s internal character mappings (<code>cmap</code>), and <code>Pillow</code> to handle all the image and text rendering.</p>
+<pre><code class="language-bash">pip install fonttools pillow
+</code></pre>
+<p>Next, I loaded the font and read all available characters. TrueType fonts organize their mappings in internal tables. I looped over these tables to extract valid Unicode values and filter out things I can&#39;t print.</p>
+<pre><code class="language-python">import sys
+from fontTools.ttLib import TTFont
+from PIL import Image, ImageDraw, ImageFont
+
+# Load the TrueType Font
+ttf = TTFont(&quot;UbuntuMono-Regular.ttf&quot;)
+characters = set()
+
+# Extract printable characters from font tables
+for table in ttf[&#39;cmap&#39;].tables:
+    for code, _ in table.cmap.items():
+        char = chr(code)
+        if char.isprintable():
+            characters.add(char)
+</code></pre>
+<h3>Refining the Dataset</h3>
+<p>Extracting every single valid character from modern fonts can pull in thousands of weird Unicode glyphs, math operators, and other stuff that screw up our density curve, and/or look weird. To clean this up, we write all the characters into a text file, <code>characters.txt</code>, review it manually and delete the unnecessary characters.</p>
+<pre><code class="language-python">with open(&quot;characters.txt&quot;, &quot;w&quot;) as f:
+    for char in sorted(characters):
+        f.write(f&quot;{char}\n&quot;)
+</code></pre>
+<p>After a few minutes of silent manual reviewing, we then import the file and read the characters that survived the plague, that is us.</p>
+<pre><code class="language-python">with open(&quot;characters.txt&quot;, &quot;r&quot;) as f:
+    lines = f.readlines()
+
+# Clean and sort our curated character set
+characters = sorted([line.strip() for line in lines if line.strip()])
+</code></pre>
+<hr>
+<h2>Phase 2: Calculating Exact Character Fill Percentages</h2>
+<p>Now for the fun part. Instead of guessing how &quot;bright&quot; a character is, we render each one onto a black canvas, color the text in pure white (<code>255</code>), and find the sum of all pixel values. This will be our <code>grey</code> value, that we&#39;ll use to map to the pixels.</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Fill Percentage</mtext><mo>=</mo><mfrac><mrow><mo>∑</mo><mtext>Pixel Values</mtext></mrow><mrow><mtext>Width</mtext><mo>×</mo><mtext>Height</mtext><mo>×</mo><mn>255</mn></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Fill Percentage} = \frac{\sum \text{Pixel Values}}{\text{Width} \times \text{Height} \times 255}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Fill Percentage</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.3074em;vertical-align:-0.8804em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Width</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">Height</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">255</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">Pixel Values</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.8804em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<pre><code class="language-python"># Initialize the font structure at a readable point size
+font = ImageFont.truetype(&quot;UbuntuMono-Regular.ttf&quot;, 20)
+
+ascent, descent = font.getmetrics()
+canvas_height = ascent + descent
+
+result = []
+
+for char in characters:
+    char_width = font.getlength(char)
+    width = int(round(char_width))
+    height = int(round(canvas_height))
+
+    # Catch edge cases where a glyph might be empty
+    if width == 0 or height == 0:
+        result.append((char, 0))
+        continue
+
+    # Render glyph onto a monochrome black canvas
+    image = Image.new(&quot;L&quot;, (width, height), color=0)
+    draw = ImageDraw.Draw(image)
+    draw.text((0, 0), char, font=font, fill=255)
+
+    # Calculate density
+    pixels = list(image.getdata())
+    max_weight = width * height * 255
+    actual_weight = sum(pixels)
+
+    fill_percentage = actual_weight / max_weight if max_weight &gt; 0 else 0
+    result.append((char, fill_percentage))
+
+# Sort characters from darkest (least filled) to brightest (most filled)
+result.sort(key=lambda x: x[1])
+</code></pre>
+<hr>
+<h2>Phase 3: Min-Max Normalization</h2>
+<p>The fill percentage of an average font will rarely span the absolute extremes of 0% to 100%. For example, a space character <code> </code> has a <code>0.0</code> fill, while a super dense character like <code>@</code> or <code>#</code> might top out around 35-40%.</p>
+<p>To map these nicely to image pixels (which go all the way from fully black to fully white), we apply standard <strong>Min-Max Normalization</strong> to rescale our bounds cleanly between 0 and 1.</p>
+<p>The program might remove the space character from the character set, but we need it to denote empty space (or pure white pixels). So we remove the smallest value and replace it with the space character.</p>
+<pre><code class="language-python">min_val = min(result, key=lambda x: x[1])
+max_val = max(result, key=lambda x: x[1])
+
+adjusted_val = []
+
+for x, y in result:
+    # Rescale mathematically: (val - min) / (max - min)
+    adj_y = (y - min_val[1]) / (max_val[1] - min_val[1]) if max_val[1] != min_val[1] else 0
+    adjusted_val.append((x, adj_y))
+
+# Explicitly ensure the empty space character represents absolute zero brightness
+space_char = (&#39; &#39;, 0)
+if (&#39;`&#39;, 0.0) in adjusted_val:
+    adjusted_val.remove((&#39;`&#39;, 0.0))
+adjusted_val.append(space_char)
+
+# Final sort
+adjusted_val.sort(key=lambda x: x[1])
+</code></pre>
+<hr>
+<h2>Phase 4: Image Processing &amp; Aspect Ratio Correction</h2>
+<p>Images are made of square pixels, but terminal and monospaced font characters are usually tall rectangles. If you map pixels directly to characters 1:1, your ASCII image will look heavily stretched vertically.</p>
+<p>To fix this, we apply a <strong>font aspect correction factor</strong> (usually around 0.4 to 0.5 for standard console fonts like Ubuntu Mono). We also invert the image values so that darker pixels match denser font characters (or vice-versa depending on your backdrop theme - here, we setup for dark backgrounds).</p>
+<pre><code class="language-python"># Open image and convert to monochrome Grayscale (&quot;L&quot;)
+img = Image.open(&quot;leaves.png&quot;).convert(&quot;L&quot;)
+
+target_width = 200 
+width_percent = target_width / float(img.size[0])
+
+# Apply aspect ratio correction so the output isn&#39;t stretched
+font_aspect_correction = 0.4 
+target_height = int(float(img.size[1]) * width_percent * font_aspect_correction)
+
+# Resize utilizing a clean Lanczos filter
+img = img.resize((target_width, target_height), Image.Resampling.LANCZOS)  
+
+pixels = img.load()
+width, height = img.size
+
+lightness_val = []
+
+for y in range(height):
+    row = []
+    for x in range(width):
+        lightness = pixels[x, y] / 255
+        lightness = 1 - lightness # Invert lightness depending on standard dark display
+        row.append(lightness)
+    lightness_val.append(row)
+</code></pre>
+<p><em>LANCZOS (a heavily watered down explanation): It&#39;s just an anti-aliased resampler on drugs. Scales up or down the image, and adds smoothing to the edges, to make it look better.</em></p>
+<hr>
+<h2>Phase 5: Nearest-Neighbor Character Matching</h2>
+<p>With our image pixel values and font character densities both normalized between 0 and 1, matching them is incredibly simple. For each pixel, we find the absolute difference between its value and the densities of our character database, picking the closest match.</p>
+<pre><code class="language-python">def closest_linear(target):
+    # Standard nearest match search
+    return min(adjusted_val, key=lambda x: abs(x[1] - target))
+</code></pre>
+<p>Finally, we run through our preprocessed lightness grid, swap the values out for characters, and write them to a file.</p>
+<pre><code class="language-python">with open(&quot;ascii_art.txt&quot;, &quot;w&quot;) as ascii_img:
+    for row in lightness_val:
+        line = &quot;&quot;
+        for lightness in row:
+            char, _ = closest_linear(lightness)
+            line += char
+        ascii_img.write(line + &quot;\n&quot;)
+        
+print(&quot;ASCII art successfully generated and saved to ascii_art.txt!&quot;)
+</code></pre>
+<hr>
+<h2>Conclusion</h2>
+<p>By analyzing actual font glyph pixel density rather than just guessing weights arbitrarily, we created a generator that customizes its output to match the exact look of <code>Ubuntu Mono</code>.</p>
+<p>We can swap out the <code>.ttf</code> file for any font (like <em>Courier New</em>, <em>Fira Code</em>, or even <em>Comic Sans</em>) to see how font design changes the final texture of the generated artwork! (Might look annoyingly bad, since it works best only with mono fonts)</p>
+
+          <hr>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <h3 class="footer-h3">Aneeth Kumaar</h3>
+        <p class="footer-p">
+          Made with HTML, CSS and JS, and a lot of frenzy googling. Feel free to
+          check out the source code of this project on my github profile. If you
+          wish to reference or reuse it, I'll be honoured, but please do
+          affiliate me.
+        </p>
+
+        <div class="footer-socials">
+          <a
+            href="https://github.com/AKwasTaken"
+            class="social-link"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img
+              src="/assets/icons/socials/github.svg"
+              class="social-icon"
+              alt="GitHub"
+            />
+          </a>
+
+          <a
+            href="https://instagram.com/akcontinuum"
+            class="social-link"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img
+              src="/assets/icons/socials/instagram.svg"
+              class="social-icon"
+              alt="Instagram"
+            />
+          </a>
+
+          <a
+            href="https://linkedin.com/in/aneeth-kumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/assets/icons/socials/linkedin.svg"
+              class="social-icon"
+              alt="LinkedIn"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/@aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <img
+              src="/assets/icons/socials/youtube.svg"
+              class="social-icon"
+              alt="YouTube"
+            />
+          </a>
+
+          <a
+            href="https://www.fiverr.com/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Fiverr"
+          >
+            <img
+              src="/assets/icons/socials/fiverr.svg"
+              class="social-icon"
+              alt="Fiverr"
+            />
+          </a>
+
+          <a
+            href="https://www.behance.net/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Behance"
+          >
+            <img
+              src="/assets/icons/socials/behance.svg"
+              class="social-icon"
+              alt="Behance"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/nav_menu.js"></script>
+    <script src="/js/load_icons.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMath()"></script>
+    
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    </script>
+  </body>
+</html>

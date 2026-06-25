@@ -1,0 +1,81 @@
+const fs = require('fs');
+const path = require('path');
+// Import the library directly 
+const imageSize = require('image-size'); 
+
+const galleryDir = path.resolve(__dirname, '../assets/gallery');
+const templateFile = path.resolve(__dirname, '../dist/gallery-template.html');
+const outputFile = path.resolve(__dirname, '../gallery.html');
+
+const supportedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg'];
+
+// console.log('Scanning gallery directory...');
+
+fs.readdir(galleryDir, (err, files) => {
+  if (err) {
+    console.error(`Error reading directory: ${galleryDir}`);
+    process.exit(1);
+  }
+
+  const imageFiles = files.filter(file => {
+    return supportedExtensions.includes(path.extname(file).toLowerCase());
+  });
+
+  if (imageFiles.length === 0) {
+    console.warn('No images found in assets/gallery/. Generating an empty grid.');
+  }
+
+  let gridHtml = '\n<div class="masonry-grid">\n';
+  
+  imageFiles.forEach(file => {
+    const filePath = path.join(galleryDir, file);
+    const name = path.parse(file).name;
+    let inlineStyle = '';
+
+    try {
+      // 1. Read the file header into a memory buffer
+      const fileBuffer = fs.readFileSync(filePath);
+      
+      // 2. Resolve the function cleanly regardless of default/named exports
+      const parseDimensions = typeof imageSize === 'function' 
+        ? imageSize 
+        : (imageSize.imageSize || imageSize.default);
+
+      // 3. Extract dimensions from the binary buffer
+      const dimensions = parseDimensions(fileBuffer);
+      
+      if (dimensions && dimensions.width && dimensions.height) {
+        inlineStyle = ` style="aspect-ratio: ${dimensions.width} / ${dimensions.height};"`;
+      }
+    } catch (e) {
+      console.warn(`Could not read native dimensions for ${file}:`, e.message);
+    }
+
+    gridHtml += `  <div class="masonry-item skeleton">\n`;
+    gridHtml += `    <img \n`;
+    gridHtml += `      src="assets/gallery/${file}" \n`;
+    gridHtml += `      alt="${name}" \n`;
+    gridHtml += `      loading="lazy"\n`;
+    gridHtml += `     ${inlineStyle}\n`;
+    gridHtml += `    />\n`;
+    gridHtml += `  </div>\n`;
+  });
+  gridHtml += '</div>\n';
+
+  fs.readFile(templateFile, 'utf8', (readErr, templateContent) => {
+    if (readErr) {
+      console.error(`Error reading template file: ${templateFile}`);
+      process.exit(1);
+    }
+
+    const finalHtml = templateContent.replace('${gallery-content}', gridHtml);
+
+    fs.writeFile(outputFile, finalHtml, 'utf8', (writeErr) => {
+      if (writeErr) {
+        console.error('Error writing the final gallery.html file:', writeErr);
+      } else {
+        console.log(`Compiled: gallery.html with ${imageFiles.length} images.`);
+      }
+    });
+  });
+});

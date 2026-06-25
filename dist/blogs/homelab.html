@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | A Painful Homelabbing Journey</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.svg" />
+    <script src="/js/cache_buster.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/index.html" class="logo-link">
+          <div class="logo-item" data-src="/assets/logo.svg"></div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
+          <li><a href="/projects.html" class="nav-item">Projects</a></li>
+          <li><a href="/blog.html" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="/contact.html" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="blog-content">
+        <div class="blog-header">
+            <h1 class="blog-heading">A Painful Homelabbing Journey</h1>
+            <span class="blog-creation-time">April 15, 2026</span>
+        </div>
+
+        <div class="blog-body">
+            <p>This is a chronological log of my experience with setting up a personal home server on a Linux Mint Laptop (Acer ES1-132) on a campus network (IISER TVM), known for its heavy restrictions (Sophos firewalls, captive portals, subnets).</p>
+<p>This blog documents what I tried, what worked, and what failed.</p>
+<h2>Phase 0: Initial Setup</h2>
+<blockquote>
+<p><strong>Goal:</strong> Turn a crappy Linux Mint laptop into a basic home server.</p>
+</blockquote>
+<p>I started with Ubuntu, but that had a lot of issues (that I don&#39;t even want to talk about), then installed a clean distro of Linux Mint. Why Mint? It is optimized for performance, and my laptop has a sum total of <strong>4 GB of RAM</strong>.</p>
+<h3>What I Did:</h3>
+<ul>
+<li><p>Installed Linux Mint on the laptop, set up the user account, and connected to the campus WiFi to verify internet access.</p>
+</li>
+<li><p><strong>SSH Setup:</strong> Essential for remote access-ing into my server-laptop from my Mac.</p>
+<p>  Bash</p>
+<pre><code>sudo apt update
+sudo apt install openssh-server
+sudo systemctl enable --now ssh
+</code></pre>
+</li>
+<li><p><strong>Finding the IP:</strong> Ran <code>hostname -I</code> to get the local IP and connected from my Mac via <code>ssh username@&lt;ip-address&gt;</code>.</p>
+<ul>
+<li><em>The Catch:</em> This only worked inside the same network initially, and the IP changes every single time the laptop reconnects to the WiFi. Annoying.</li>
+</ul>
+</li>
+<li><p><strong>Directory Layout &amp; Permissions:</strong> Set up basic folders for future data and fixed ownership mismatches:</p>
+<p>  Bash</p>
+<pre><code>mkdir -p ~/Jellyfin/Films ~/Jellyfin/TV ~/Movies
+sudo chown -R akwastaken:akwastaken ~/Jellyfin
+chmod -R 775 ~/Jellyfin
+</code></pre>
+</li>
+<li><p><strong>Shell Scripting Basics:</strong> Created simple automation scripts, tossed them into <code>nano script.sh</code>, made them executable with <code>chmod +x</code>, and moved them to <code>/usr/local/bin/script</code> so they work globally.</p>
+</li>
+</ul>
+<hr>
+<h2>Phase 1: The Minecraft Server</h2>
+<blockquote>
+<p><strong>Goal:</strong> Host a legit Minecraft server locally. This was my first exposure to running long-lived processes and server configuration.</p>
+</blockquote>
+<h3>Java Setup:</h3>
+<p>I needed Java 21. I ran into a few errors while installing it, but got it fixed. Those errors I deem detrimental to a blog such as this, so we move.</p>
+<p>Bash</p>
+<pre><code>sudo apt update
+sudo apt install openjdk-21-jdk
+</code></pre>
+<h3>Server Execution:</h3>
+<ol>
+<li><p>Created <code>mkdir ~/mcserver</code> and grabbed the server jar via <code>wget</code> (specific version links can be found on Mojang&#39;s site).</p>
+</li>
+<li><p>Ran it the first time: <code>java -Xmx2G -Xms2G -jar server.jar nogui</code>.</p>
+</li>
+<li><p>Crashed because of the EULA. Opened <code>nano eula.txt</code>, changed <code>eula=false</code> to <code>eula=true</code>, and fired it up again.</p>
+</li>
+<li><p><strong>Success!</strong> My friends and I could join using <code>&lt;ip-address&gt;:25565</code>, but <em>only</em> within the exact same WiFi network. No remote access yet. Later experimented with a Modded Server using the Fabric Server Loader (which requires matching client-side mods).</p>
+</li>
+</ol>
+<hr>
+<h2>Phase 2: Download Tools</h2>
+<blockquote>
+<p><strong>Goal:</strong> Download media files efficiently onto the server.</p>
+</blockquote>
+<h3>Attempt 1: aria2c (CLI)</h3>
+<p>I tried using <code>aria2c</code> as a CLI torrent downloader. Massive headache.</p>
+<ul>
+<li><p>When running <code>aria2c &quot;magnet:?xt=...&quot;</code>, the command would split incorrectly due to the <code>&amp;</code> symbols in the link, triggering multiple chaotic background jobs.</p>
+</li>
+<li><p>It gave me endless DHT routing table issues, zero peers, and no progress. It&#39;s powerful, but way less intuitive for torrent management and magnet links.</p>
+</li>
+</ul>
+<h3>The Fix: qBittorrent-nox</h3>
+<p>This is a web-version of qBittorrent that you can access via a web UI from anywhere using the server&#39;s IP.</p>
+<p>Bash</p>
+<pre><code>sudo apt install qbittorrent-nox
+</code></pre>
+<p>If you just run <code>qbittorrent-nox</code>, it keeps the program trapped in your open SSH terminal. To avoid this, I ran it as a daemon instance:</p>
+<p>Bash</p>
+<pre><code>qbittorrent-nox -d
+</code></pre>
+<p>Downloads worked reliably, peer discovery was automatic, and pointing the download directories to <code>~/Jellyfin/TV</code> and <code>~/Jellyfin/Films</code> was a breeze after I re-fixed folder permissions with <code>chmod -R 775</code>.</p>
+<hr>
+<h2>Phase 3: Plex (Failed Attempt)</h2>
+<blockquote>
+<p><strong>Goal:</strong> Set up a mainstream media server.</p>
+</blockquote>
+<ul>
+<li><p><strong>What worked:</strong> Local streaming.</p>
+</li>
+<li><p><strong>What failed:</strong> Remote streaming outside the network completely broke. The setup heavily relies on Plex Relay or paid subscriptions to bypass network restrictions.</p>
+</li>
+<li><p><strong>Conclusion:</strong> Plex is not ideal for highly restricted networks. A huge headache. Deprecated immediately.</p>
+</li>
+</ul>
+<hr>
+<h2>Phase 4: Jellyfin (Major Success)</h2>
+<blockquote>
+<p><strong>Goal:</strong> A completely local, restriction-free media server to completely replace Plex.</p>
+</blockquote>
+<p>Bash</p>
+<pre><code>sudo apt install jellyfin
+sudo systemctl enable --now jellyfin
+</code></pre>
+<p>I opened up <code>http://&lt;server-ip&gt;:8096</code> in my browser, skipped the metadata options initially to keep things fast, and linked my <code>~/Jellyfin/Films</code> and <code>~/Jellyfin/TV</code> folders.</p>
+<p>It scanned and detected everything automatically. I tested it on my phone using the iOS app <strong>Streamyfin</strong> via the local IP—playback worked flawlessly. No external accounts needed, clean UI, and highly reliable local streaming.</p>
+<hr>
+<h2>Phase 5: Networking Problems Begin</h2>
+<blockquote>
+<p><strong>The Reality Check:</strong> The campus network is actively hostile to homelabs.</p>
+</blockquote>
+<h3>The Obstacles:</h3>
+<ul>
+<li><p>The WiFi requires manual login through a <strong>captive portal</strong> (<code>https://gateway.iisertvm.ac.in:8090/httpclient.html</code>).</p>
+</li>
+<li><p>The internet completely cuts out after the portal session expires. Since the server has no display, I can&#39;t just open a browser to log back in.</p>
+</li>
+<li><p>The IP address changes constantly on reconnect.</p>
+</li>
+<li><p><strong>Subnet Isolation:</strong> Devices on the campus network are split into different subnets. Just because my phone and server are on the &quot;same&quot; WiFi doesn&#39;t mean they can talk to each other.</p>
+</li>
+<li><p>Using <code>&lt;hostname&gt;.local</code> (mDNS) only worked sporadically and completely failed across different subnets. I tried automated <code>curl</code> login scripts, but the portal&#39;s login tokens change dynamically, making automation highly unreliable.</p>
+</li>
+</ul>
+<hr>
+<h2>Phase 6: SSH Tunneling</h2>
+<blockquote>
+<p><strong>Goal:</strong> Remotely access the campus login portal through the server.</p>
+</blockquote>
+<p>I tried using SSH local port forwarding to bridge the gap:</p>
+<p>Bash</p>
+<pre><code>ssh -L 8090:gateway.iisertvm.ac.in:8090 akwastaken@&lt;server-ip&gt;
+</code></pre>
+<ul>
+<li><p><strong>How it works:</strong> This opens port 8090 on my Mac and forwards all traffic directly to the campus gateway through the server. I could go to <code>http://localhost:8090/httpclient.html</code> on my Mac and interact with the login portal remotely!</p>
+</li>
+<li><p><strong>The Problem:</strong> It requires an active, manual SSH session. I tried running it in the background (<code>ssh -f -N -L ...</code>), but if the port is already in use, it fails. It&#39;s a neat temporary trick, but not scalable.</p>
+</li>
+</ul>
+<hr>
+<h2>Phase 7: VPN Setup (sshvpn)</h2>
+<blockquote>
+<p><strong>Goal:</strong> Use the official campus VPN to bypass the captive portal altogether.</p>
+</blockquote>
+<p>I grabbed the <code>.ovpn</code> file from the campus VPN portal, installed OpenVPN, and set up a credentials file (<code>creds.txt</code>) containing my username and password inside <code>/etc/sshvpn/</code>.</p>
+<h3>Automation via systemd:</h3>
+<p>Running it manually blocks the terminal, so I wrapped it into a systemd service (<code>/etc/systemd/system/sshvpn.service</code>):</p>
+<p>Ini, TOML</p>
+<pre><code>[Unit]
+Description=OpenVPN SSH VPN
+After=network.target
+
+[Service]
+ExecStart=/usr/sbin/openvpn --config /etc/sshvpn/config.ovpn --auth-user-pass /etc/sshvpn/creds.txt
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>I then built a custom bash wrapper script named <code>sshvpn</code> and threw it into <code>/usr/local/bin/</code> so I could manage the connection globally using simple commands like <code>sshvpn start</code>, <code>sshvpn stop</code>, and <code>sshvpn update &lt;path-to-ovpn&gt;</code>.</p>
+<ul>
+<li><p><strong>The Result:</strong> The VPN successfully connected, and internet access worked without ever needing the captive portal.</p>
+</li>
+<li><p><strong>The New Problem:</strong> The second the VPN starts, it completely overrides the routing table, breaking existing local connections and dropping my active SSH terminal. Managing it remotely became a game of chess.</p>
+</li>
+</ul>
+<hr>
+<h2>Phase 8: Tailscale (Breakthrough)</h2>
+<blockquote>
+<p><strong>Goal:</strong> Stable remote access from <em>anywhere</em> without dealing with local IPs, subnets, or port forwarding.</p>
+</blockquote>
+<p>Bash</p>
+<pre><code>curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up
+</code></pre>
+<ul>
+<li><p><strong>The Magic:</strong> Tailscale assigns the server a fixed <code>100.x.x.x</code> IP. When testing on a mobile hotspot, it worked flawlessly. I could SSH into the server and access all my services from absolutely anywhere.</p>
+</li>
+<li><p><strong>The Campus Firewall Boss Fight:</strong> The moment I switched back to the raw campus WiFi, Tailscale dropped. The Sophos firewall blocks Tailscale&#39;s control/coordination traffic entirely, causing connection resets and auth failures.</p>
+</li>
+<li><p><strong>The Workaround:</strong> If I connect the server to a mobile hotspot, run <code>tailscale up</code> to authenticate, and <em>then</em> switch to campus WiFi <strong>while the campus VPN is running</strong>, Tailscale works! The VPN tunnels the traffic past the Sophos firewall restrictions.</p>
+</li>
+</ul>
+<hr>
+<h2>Phase 9: VPN vs. Tailscale Conflict</h2>
+<blockquote>
+<p><strong>The Nightmare:</strong> OpenVPN and Tailscale absolutely hate sharing the same routing table.</p>
+</blockquote>
+<p>When the campus VPN starts, it forces a global routing split:</p>
+<p>Plaintext</p>
+<pre><code>0.0.0.0/1 via &lt;vpn-gateway&gt; dev tun0
+128.0.0.0/1 via &lt;vpn-gateway&gt; dev tun0
+</code></pre>
+<p>This forces <em>all</em> internet traffic through <code>tun0</code>. Because the VPN overrides local routing, Tailscale&#39;s traffic gets sucked into the VPN tunnel, clashes with the Sophos firewall on the other end, and causes Tailscale to report as offline.</p>
+<h3>Failed Fixes:</h3>
+<ol>
+<li><p><strong>Manual Route Overrides:</strong> I tried running <code>sudo ip route add 100.64.0.0/10 via &lt;local-gateway&gt;</code> to force Tailscale outside the VPN. It was highly unstable and broke constantly.</p>
+</li>
+<li><p><strong>Split Tunneling:</strong> Trying to modify the campus VPN behavior to not route everything failed because the raw campus network just goes back to blocking Tailscale.</p>
+</li>
+</ol>
+<h3>Key Insight:</h3>
+<p>There are only two stable modes here:</p>
+<ol>
+<li><p>Tailscale <em>without</em> VPN (Works only outside campus network restrictions).</p>
+</li>
+<li><p>Tailscale <em>inside</em> VPN (Works because traffic is tunneled, but manual routing overrides are fragile and easily broken).</p>
+</li>
+</ol>
+<h2>Phase 10: vpnbox (Per-App VPN - DOESN&#39;T WORK)</h2>
+<blockquote>
+<p><strong>Goal:</strong> Use Linux network namespaces to isolate the VPN traffic.</p>
+</blockquote>
+<p>I wanted <code>qBittorrent</code> to route strictly through the campus VPN, while keeping the rest of the OS on the normal network so Tailscale wouldn&#39;t break.</p>
+<h3>The Execution:</h3>
+<ul>
+<li><p>Created a dedicated network namespace.</p>
+</li>
+<li><p>Spawned the OpenVPN instance inside that namespace.</p>
+</li>
+<li><p>Ran <code>qbittorrent-nox</code> inside that same namespace.</p>
+</li>
+</ul>
+<h3>The Failure:</h3>
+<p>It completely isolated the traffic, but it worked <em>too</em> well. Because qBittorrent was locked entirely inside the isolated <code>vpnbox</code> namespace, I couldn&#39;t access its Web UI from the outside network. It is permanently stuck inside the box. Back to the drawing board.</p>
+<h2>Phase 11: Dashboard!</h2>
+<blockquote>
+<p><strong>Goal:</strong> Build a clean homelab dashboard to track everything.</p>
+</blockquote>
+<p>I saw a YouTube video of someone vibe-coding a gorgeous homelab dashboard. I wanted to avoid using AI as much as possible, so I found an open-source project called <strong>Flame</strong>.</p>
+<h3>The Setup:</h3>
+<p>I spun up Docker, pulled the Flame container image, and deployed it.</p>
+<h3>Observation:</h3>
+<p>Flame is incredibly minimalistic, but honestly, I want something that gives me actual real-time system information and metrics at a glance. Flame is a bit too barebones for my taste, so I am planning to scrap it and switch to the <strong>Homepage</strong> dashboard next.</p>
+
+          <hr>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <h3 class="footer-h3">Aneeth Kumaar</h3>
+        <p class="footer-p">
+          Made with HTML, CSS and JS, and a lot of frenzy googling. Feel free to
+          check out the source code of this project on my github profile. If you
+          wish to reference or reuse it, I'll be honoured, but please do
+          affiliate me.
+        </p>
+
+        <div class="footer-socials">
+          <a
+            href="https://github.com/AKwasTaken"
+            class="social-link"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img
+              src="/assets/icons/socials/github.svg"
+              class="social-icon"
+              alt="GitHub"
+            />
+          </a>
+
+          <a
+            href="https://instagram.com/akcontinuum"
+            class="social-link"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img
+              src="/assets/icons/socials/instagram.svg"
+              class="social-icon"
+              alt="Instagram"
+            />
+          </a>
+
+          <a
+            href="https://linkedin.com/in/aneeth-kumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/assets/icons/socials/linkedin.svg"
+              class="social-icon"
+              alt="LinkedIn"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/@aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <img
+              src="/assets/icons/socials/youtube.svg"
+              class="social-icon"
+              alt="YouTube"
+            />
+          </a>
+
+          <a
+            href="https://www.fiverr.com/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Fiverr"
+          >
+            <img
+              src="/assets/icons/socials/fiverr.svg"
+              class="social-icon"
+              alt="Fiverr"
+            />
+          </a>
+
+          <a
+            href="https://www.behance.net/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Behance"
+          >
+            <img
+              src="/assets/icons/socials/behance.svg"
+              class="social-icon"
+              alt="Behance"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/nav_menu.js"></script>
+    <script src="/js/load_icons.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMath()"></script>
+    
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    </script>
+  </body>
+</html>

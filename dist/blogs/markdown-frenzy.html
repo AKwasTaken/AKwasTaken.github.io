@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | Markdown Frenzy</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.svg" />
+    <script src="/js/cache_buster.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/index.html" class="logo-link">
+          <div class="logo-item" data-src="/assets/logo.svg"></div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
+          <li><a href="/projects.html" class="nav-item">Projects</a></li>
+          <li><a href="/blog.html" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="/contact.html" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="blog-content">
+        <div class="blog-header">
+            <h1 class="blog-heading">Markdown Frenzy</h1>
+            <span class="blog-creation-time">May 10, 2026</span>
+        </div>
+
+        <div class="blog-body">
+            <h2>Prologue</h2>
+<p>Markdown is, by far, my favorite markup language (with HTML being its only real competitor). I use it everywhere. After spending an entire semester taking notes in Obsidian, my typing speed skyrocketed, and my notes started looking incredibly sharp. The best part? There is zero friction, you just open the editor and start typing.</p>
+<p>Eventually, I wanted to take all those raw notes and publish them in a professional, tidy format. That spark of inspiration led me down a rabbit hole where I discovered <strong>Quartz</strong> and <strong>Marked.js</strong>.</p>
+<hr>
+<h2>Quartz</h2>
+<p>Quartz is an absolute gem of a tool for students, created by <a href="https://github.com/jackyzha0">JZhao</a>. My friend and I used it to publish our notes for the upcoming semester, and the workflow felt like magic:</p>
+<ol>
+<li>Drop your Obsidian vault into the <code>content</code> folder.</li>
+<li>Let GitHub Actions handle the JavaScript compilation during deployment.</li>
+<li>Your site is live!</li>
+</ol>
+<p>While it is incredibly automated, I quickly realized the project comes with a fair amount of bloat. Because it has had so many contributors over the years, the codebase contains redundant, deprecated junk code. The sheer number of dependencies made it feel overly complicated, and my lack of fluency in JavaScript became a hurdle I had to stumble over. I needed something leaner.</p>
+<hr>
+<h2>Marked.js</h2>
+<p>Enter <strong>Marked.js</strong> a much simpler alternative. While it is barebones and naturally has fewer features out of the box than Quartz, it targets a different audience and turned out to be exactly what I needed.</p>
+<p>It gives me total control:</p>
+<ul>
+<li><strong>Math rendering</strong> (via extensions).</li>
+<li><strong>Custom typesetting</strong> using my own stylesheets.</li>
+<li><strong>Minimalist architecture</strong> with zero bloat.</li>
+</ul>
+<p>It took me just three hours to get this blog up and running, something I’m incredibly proud of. The minimalist layout was heavily inspired by <a href="https://www.nic-nguyen.com/">Nicolas Nguyen</a>, whose website I stumbled across in this fantastic <a href="https://github.com/emmabostian/developer-portfolios">GitHub repository of developer portfolios</a>. I&#39;m incredibly grateful for the inspiration!</p>
+
+          <hr>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <h3 class="footer-h3">Aneeth Kumaar</h3>
+        <p class="footer-p">
+          Made with HTML, CSS and JS, and a lot of frenzy googling. Feel free to
+          check out the source code of this project on my github profile. If you
+          wish to reference or reuse it, I'll be honoured, but please do
+          affiliate me.
+        </p>
+
+        <div class="footer-socials">
+          <a
+            href="https://github.com/AKwasTaken"
+            class="social-link"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img
+              src="/assets/icons/socials/github.svg"
+              class="social-icon"
+              alt="GitHub"
+            />
+          </a>
+
+          <a
+            href="https://instagram.com/akcontinuum"
+            class="social-link"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img
+              src="/assets/icons/socials/instagram.svg"
+              class="social-icon"
+              alt="Instagram"
+            />
+          </a>
+
+          <a
+            href="https://linkedin.com/in/aneeth-kumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/assets/icons/socials/linkedin.svg"
+              class="social-icon"
+              alt="LinkedIn"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/@aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <img
+              src="/assets/icons/socials/youtube.svg"
+              class="social-icon"
+              alt="YouTube"
+            />
+          </a>
+
+          <a
+            href="https://www.fiverr.com/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Fiverr"
+          >
+            <img
+              src="/assets/icons/socials/fiverr.svg"
+              class="social-icon"
+              alt="Fiverr"
+            />
+          </a>
+
+          <a
+            href="https://www.behance.net/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Behance"
+          >
+            <img
+              src="/assets/icons/socials/behance.svg"
+              class="social-icon"
+              alt="Behance"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/nav_menu.js"></script>
+    <script src="/js/load_icons.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMath()"></script>
+    
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    </script>
+  </body>
+</html>

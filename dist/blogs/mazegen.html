@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | Generating Vector Mazes</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.svg" />
+    <script src="/js/cache_buster.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/index.html" class="logo-link">
+          <div class="logo-item" data-src="/assets/logo.svg"></div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
+          <li><a href="/projects.html" class="nav-item">Projects</a></li>
+          <li><a href="/blog.html" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="/contact.html" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="blog-content">
+        <div class="blog-header">
+            <h1 class="blog-heading">Generating Vector Mazes</h1>
+            <span class="blog-creation-time">June 24, 2026</span>
+        </div>
+
+        <div class="blog-body">
+            <h2>Prologue</h2>
+<p>I’ve always found standard maze generation tutorials a bit boring. Most of them rely on a standard grid that outputs plain console characters or pixelated blocks. They work, but they lack any real artistic style or flexibility. A typical generator uses coordinates starting at <code>(0,0)</code> in the top-left corner, which is fine for basic grids but fails if you want to build in custom constraints from the start-like making an unchangeable starting courtyard sit right in the dead center of your map.</p>
+<p>I wanted to build something cleaner. In this post, we’ll build an asymmetric maze engine from scratch. It uses a custom coordinate setup centered around a zero-point <code>(0,0)</code>, automatically handles aspect ratio tweaks, tracks the escape route on the fly during a depth-first search (DFS), and renders sharp, clean vector SVGs with zero overlapping wall paths.</p>
+<hr>
+<h2>The Core Idea</h2>
+<p>The engine is built around five straightforward concepts:</p>
+<ol>
+<li><strong>The Center-Out Grid:</strong> Designing cells using custom coordinates so the maze expands outward from a true <code>(0,0)</code> center.</li>
+<li><strong>Pre-hollowed Courtyards:</strong> Carving out an open <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3\times3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span> starting zone right at the beginning and locking it so the generation algorithm can&#39;t mess with it.</li>
+<li><strong>Smart SVG Rendering:</strong> Instead of drawing four walls for every single cell - which creates overlapping lines and massive file sizes - cells only render their <code>up</code> and <code>right</code> walls, leaving outer edges to be handled separately.</li>
+<li><strong>Asymmetric Bounds:</strong> Using different widths and heights so the maze cleanly fits custom display limits.</li>
+<li><strong>On-the-Fly Path Tracking:</strong> Snapping a quick picture of the execution stack the exact millisecond the generator hits an outer edge tile.</li>
+</ol>
+<p><img src="../../blogs/mazeGen/maze_example.svg" alt="maze_image" class="blog-image" /></p>
+<hr>
+<h2>Phase 1: Environment Setup &amp; Cell Layout</h2>
+<p>First, let&#39;s set up our notebook environment and structure our basic data fields. We&#39;ll use <code>IPython</code> to handle native browser SVG formatting, and standard Python random tools for making algorithmic choices.</p>
+<pre><code class="language-bash"># Optional plotting additions for testing
+pip install matplotlib
+</code></pre>
+<p>Next, let&#39;s look at how we define a single <code>Cell</code>. Each unit tracks its own walls and path connections independently.</p>
+<pre><code class="language-python">class Cell:
+    &quot;&quot;&quot;Represents a single square unit in the maze grid.&quot;&quot;&quot;
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        
+        # Tracks structural walls (True means a solid wall exists)
+        self.walls = {&#39;up&#39;: True, &#39;down&#39;: True, &#39;left&#39;: True, &#39;right&#39;: True}
+        
+        # Tracks path connectivity (True means the path flows into this neighbor)
+        self.connections = {&#39;up&#39;: False, &#39;down&#39;: False, &#39;left&#39;: False, &#39;right&#39;: False}
+        
+        # Helper flag for tracking path generation states
+        self.visited = False
+</code></pre>
+<hr>
+<h2>Phase 2: Building the Coordinate Grid &amp; Courtyard</h2>
+<p>Instead of running a basic nested loop from <code>0</code> to <code>width</code>, we build a grid that stretches between negative and positive limits. This makes placing a centered courtyard incredibly simple, because we can just target a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3\times3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span> box right around the <code>(0,0)</code> origin.</p>
+<pre><code class="language-python">class ExistentialMazeGrid:
+    &quot;&quot;&quot;Manages an X x Y rectangular matrix of cells centered at (0,0).&quot;&quot;&quot;
+
+    def __init__(self, radius_x, radius_y):
+        self.half_w = radius_x
+        self.half_h = radius_y
+        self.width = radius_x * 2
+        self.height = radius_y * 2
+        
+        # Build the rectangular coordinate map containing Cell instances
+        self.grid = {}
+        for y in range(-self.half_h, self.half_h):
+            for x in range(-self.half_w, self.half_w):
+                self.grid[(x, y)] = Cell(x, y)
+                
+        self.solution_path = []
+
+    def get_cell(self, x, y):
+        return self.grid.get((x, y), None)
+</code></pre>
+<p>To give our maze a clear starting area, we break the inside walls of the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3\times3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span> grid around <code>(0,0)</code> and mark them all as visited before the path generation algorithm even kicks off.</p>
+<pre><code class="language-python">    def create_center_courtyard(self):
+        &quot;&quot;&quot;Pre-hollows out a 3x3 open starting space at the center (0,0).&quot;&quot;&quot;
+        center_coords = [
+            (-1, 1),  (0, 1),  (1, 1),
+            (-1, 0),  (0, 0),  (1, 0),
+            (-1, -1), (0, -1), (1, -1)
+        ]
+        
+        for x, y in center_coords:
+            cell = self.get_cell(x, y)
+            if cell:
+                cell.visited = True
+                
+        # Link courtyard cells internally
+        for x, y in center_coords:
+            if x &lt; 1:  self.connect_cells((x, y), (x + 1, y))
+            if y &lt; 1:  self.connect_cells((x, y), (x, y + 1))
+</code></pre>
+<hr>
+<h2>Phase 3: The Smart SVG Generator</h2>
+<p>If you draw an SVG by rendering four walls for every single square, you end up with duplicate lines wherever two cells meet. This doubles your file size and messes up transparency styling.</p>
+<p>To fix this, we use a cleaner approach: each cell is only allowed to render its <strong>Up</strong> and <strong>Right</strong> walls. Because cells share walls, the adjacent cell doesn&#39;t need to draw them. We then manually draw the absolute left and bottom borders of the maze as exceptions.</p>
+<pre><code class="language-python">    def generate_svg(self, cell_size=10, stroke_width=1.5, include_solution=False):
+        canvas_w = self.width * cell_size
+        canvas_h = self.height * cell_size
+        
+        svg_lines = [
+            f&#39;&lt;svg xmlns=&quot;[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)&quot; viewBox=&quot;0 0 {canvas_w} {canvas_h}&quot;&gt;&#39;,
+            f&#39;  &lt;rect width=&quot;100%&quot; height=&quot;100%&quot; fill=&quot;#ffffff&quot;/&gt;&#39;
+        ]
+        
+        for coord, cell in self.grid.items():
+            grid_x = cell.x + self.half_w
+            grid_y = cell.y + self.half_h
+            
+            left_x = grid_x * cell_size
+            right_x = left_x + cell_size
+            bottom_y = canvas_h - (grid_y * cell_size)
+            top_y = bottom_y - cell_size
+            
+            # Draw shared structural elements cleanly
+            if cell.walls[&#39;up&#39;]:
+                svg_lines.append(f&#39;  &lt;line x1=&quot;{left_x}&quot; y1=&quot;{top_y}&quot; x2=&quot;{right_x}&quot; y2=&quot;{top_y}&quot; stroke=&quot;#111111&quot; stroke-width=&quot;{stroke_width}&quot; stroke-linecap=&quot;round&quot;/&gt;&#39;)
+            if cell.walls[&#39;right&#39;]:
+                svg_lines.append(f&#39;  &lt;line x1=&quot;{right_x}&quot; y1=&quot;{top_y}&quot; x2=&quot;{right_x}&quot; y2=&quot;{bottom_y}&quot; stroke=&quot;#111111&quot; stroke-width=&quot;{stroke_width}&quot; stroke-linecap=&quot;round&quot;/&gt;&#39;)
+            
+            # Explicitly catch the outer boundaries
+            if cell.x == -self.half_w and cell.walls[&#39;left&#39;]:
+                svg_lines.append(f&#39;  &lt;line x1=&quot;{left_x}&quot; y1=&quot;{top_y}&quot; x2=&quot;{left_x}&quot; y2=&quot;{bottom_y}&quot; stroke=&quot;#111111&quot; stroke-width=&quot;{stroke_width}&quot;/&gt;&#39;)
+            if cell.y == -self.half_h and cell.walls[&#39;down&#39;]:
+                svg_lines.append(f&#39;  &lt;line x1=&quot;{left_x}&quot; y1=&quot;{bottom_y}&quot; x2=&quot;{right_x}&quot; y2=&quot;{bottom_y}&quot; stroke=&quot;#111111&quot; stroke-width=&quot;{stroke_width}&quot;/&gt;&#39;)
+                
+        return &quot;\n&quot;.join(svg_lines) + &#39;&lt;/svg&gt;&#39;
+</code></pre>
+<hr>
+<h2>Phase 4: Carving Paths &amp; Catching the Solution</h2>
+<p>We use a Randomized Depth-First Search (DFS) algorithm to carve out our maze paths. Normally, finding the solution path requires running a completely separate search algorithm (like <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>A</mi><mo>∗</mo></msup></mrow><annotation encoding="application/x-tex">A^*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6887em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6887em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span></span></span></span> or BFS) after the maze is already finished.</p>
+<p>We can optimize this by catching the solution path <em>while</em> the maze is being built. By tracking our progress on the algorithm&#39;s stack, we can grab a quick snapshot of the current path the exact moment the generator touches an outer edge for the very first time.</p>
+<pre><code class="language-python">    def gibberish(self):
+        &quot;&quot;&quot;Generates a perfect maze and records the exit route dynamically.&quot;&quot;&quot;
+        self.create_center_courtyard()
+        
+        start_coord = (1, 1) 
+        stack = [start_coord]
+        current_coord = start_coord
+        has_reached_exit = False
+        
+        while stack:
+            cx, cy = current_coord
+            
+            # Catch the boundary collision to record our path
+            if not has_reached_exit:
+                if cx == -self.half_w or cx == self.half_w - 1 or cy == -self.half_h or cy == self.half_h - 1:
+                    self.solution_path = [(0,0)] + list(stack)
+                    has_reached_exit = True
+            
+            unvisited_neighbors = []
+            for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                nx, ny = cx + dx, cy + dy
+                neighbor = self.get_cell(nx, ny)
+                if neighbor and not neighbor.visited:
+                    unvisited_neighbors.append((nx, ny))
+            
+            if unvisited_neighbors:
+                next_coord = random.choice(unvisited_neighbors)
+                self.connect_cells(current_coord, next_coord)
+                self.get_cell(*next_coord).visited = True
+                stack.append(next_coord)
+                current_coord = next_coord
+            else:
+                current_coord = stack.pop()
+</code></pre>
+<hr>
+<h2>Phase 5: Putting It Together &amp; Exporting</h2>
+<p>With everything set up, we can initialize a custom asymmetric canvas (like a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>128</mn><mo>×</mo><mn>172</mn></mrow><annotation encoding="application/x-tex">128 \times 172</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">128</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">172</span></span></span></span> layout) to generate our maze and save it right out to a scalable vector file.</p>
+<pre><code class="language-python"># Instantiate the grid with custom asymmetric dimensions
+maze = ExistentialMazeGrid(radius_x=64, radius_y=86)
+
+# Generate the structural paths and capture the solution
+maze.gibberish()
+
+# Export a clean, scalable vector asset
+maze.write_svg(filename=&quot;maze_soln.svg&quot;, include_solution=True)
+print(&quot;Vector layout compiled successfully!&quot;)
+</code></pre>
+<hr>
+<h2>Conclusion</h2>
+<p>By tracking cell data using a relative origin-centered coordinate map rather than a standard array index, we created a flexible grid system. This allows us to blend open architectural shapes with procedural generation mechanics seamlessly.</p>
+<p>This project was created as an addon for the PSI(t) magazine, &quot;Entangled&quot;. The whole premise is to create a &quot;Rage-bait&quot; maze, which is literally unsolvable, since I blocked off all the paths that lead to the exit, in the maze I submitted for the magazine. Pretty rad stuff.</p>
+
+          <hr>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <h3 class="footer-h3">Aneeth Kumaar</h3>
+        <p class="footer-p">
+          Made with HTML, CSS and JS, and a lot of frenzy googling. Feel free to
+          check out the source code of this project on my github profile. If you
+          wish to reference or reuse it, I'll be honoured, but please do
+          affiliate me.
+        </p>
+
+        <div class="footer-socials">
+          <a
+            href="https://github.com/AKwasTaken"
+            class="social-link"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img
+              src="/assets/icons/socials/github.svg"
+              class="social-icon"
+              alt="GitHub"
+            />
+          </a>
+
+          <a
+            href="https://instagram.com/akcontinuum"
+            class="social-link"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img
+              src="/assets/icons/socials/instagram.svg"
+              class="social-icon"
+              alt="Instagram"
+            />
+          </a>
+
+          <a
+            href="https://linkedin.com/in/aneeth-kumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/assets/icons/socials/linkedin.svg"
+              class="social-icon"
+              alt="LinkedIn"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/@aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <img
+              src="/assets/icons/socials/youtube.svg"
+              class="social-icon"
+              alt="YouTube"
+            />
+          </a>
+
+          <a
+            href="https://www.fiverr.com/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Fiverr"
+          >
+            <img
+              src="/assets/icons/socials/fiverr.svg"
+              class="social-icon"
+              alt="Fiverr"
+            />
+          </a>
+
+          <a
+            href="https://www.behance.net/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Behance"
+          >
+            <img
+              src="/assets/icons/socials/behance.svg"
+              class="social-icon"
+              alt="Behance"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/nav_menu.js"></script>
+    <script src="/js/load_icons.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMath()"></script>
+    
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    </script>
+  </body>
+</html>
