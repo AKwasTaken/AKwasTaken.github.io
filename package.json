@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "ffprobe-duration": "^0.1.0",
     "gray-matter": "^2.0.1",
     "image-size": "^2.0.2",
     "marked": "^18.0.5",
