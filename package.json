@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "ffprobe-duration": "^0.1.0",
     "gray-matter": "^2.0.1",
     "image-size": "^2.0.2",
     "marked": "^18.0.5",
@@ -9,7 +10,6 @@
   "version": "1.0.0",
   "description": "> \"41. Trying to be someone else, is a waste of the person you are.\" > > *-an acquaintance*",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "build": "node js/blog_engine.js && node js/build_gallery.js && node js/project_engine.js && node js/stamp_css.js"
   },
