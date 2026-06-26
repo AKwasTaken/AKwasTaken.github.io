@@ -89,6 +89,7 @@ function compileFolder(dir) {
 
     const sourceLink = data.source?.trim() || '#';
     const siteLink = data.site?.trim() || '#';
+    const downloadLink = data.download?.trim() || '#';
     const cleanedContent = content.replace(/\s*---\s*$/, '');
 
     let rawTags = data.tags;
@@ -118,6 +119,7 @@ function compileFolder(dir) {
 
     let source = "";
     let site = "";
+    let download = "";
     let projectLinkButtons = "";
 
     if (sourceLink !== "#") {
@@ -128,7 +130,11 @@ function compileFolder(dir) {
       site = `<span class="site-link"><a href="${siteLink}" target="_blank" class="site-link-button">Project Demo</a></span>`;
     }
 
-    projectLinkButtons = `${source} ${site}`;
+    if (downloadLink !== "#") {
+      download = `<span class="download-link"><a href="${downloadLink}" target="_blank" class="download-button">Download</a></span>`;
+    }
+
+    projectLinkButtons = `${source} ${site} ${download}`.trim();
 
     const htmlBody = marked.parse(cleanedContent);
     const finalHtml = projectTemplate

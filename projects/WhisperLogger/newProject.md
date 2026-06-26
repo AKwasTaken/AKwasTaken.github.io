@@ -3,6 +3,7 @@ title: "WhisperLogger"
 date: 2026-06-25
 desc: "A native macOS menu-bar utility for rapid, distraction-free text logging. Designed for developers and power users to capture structured chronological thoughts instantly without breaking a beat."
 source: "http://github.com/AKwasTaken/WhisperLogger"
+download: "https://github.com/AKwasTaken/WhisperLogger/releases"
 tags: ["Swift", "MacOS"]
 ---
 
@@ -30,53 +31,27 @@ WhisperLogger gives you complete flexibility over your organization. Using the `
 ### 3. Integrated Live Folder Navigation (`⌘ + O`)
 To keep your data highly accessible, pressing `⌘ + O` directly within the active logging entry window instantly opens your output workspace directory inside a native Finder window so you can view, move, or share your raw text files seamlessly.
 
+### 4. Custom Global Activation Hotkey & Recording
+WhisperLogger can be summoned instantly from anywhere on your Mac with a system-wide hotkey. Built natively with the `KeyboardShortcuts` framework, it defaults to `⌥ + Space`, but features a fully customizable, native recording field in Preferences so you can map it to whatever key combination fits your workflow.
+
 ![Log Page](logPage.png)
 
 ---
 
 ## Under the Hood: The Architecture
 
-WhisperLogger is built to be fast and compliant with modern macOS sandboxing rules. Here is how the core engine handles data under the hood:
+WhisperLogger is built to be fast, flexible, and completely friction-free. Here is how the core engine handles data under the hood:
 
-### 1. Sandboxed File Isolation
-To respect macOS security layers while keeping your files easily accessible, WhisperLogger isolates its data cleanly away from hidden system configuration paths. By default, it initializes its storage vault directly inside a dedicated, user-facing path: `~/Documents/WhisperLogger_Logs`. This ensures that the system file viewer can securely trigger Finder access on demand without running into permission boundaries.
-
-### 2. Multithreaded Async Disk I/O Pipeline
-To prevent dropped keystrokes or interface lag when committing long string streams, the entire file execution layer runs asynchronously:
+### 1. Unsandboxed Execution & Cooperative Activation
+To provide an unrestricted user experience where logs can be saved seamlessly anywhere on the file system, WhisperLogger runs as an unsandboxed utility. To prevent the application from stealing focus aggressively or getting trapped in the background under heavy window layouts, the app utilizes macOS 14+ **Cooperative App Activation**:
 
 ```swift
-DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-    guard let self = self else { return }
-
-    // Secure append and system file synchronization logic  
-    // happens completely out of process
-
-    self.refreshLogFiles()
+if let finderApp = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.finder").first {
+    if #available(macOS 14.0, *) {
+        NSApp.yieldActivation(to: finderApp)
+    }
+    DispatchQueue.main.async {
+        NSWorkspace.shared.activateFileViewerSelecting([standardizedURL])
+        finderApp.activate(options: [])
+    }
 }
-
-```
-
-Moving file serialization onto standard `.userInitiated` background worker channels ensures that text operations stay fast and concurrent, leaving the main thread completely untethered to keep the UI snappy and responsive.
-
----
-
-## Distribution & Presentation
-
-To package the tool cleanly without dealing with bloated layout configuration files, the application is compiled into a drag-and-drop installer image natively aligned to macOS dark-mode standards.
-
-Your active files are saved cleanly by timestamp, making it incredibly easy to parse your logging history linearly over days or weeks.
-
-![Preferences Panel](prefs.png)
-
----
-
-## What’s Coming Next
-
-While the application is fully optimized for targeted desktop logging, future lifecycle expansions are on the horizon, including:
-
-* **Global Hardware Hotkeys:** Listening to system-wide shortcuts (`⌥ + Space`) so the entry canvas can drop down instantly from anywhere across the OS.
-* **File Manager:** A window that can preview all the files created by the application, in the working directory.
-* **Log-file Support:** Support for log-files, since they are much more comfortable and easier to troubleshoot and work with.
-* **More UI Preferences:** Self-explanatory.
-
-*WhisperLogger is officially running stable. Check out the release page to grab the latest DMG build!*
