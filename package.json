@@ -11,7 +11,7 @@
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
-    "build": "node js/blog_engine.js && node js/build_gallery.js && node js/project_engine.js"
+    "build": "node js/blog_engine.js && node js/build_gallery.js && node js/project_engine.js && node js/stamp_css.js"
   },
   "repository": {
     "type": "git",
