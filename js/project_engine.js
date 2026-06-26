@@ -1,3 +1,6 @@
+console.log('Init: project_engine.js');
+
+
 const fs = require('fs');
 const path = require('path');
 const { Marked } = require('marked');
@@ -164,4 +167,4 @@ for (const project of allProjects) {
 // Replace placeholder variable inside index template and write out
 const finalIndexHtml = indexTemplate.replace(/\${projectListings}/g, finalGridMarkup.trim());
 fs.writeFileSync(INDEX_OUTPUT_PATH, finalIndexHtml);
-console.log('Compiled: projects.html with all grid elements.');
+console.log('Compiled: projects.html with all grid elements.\n');

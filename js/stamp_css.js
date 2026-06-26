@@ -1,7 +1,11 @@
+console.log('Init: stamp_css.js');
+
+
 const fs = require('fs');
 const path = require('path');
 
 const BUILD_STAMP = Date.now(); 
+const ROOT_DIR = path.join(__dirname, '..'); 
 
 function processDirectory(dirPath) {
   const files = fs.readdirSync(dirPath);
@@ -22,19 +26,24 @@ function processDirectory(dirPath) {
 
 function stampHTMLFile(filePath) {
   let content = fs.readFileSync(filePath, 'utf-8');
+  let wasUpdated = false;
 
-  const regex = /(<link\s+[^>]*id=["']main-theme-sheet["'][^>]*href=["'])([^"'\?]+)(?:\?v=[^"']*)?(["'])/g;
+  const linkTagRegex = /<link\s+[^>]*id=["']main-theme-sheet["'][^>]*>/gi;
 
-  if (regex.test(content)) {
-    const updatedContent = content.replace(regex, (match, before, srcPath, after) => {
-      console.log(`⚡ Stamping: ${path.relative(__dirname, filePath)} -> (${srcPath}?v=${BUILD_STAMP})`);
+  content = content.replace(linkTagRegex, (fullLinkTag) => {
+    wasUpdated = true;
+
+    const hrefRegex = /(href=["'])([^"'\?]+)(?:\?v=[^"']*)?(["'])/i;
+    
+    return fullLinkTag.replace(hrefRegex, (match, before, srcPath, after) => {
       return `${before}${srcPath}?v=${BUILD_STAMP}${after}`;
     });
+  });
 
-    fs.writeFileSync(filePath, updatedContent, 'utf-8');
+  if (wasUpdated) {
+    fs.writeFileSync(filePath, content, 'utf-8');
   }
 }
 
-
-processDirectory(__dirname);
-console.log(`Compiled: html files with the stamp ${BUILD_STAMP}.`);
+processDirectory(ROOT_DIR);
+console.log(`Compiled: HTML files successfully updated with stamp ${BUILD_STAMP}.\n`);
