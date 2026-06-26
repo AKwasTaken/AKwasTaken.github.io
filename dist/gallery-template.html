@@ -4,8 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AK | Gallery</title>
+
+    <link rel="preload" href="/assets/logo.svg" as="image" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/tanker/Tanker-Regular.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
+
     <link rel="icon" type="image/x-icon" href="favicon.svg" />
-    <link rel="stylesheet" href="/css/style.css?v=1782469369424" id="main-theme-sheet">
+    <link rel="stylesheet" href="/css/style.css?v=1782473297437" id="main-theme-sheet">
     
   </head>
   <body>
@@ -145,7 +149,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const startTime = performance.now();
-        const MIN_DELAY = 300; // 0.3 seconds minimum skeleton runtime
+        const MIN_DELAY = 1000;
         const items = document.querySelectorAll('.masonry-item');
 
         items.forEach(item => {

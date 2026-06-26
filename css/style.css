@@ -38,9 +38,9 @@ body {
 /* --- Font Engine Implementations --- */
 @font-face {
   font-family: 'Outfit';
-  src: url('../fonts/Outfit/Outfit-VariableFont_wght.woff2') format('woff2-variations'),
-       url('../fonts/Outfit/Outfit-VariableFont_wght.woff') format('woff-variations'),
-       url('../fonts/Outfit/Outfit-VariableFont_wght.ttf') format('truetype');
+  src: url('/fonts/Outfit/Outfit-VariableFont_wght.woff2') format('woff2-variations'),
+       url('/fonts/Outfit/Outfit-VariableFont_wght.woff') format('woff-variations'),
+       url('/fonts/Outfit/Outfit-VariableFont_wght.ttf') format('truetype');
   font-weight: 100 900; 
   font-display: swap;
   font-style: normal;
@@ -48,9 +48,9 @@ body {
 
 @font-face {
   font-family: 'Tanker-Regular';
-  src: url('../fonts/tanker/Tanker-Regular.woff2') format('woff2'),
-       url('../fonts/tanker/Tanker-Regular.woff') format('woff'),
-       url('../fonts/tanker/Tanker-Regular.ttf') format('truetype');
+  src: url('/fonts/tanker/Tanker-Regular.woff2') format('woff2'),
+       url('/fonts/tanker/Tanker-Regular.woff') format('woff'),
+       url('/fonts/tanker/Tanker-Regular.ttf') format('truetype');
   font-weight: 400;
   font-display: swap;
   font-style: normal;
@@ -58,9 +58,9 @@ body {
 
 @font-face {
   font-family: 'Geometr706-Cond';
-  src: url('../fonts/Geometr706/Geometr706.woff2') format('woff2'),
-       url('../fonts/Geometr706/Geometr706.woff') format('woff'),
-       url('../fonts/Geometr706/Geometr706.ttf') format('truetype');
+  src: url('/fonts/Geometr706/Geometr706.woff2') format('woff2'),
+       url('/fonts/Geometr706/Geometr706.woff') format('woff'),
+       url('/fonts/Geometr706/Geometr706.ttf') format('truetype');
   font-weight: 400;
   font-display: swap;
   font-style: normal;
@@ -68,24 +68,24 @@ body {
 
 @font-face {
   font-family: 'Anton';
-  src: url('../fonts/Anton/Anton-Regular.woff2') format('woff2'),
-       url('../fonts/Anton/Anton-Regular.woff') format('woff'),
-       url('../fonts/Anton/Anton-Regular.ttf') format('truetype');
+  src: url('/fonts/Anton/Anton-Regular.woff2') format('woff2'),
+       url('/fonts/Anton/Anton-Regular.woff') format('woff'),
+       url('/fonts/Anton/Anton-Regular.ttf') format('truetype');
   font-weight: 400;
   font-display: swap;
   font-style: normal;
 }
 
 /* --- Mosk Font Family Stack (Static Weights) --- */
-@font-face { font-family: 'Mosk'; src: url('../fonts/Mosk/Mosk Thin 100.ttf') format('truetype'); font-weight: 100; font-style: normal; }
-@font-face { font-family: 'Mosk'; src: url('../fonts/Mosk/Mosk Extra-Light 200.ttf') format('truetype'); font-weight: 200; font-style: normal; }
-@font-face { font-family: 'Mosk'; src: url('../fonts/Mosk/Mosk Light 300.ttf') format('truetype'); font-weight: 300; font-style: normal; }
-@font-face { font-family: 'Mosk'; src: url('../fonts/Mosk/Mosk Normal 400.ttf') format('truetype'); font-weight: 400; font-style: normal; }
-@font-face { font-family: 'Mosk'; src: url('../fonts/Mosk/Mosk Medium 500.ttf') format('truetype'); font-weight: 500; font-style: normal; }
-@font-face { font-family: 'Mosk'; src: url('../fonts/Mosk/Mosk Semi-Bold 600.ttf') format('truetype'); font-weight: 600; font-style: normal; }
-@font-face { font-family: 'Mosk'; src: url('../fonts/Mosk/Mosk Bold 700.ttf') format('truetype'); font-weight: 700; font-style: normal; }
-@font-face { font-family: 'Mosk'; src: url('../fonts/Mosk/Mosk Extra-Bold 800.ttf') format('truetype'); font-weight: 800; font-style: normal; }
-@font-face { font-family: 'Mosk'; src: url('../fonts/Mosk/Mosk Ultra-Bold 900.ttf') format('truetype'); font-weight: 900; font-style: normal; }
+@font-face { font-family: 'Mosk'; src: url('/fonts/Mosk/Mosk Thin 100.ttf') format('truetype'); font-weight: 100; font-style: normal; }
+@font-face { font-family: 'Mosk'; src: url('/fonts/Mosk/Mosk Extra-Light 200.ttf') format('truetype'); font-weight: 200; font-style: normal; }
+@font-face { font-family: 'Mosk'; src: url('/fonts/Mosk/Mosk Light 300.ttf') format('truetype'); font-weight: 300; font-style: normal; }
+@font-face { font-family: 'Mosk'; src: url('/fonts/Mosk/Mosk Normal 400.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Mosk'; src: url('/fonts/Mosk/Mosk Medium 500.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'Mosk'; src: url('/fonts/Mosk/Mosk Semi-Bold 600.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Mosk'; src: url('/fonts/Mosk/Mosk Bold 700.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'Mosk'; src: url('/fonts/Mosk/Mosk Extra-Bold 800.ttf') format('truetype'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'Mosk'; src: url('/fonts/Mosk/Mosk Ultra-Bold 900.ttf') format('truetype'); font-weight: 900; font-style: normal; }
 
 
 
