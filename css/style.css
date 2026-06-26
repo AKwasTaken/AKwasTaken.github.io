@@ -599,7 +599,7 @@ body {
 .blog-content {
   max-width: 800px;
   margin: 10vh auto;
-  padding: 40px 24px;
+  padding: 40px 24px 0px;
 }
 
 .blog-header {
@@ -828,6 +828,62 @@ code {
   color: #848484; 
   font-style: italic;
   margin: 0;
+}
+
+.back-link {
+  display: block;
+  text-align: center;
+  margin: 80px 0;
+}
+
+.back-link-anchor {
+  display: inline-flex; /* Changed to flex for easier padding/alignment */
+  align-items: center;
+  text-decoration: none;
+  padding: 10px 13px;
+  border-radius: 10px;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.back-link-icon {
+  width: 1.7rem;
+  height: 1.7rem;
+  display: inline-block;
+
+  -webkit-mask-image: url('/assets/icons/BackIcon.svg');
+  mask-image: url('/assets/icons/BackIcon.svg');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  background-color: var(--accent-main);
+  transition: background-color 0.3s ease;
+}
+
+.back-link-text {
+  font-family: "Outfit", sans-serif;
+  font-size: 1.7rem;
+  font-weight: 400;
+  color: var(--accent-main);
+  margin-left: 10px;
+  transition: color 0.3s ease;
+}
+
+.back-link-anchor:hover {
+  /* Container fills up with your accent color */
+  background-color: var(--accent-main); 
+}
+
+.back-link-anchor:hover .back-link-text {
+  /* Text turns the exact color of the page background, making it look cut out */
+  color: var(--background-color); 
+}
+
+.back-link-anchor:hover .back-link-icon {
+  /* Icon mask background turns the color of the page background */
+  background-color: var(--background-color); 
 }
 
 
