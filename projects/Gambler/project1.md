@@ -1,6 +1,6 @@
 ---
 title: "Gambler: A Stock Prediction Tool using Semantic Analysis"
-date: 2025-06-10
+date: 2025-12-10
 desc: "Description: A multi-modal day-trading system that extracts real-time semantic data from news streams with a Transformer encoder, models price paths using Diffusion, and executes trades via a Deep Q-Network."
 tags: ["ML", "Diffusion", "RL"]
 ---
