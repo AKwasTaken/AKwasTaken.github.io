@@ -710,6 +710,12 @@ body {
   margin: 50px auto; 
 }
 
+.blog-body video {
+  width: 100%; 
+  height: auto; 
+  display: block;
+}
+
 pre {
   margin: 0 0 20px;
   padding: 20px;
