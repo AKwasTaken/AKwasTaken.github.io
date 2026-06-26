@@ -9,7 +9,7 @@
     <link rel="preload" href="/fonts/Outfit/Outfit-VariableFont_wght.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
 
     <link rel="icon" type="image/x-icon" href="/favicon.svg" />
-    <link rel="stylesheet" href="/css/style.css?v=1782499317645" id="main-theme-sheet">
+    <link rel="stylesheet" href="/css/style.css?v=1782499661198" id="main-theme-sheet">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   </head>
@@ -100,6 +100,32 @@
     }
 }
 </code></pre>
+<p>By explicitly calling <code>NSApp.yieldActivation(to:)</code>, the app neatly passes its focus token over to Finder. This ensures that your active log directory or text file instantly and reliably leaps straight to the foreground every single time you trigger a revelation shortcut.</p>
+<h3>2. Multithreaded Async Disk I/O Pipeline</h3>
+<p>To prevent dropped keystrokes or interface lag when committing long string streams, the entire file execution layer runs asynchronously:</p>
+<pre><code class="language-swift">DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+    guard let self = self else { return }
+
+    // Secure append and system file synchronization logic  
+    // happens completely out of process
+
+    self.refreshLogFiles()
+}
+</code></pre>
+<p>Moving file serialization onto standard <code>.userInitiated</code> background worker channels ensures that text operations stay fast and concurrent, leaving the main thread completely untethered to keep the UI snappy and responsive.</p>
+<hr>
+<h2>Distribution &amp; Presentation</h2>
+<p>To package the tool cleanly without dealing with bloated layout configuration files, the application is compiled into a drag-and-drop installer image natively aligned to macOS dark-mode standards.</p>
+<p>Your active files are saved cleanly by timestamp, making it incredibly easy to parse your logging history linearly over days or weeks.</p>
+<hr>
+<h2>What’s Coming Next</h2>
+<p>While the application is fully optimized for targeted desktop logging, future lifecycle expansions are on the horizon, including:</p>
+<ul>
+<li><strong>File Manager:</strong> A window that can preview all the files created by the application, in the working directory.</li>
+<li><strong>Log-file Support:</strong> Support for log-files, since they are much more comfortable and easier to troubleshoot and work with.</li>
+<li><strong>More UI Preferences:</strong> Self-explanatory.</li>
+</ul>
+<p><em>WhisperLogger is officially running stable. Check out the release page to grab the latest DMG build!</em></p>
 
           <hr>
         </div>

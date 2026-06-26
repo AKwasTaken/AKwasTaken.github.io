@@ -55,3 +55,45 @@ if let finderApp = NSRunningApplication.runningApplications(withBundleIdentifier
         finderApp.activate(options: [])
     }
 }
+
+```
+
+By explicitly calling `NSApp.yieldActivation(to:)`, the app neatly passes its focus token over to Finder. This ensures that your active log directory or text file instantly and reliably leaps straight to the foreground every single time you trigger a revelation shortcut.
+
+### 2. Multithreaded Async Disk I/O Pipeline
+
+To prevent dropped keystrokes or interface lag when committing long string streams, the entire file execution layer runs asynchronously:
+
+```swift
+DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+    guard let self = self else { return }
+
+    // Secure append and system file synchronization logic  
+    // happens completely out of process
+
+    self.refreshLogFiles()
+}
+
+```
+
+Moving file serialization onto standard `.userInitiated` background worker channels ensures that text operations stay fast and concurrent, leaving the main thread completely untethered to keep the UI snappy and responsive.
+
+---
+
+## Distribution & Presentation
+
+To package the tool cleanly without dealing with bloated layout configuration files, the application is compiled into a drag-and-drop installer image natively aligned to macOS dark-mode standards.
+
+Your active files are saved cleanly by timestamp, making it incredibly easy to parse your logging history linearly over days or weeks.
+
+---
+
+## What’s Coming Next
+
+While the application is fully optimized for targeted desktop logging, future lifecycle expansions are on the horizon, including:
+
+* **File Manager:** A window that can preview all the files created by the application, in the working directory.
+* **Log-file Support:** Support for log-files, since they are much more comfortable and easier to troubleshoot and work with.
+* **More UI Preferences:** Self-explanatory.
+
+*WhisperLogger is officially running stable. Check out the release page to grab the latest DMG build!*
