@@ -1042,13 +1042,25 @@ body.error-page-body {
   justify-content: space-between;
   gap: 16px;
   padding: 24px;
-  background-color: var(--accent-light);
-  border: 1px solid var(--special-accent);
+  /* background-color: var(--accent-light); */
+  border: 1px solid color-mix(in srgb, var(--accent-text), transparent 80%);
   border-radius: 12px;
   text-decoration: none;
   
   flex-grow: 1;
+  transition: border-color 0.2s ease;
 }
+
+.project-card:hover {
+  border-color: var(--special-accent);
+  transition: 0.2s ease;
+}
+
+.project-card:hover .project-title {
+  color: var(--special-accent);
+  transition: color 0.2s ease;
+}
+
 
 .project-card-link {
   text-decoration: none; 
@@ -1069,6 +1081,7 @@ body.error-page-body {
   font-size: 16px; 
   font-weight: 600; 
   color: var(--accent-main);
+  transition: color 0.2s ease;
 }
 
 .project-year {
@@ -1098,6 +1111,9 @@ body.error-page-body {
   color: var(--accent-light);
   border-radius: 6px;
 }
+
+
+
 
 .project-links {
   display: flex;
