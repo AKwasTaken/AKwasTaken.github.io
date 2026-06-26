@@ -48,7 +48,9 @@ fs.readdir(galleryDir, (err, files) => {
       const dimensions = parseDimensions(fileBuffer);
       
       if (dimensions && dimensions.width && dimensions.height) {
-        inlineStyle = ` style="aspect-ratio: ${dimensions.width} / ${dimensions.height};"`;
+        let aspectRatio = dimensions.width / dimensions.height;
+        aspectRatio = aspectRatio.toFixed(3); // Round to 3 decimal places
+        inlineStyle = ` style="aspect-ratio: ${aspectRatio};"`;
       }
     } catch (e) {
       console.warn(`Could not read native dimensions for ${file}:`, e.message);
