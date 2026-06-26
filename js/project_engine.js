@@ -37,15 +37,42 @@ const imageExtension = {
     }
 
     if (finalSrc.toLowerCase().endsWith('.mp4')) {
+      let aspectRatio = '1.778'; // Default fallback (16:9)
+
+      try {
+        const absoluteVideoPath = path.resolve(PROJECTS_DIR, token.href);
+
+        if (fs.existsSync(absoluteVideoPath)) {
+          // Uses your Mac's built-in command line tool to read the video file directly
+          const execSync = require('child_process').execSync;
+          const cmd = `ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "${absoluteVideoPath}"`;
+          
+          const dimensions = execSync(cmd, { encoding: 'utf8' }).trim(); // Returns "1920x1080"
+          const [width, height] = dimensions.split('x').map(Number);
+
+          if (width && height) {
+            aspectRatio = (width / height).toFixed(3);
+          }
+        }
+      } catch (e) {
+        console.warn(`Could not read video dimensions for ${token.href}:`, e.message);
+      }
+
       return `
-        <video autoplay loop muted playsinline preload="metadata" class="project-video">
+        <video 
+          autoplay 
+          loop 
+          muted 
+          playsinline 
+          preload="metadata" 
+          class="project-video"
+          style="aspect-ratio: ${aspectRatio};">
           <source src="${finalSrc}" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       `.trim();
     }
 
-    // Otherwise, fall back to the standard image tag structure
     return `<img src="${finalSrc}" alt="${token.alt}" class="project-image" />`;
   }
 };
