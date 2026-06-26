@@ -36,28 +36,7 @@ const imageExtension = {
       finalSrc = `${relativeImagePrefix}/${finalSrc}`;
     }
 
-    if (finalSrc.toLowerCase().endsWith('.mp4')) {
-      let aspectRatio = '1.778'; // Default fallback (16:9)
-
-      try {
-        const absoluteVideoPath = path.resolve(PROJECTS_DIR, token.href);
-
-        if (fs.existsSync(absoluteVideoPath)) {
-          // Uses your Mac's built-in command line tool to read the video file directly
-          const execSync = require('child_process').execSync;
-          const cmd = `ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "${absoluteVideoPath}"`;
-          
-          const dimensions = execSync(cmd, { encoding: 'utf8' }).trim(); // Returns "1920x1080"
-          const [width, height] = dimensions.split('x').map(Number);
-
-          if (width && height) {
-            aspectRatio = (width / height).toFixed(3);
-          }
-        }
-      } catch (e) {
-        console.warn(`Could not read video dimensions for ${token.href}:`, e.message);
-      }
-
+    if (finalSrc.toLowerCase().endsWith(".mp4")) {
       return `
         <video 
           autoplay 
@@ -65,8 +44,7 @@ const imageExtension = {
           muted 
           playsinline 
           preload="metadata" 
-          class="project-video"
-          style="aspect-ratio: ${aspectRatio};">
+          class="project-video">
           <source src="${finalSrc}" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -89,7 +67,7 @@ const allProjects = [];
 
 function compileFolder(dir) {
   const items = fs.readdirSync(dir);
-  
+
   for (const item of items) {
     const fullPath = path.join(dir, item);
     if (fs.statSync(fullPath).isDirectory()) {
@@ -103,18 +81,16 @@ function compileFolder(dir) {
 
     const { data, content } = matter(fs.readFileSync(fullPath, 'utf-8'));
     const title = data.title || path.basename(item, '.md');
-    
-    // Clean description to peel off a redundant "Description:" prefix if present
-    let description = data.desc || '';
-    if (description.toLowerCase().startsWith('description:')) {
+
+    let description = data.desc || "";
+    if (description.toLowerCase().startsWith("description:")) {
       description = description.slice(12).trim();
     }
-    
+
     const sourceLink = data.source?.trim() || '#';
     const siteLink = data.site?.trim() || '#';
     const cleanedContent = content.replace(/\s*---\s*$/, '');
-    
-    // Parse individual tags
+
     let rawTags = data.tags;
     let tagsArray = [];
     if (Array.isArray(rawTags)) {
@@ -122,28 +98,34 @@ function compileFolder(dir) {
     } else if (typeof rawTags === 'string') {
       tagsArray = rawTags.split(',').map(t => t.replace(/['"]+/g, '').trim());
     }
-    
-    let dateStr = '';
-    let year = 2026; 
+
+    let dateStr = "";
+    let year = 2026;
     let monthIndex = 0;
 
     if (data.date) {
-      const dateObj = data.date instanceof Date ? data.date : new Date(data.date);
+      const dateObj =
+        data.date instanceof Date ? data.date : new Date(data.date);
       year = dateObj.getUTCFullYear();
       monthIndex = dateObj.getUTCMonth();
-      dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+      dateStr = dateObj.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        timeZone: "UTC",
+      });
     }
 
-    let source = '';
-    let site = '';
-    let projectLinkButtons = '';
+    let source = "";
+    let site = "";
+    let projectLinkButtons = "";
 
     if (sourceLink !== "#") {
-      source = `<span class="source-code"><a href="${sourceLink}" target="_blank" class="source-button">Source Code</a></span>`
+      source = `<span class="source-code"><a href="${sourceLink}" target="_blank" class="source-button">Source Code</a></span>`;
     }
 
     if (siteLink !== "#") {
-      site = `<span class="site-link"><a href="${siteLink}" target="_blank" class="site-link-button">Project Demo</a></span>`
+      site = `<span class="site-link"><a href="${siteLink}" target="_blank" class="site-link-button">Project Demo</a></span>`;
     }
 
     projectLinkButtons = `${source} ${site}`;
@@ -155,10 +137,12 @@ function compileFolder(dir) {
       .replace(/\${projectLinks}/g, projectLinkButtons)
       .replace(/\${content}/g, htmlBody);
 
-    // Generate a safe output filename by removing special characters and replacing spaces with underscores
     const outputFileName = title.replace(/[^a-zA-Z ]/g, "").replace(/ /g, "_");
 
-    const safeName = path.basename(outputFileName, '.md').toLowerCase().replace(/\s+/g, '-');
+    const safeName = path
+      .basename(outputFileName, ".md")
+      .toLowerCase()
+      .replace(/\s+/g, "-");
     fs.writeFileSync(path.join(OUTPUT_DIR, `${safeName}.html`), finalHtml);
     console.log(`Compiled: projects/${safeName}.html`);
 
@@ -168,41 +152,40 @@ function compileFolder(dir) {
       monthIndex,
       description,
       tags: tagsArray,
-      url: `dist/projects/${safeName}.html`
+      url: `dist/projects/${safeName}.html`,
     });
   }
 }
 
 compileFolder(PROJECTS_DIR);
 
-// Sort projects: Year (Desc), Month (Desc), Title (Asc)
 allProjects.sort((a, b) => {
   if (b.year !== a.year) return b.year - a.year;
   if (b.monthIndex !== a.monthIndex) return b.monthIndex - a.monthIndex;
   return a.title.localeCompare(b.title);
 });
 
-// Build grid items using your exact project template file structure
-let finalGridMarkup = '';
+let finalGridMarkup = "";
 for (const project of allProjects) {
-  // Map out tags list to span badges
-  const tagSpans = project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('\n');
+  const tagSpans = project.tags
+    .map((tag) => `<span class="project-tag">${tag}</span>`)
+    .join("\n");
 
-  // Replace placeholders inside your project card template component
   const renderedCard = cardTemplate
     .replace(/\${projectTitle}/g, project.title)
     .replace(/\${projectYear}/g, project.year)
     .replace(/\${projectDescription}/g, project.description)
-    .replace(/\${projectTag}/g, tagSpans); // Replaces the container item with your dynamic list
+    .replace(/\${projectTag}/g, tagSpans);
 
-  // Wrap inside the standard anchor link structure
   finalGridMarkup += `
     <a href="${project.url}" class="project-card-link">
       ${renderedCard}
     </a>\n`;
 }
 
-// Replace placeholder variable inside index template and write out
-const finalIndexHtml = indexTemplate.replace(/\${projectListings}/g, finalGridMarkup.trim());
+const finalIndexHtml = indexTemplate.replace(
+  /\${projectListings}/g,
+  finalGridMarkup.trim(),
+);
 fs.writeFileSync(INDEX_OUTPUT_PATH, finalIndexHtml);
-console.log('Compiled: projects.html with all grid elements.\n');
+console.log("Compiled: projects.html with all grid elements.\n");
