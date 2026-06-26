@@ -35,6 +35,17 @@ const imageExtension = {
     } else if (!finalSrc.startsWith('/') && !finalSrc.startsWith('http')) {
       finalSrc = `${relativeImagePrefix}/${finalSrc}`;
     }
+
+    if (finalSrc.toLowerCase().endsWith('.mp4')) {
+      return `
+        <video autoplay loop muted playsinline preload="metadata" class="project-video">
+          <source src="${finalSrc}" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      `.trim();
+    }
+
+    // Otherwise, fall back to the standard image tag structure
     return `<img src="${finalSrc}" alt="${token.alt}" class="project-image" />`;
   }
 };

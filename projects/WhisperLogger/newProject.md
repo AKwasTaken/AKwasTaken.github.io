@@ -6,7 +6,7 @@ source: "http://github.com/AKwasTaken/WhisperLogger"
 tags: ["Swift", "MacOS"]
 ---
 
-![Preview GIF](WhisperLogger_previewBanner.gif)
+![Preview Vid](WhisperLoggerBanner.mp4)
 
 
 Every developer needs a friction-free way to jot down rapid logs, temporary scratch notes, or track task statuses throughout the day. Opening a bloated IDE window, a browser tab, or a heavy text editor disrupts your flow state. 

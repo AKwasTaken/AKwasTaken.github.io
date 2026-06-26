@@ -7,7 +7,7 @@ site: "http://akwastaken.github.io/IsItYou"
 tags: ["CSS", "JS", "Web Audio"]
 ---
 
-![Project Preview Banner](IsItYou_previewBanner.gif)
+![Project Preview Banner](IsItYouBanner.mp4)
 
 A lightweight, responsive web application designed for touch-capable devices that randomly selects one finger from multiple participants holding their fingers on the screen. It is ideal for decision-making or turn-selection in group settings.
 
