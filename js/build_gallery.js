@@ -1,3 +1,6 @@
+console.log('Init: build_gallery.js');
+
+
 const fs = require('fs');
 const path = require('path');
 // Import the library directly 
@@ -74,7 +77,7 @@ fs.readdir(galleryDir, (err, files) => {
       if (writeErr) {
         console.error('Error writing the final gallery.html file:', writeErr);
       } else {
-        console.log(`Compiled: gallery.html with ${imageFiles.length} images.`);
+        console.log(`Compiled: gallery.html with ${imageFiles.length} images.\n`);
       }
     });
   });

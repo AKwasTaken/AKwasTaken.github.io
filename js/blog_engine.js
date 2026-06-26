@@ -1,3 +1,5 @@
+console.log('Init: blog_engine.js');
+
 const fs = require('fs');
 const path = require('path');
 const { Marked } = require('marked');
@@ -133,4 +135,4 @@ for (const year of sortedYears) {
 
 const finalIndexHtml = indexTemplate.replace(/\${blogListings}/g, finalIndexMarkup.trim());
 fs.writeFileSync(INDEX_OUTPUT_PATH, finalIndexHtml);
-console.log('Compiled: blog.html with all blog listings.');
+console.log('Compiled: blog.html with all blog listings.\n');
