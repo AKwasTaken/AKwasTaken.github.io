@@ -9,7 +9,7 @@
     <link rel="preload" href="/fonts/Outfit/Outfit-VariableFont_wght.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
 
     <link rel="icon" type="image/x-icon" href="/favicon.svg" />
-    <link rel="stylesheet" href="/css/style.css?v=1782576836971" id="main-theme-sheet">
+    <link rel="stylesheet" href="/css/style.css?v=1782577383110" id="main-theme-sheet">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   </head>
@@ -52,7 +52,7 @@
             <h1 class="blog-heading">ComicDrop</h1>
             <span class="blog-creation-time">June 27, 2026</span>
             <section class="project-links">
-              <span class="source-code"><a href="http://github.com/AKwasTaken/ComicDrop" target="_blank" class="source-button">Source Code</a></span> <span class="site-link"><a href="https://akwastaken.github.io/ComicDrop/" target="_blank" class="site-link-button">Project Demo</a></span>
+              <span class="source-code"><a href="http://github.com/AKwasTaken/ComicDrop" target="_blank" class="source-button">Source Code</a></span> <span class="site-link"><a href="https://akwastaken.github.io/ComicDrop/" target="_blank" class="site-link-button">Web App</a></span>
             </section>
           </div>
 
@@ -75,8 +75,8 @@
 <p>The application features a drag-and-drop interface capable of handling the web&#39;s most common digital comic archive containers. Unpacking file streams directly inside the client engine, it natively accepts:</p>
 <ul>
 <li><strong>.cbz / ZIP</strong>: Extracted locally using native standard streaming structures.</li>
-<li><strong>.cbr / RAR</strong>`: Unpacked through localized decompression wrappers.</li>
-<li><strong>.cb7 / 7z</strong>`: Handled via custom WebAssembly filesystem mappings to execute low-level extractions.</li>
+<li><strong>.cbr / RAR</strong>: Unpacked through localized decompression wrappers.</li>
+<li><strong>.cb7 / 7z</strong>: Handled via custom WebAssembly filesystem mappings to execute low-level extractions.</li>
 </ul>
 <h3>2. Dual-Canvas Layer Swapping</h3>
 <p>To achieve smooth, zero-latency transitions between high-resolution imagery, ComicDrop implements a permanent <strong>Double-Canvas Layering Architecture</strong> (<code>#pageCanvasA</code> and <code>#pageCanvasB</code>). While one canvas layer is actively displaying the page in view, the background canvas is silently loading, rendering, and scaling the upcoming image asset ahead of time. When a page turn triggers, the app cleanly swaps opacity states instantly on the GPU thread.</p>
