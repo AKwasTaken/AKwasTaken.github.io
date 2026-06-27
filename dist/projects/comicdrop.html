@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | ComicDrop</title>
+
+    <link rel="preload" href="/assets/logo.svg" as="image" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/Outfit/Outfit-VariableFont_wght.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/css/style.css?v=1782575560666" id="main-theme-sheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/index.html" class="logo-link" aria-label="Aneeth Kumaar Home">
+          <div class="logo-item" data-src="/assets/logo.svg"></div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
+          <li><a href="/projects.html" class="nav-item">Projects</a></li>
+          <li><a href="/blog.html" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="/contact.html" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="blog-content">
+        <div class="blog-header">
+            <h1 class="blog-heading">ComicDrop</h1>
+            <span class="blog-creation-time">June 27, 2026</span>
+            <section class="project-links">
+              <span class="source-code"><a href="http://github.com/AKwasTaken/ComicDrop" target="_blank" class="source-button">Source Code</a></span> <span class="site-link"><a href="https://akwastaken.github.io/ComicDrop/" target="_blank" class="site-link-button">Project Demo</a></span>
+            </section>
+          </div>
+
+        <div class="blog-body">
+            <p><img src="../../projects/ComicDrop/comicdrop_banner.png" alt="ComicDrop Banner" class="project-image" /></p>
+<p><strong>ComicDrop</strong> is a modern, responsive, ultra-lightweight <strong>browser-based digital comic book reader</strong>. It relies completely on an offline-first architecture, turning your web browser into a native-class layout and rendering engine with zero server dependencies.</p>
+<p>Here is a deep dive into the design choices, custom features, and engineering pipelines behind the app.</p>
+<hr>
+<h2>The Feature Set</h2>
+<h3>1. Universal Local Extraction Pipelines</h3>
+<p>The application features a drag-and-drop interface capable of handling the web&#39;s most common digital comic archive containers. Unpacking file streams directly inside the client engine, it natively accepts:</p>
+<ul>
+<li><strong>.cbz / ZIP</strong>: Extracted locally using native standard streaming structures.</li>
+<li><strong>.cbr / RAR</strong>`: Unpacked through localized decompression wrappers.</li>
+<li><strong>.cb7 / 7z</strong>`: Handled via custom WebAssembly filesystem mappings to execute low-level extractions.</li>
+</ul>
+<h3>2. Dual-Canvas Layer Swapping</h3>
+<p>To achieve smooth, zero-latency transitions between high-resolution imagery, ComicDrop implements a permanent <strong>Double-Canvas Layering Architecture</strong> (<code>#pageCanvasA</code> and <code>#pageCanvasB</code>). While one canvas layer is actively displaying the page in view, the background canvas is silently loading, rendering, and scaling the upcoming image asset ahead of time. When a page turn triggers, the app cleanly swaps opacity states instantly on the GPU thread.</p>
+<h3>3. Integrated System Control Capsule</h3>
+<p>Designed to keep the layout minimalist, the top-center capsule handles system configurations cleanly. It groups system actions into a blurred, dark-glass deck that slides off-screen on command to maintain complete focus. It features:</p>
+<ul>
+<li><strong>Hide UI Toggle</strong>: Collapses all interface overlays instantly. A simple tap anywhere on the background reading space brings them right back.</li>
+<li><strong>Adaptive Fullscreen</strong>: Utilizes live browser feature queries to hide or show native fullscreen toggles dynamically based on hardware platform limitations (such as iOS constraints).</li>
+</ul>
+<h3>4. Compact Control Deck</h3>
+<p>Navigation is grouped into a central control cluster at the bottom edge. Positioned safely using device environment calculations (<code>env(safe-area-inset-bottom)</code>) to sit right above mobile browser navigation rows, it includes first, previous, next, and last page markers mapping custom sanitized inline SVGs alongside an interactive text container to trigger precise page number edits.</p>
+<hr>
+<h2>Under the Hood: The Architecture</h2>
+<p>ComicDrop is optimized to ensure that massive high-resolution comic book graphic archives can run smoothly on low-power mobile viewports. Here is how the core systems operate under the hood:</p>
+<h3>1. Sliding Window Cache Memory Management</h3>
+<p>Decompressing a 500MB comic archive with hundreds of pages directly into browser memory all at once will instantly crash mobile tabs. To fix this, the engine enforces a strict <strong>Sliding Window Cache</strong> (<code>Map</code>) that monitors memory allocations dynamically during page turns:</p>
+<pre><code class="language-javascript">manageMemoryBuffer(activeIndex) {
+  for (const cachedIndex of this.blobCache.keys()) {
+    if (cachedIndex &lt; activeIndex - 1 || cachedIndex &gt; activeIndex + 2) {
+      URL.revokeObjectURL(this.blobCache.get(cachedIndex));
+      this.blobCache.delete(cachedIndex);
+    }
+  }
+}
+</code></pre>
+<p>By retaining only the current page, one page behind, and two pages ahead, the application actively revokes old Object URLs and cleans up heap storage. This leaves the memory footprint light and predictable regardless of the size of the comic book.</p>
+<h3>2. Isolated WebAssembly Filesystem Mapping</h3>
+<p>To extract complex <code>.7z</code> and <code>.cb7</code> files inside the browser without a server, the application dynamically compiles a compressed WebAssembly instance at runtime and hooks straight into an isolated internal folder pipeline:</p>
+<pre><code class="language-javascript">js7z.FS.writeFile(&#39;/archive.7z&#39;, new Uint8Array(arrayBuffer));
+await new Promise((resolve, reject) =&gt; {
+  js7z.onExit = (code) =&gt; code === 0 ? resolve() : reject(new Error(&#39;7z extraction failed&#39;));
+  js7z.callMain([&#39;x&#39;, &#39;/archive.7z&#39;, &#39;-o/out&#39;]);
+});
+</code></pre>
+<p>By piping the archive arrays directly into the WASM binary execution loop, extraction takes place concurrently on low-level machine threads, sorting and mapping assets on the fly.</p>
+<h3>3. Native Gesture &amp; Scale Initialization</h3>
+<p>The application maps responsive touch tracking configurations alongside standard keyboard listeners. It isolates zoom modifiers explicitly to single image targets, utilizing wheel listeners for precise desktop scaling, custom multi-touch hooks for swipe page tracking, and direct double-tap event bounds to clear zoom matrices cleanly across page transitions:</p>
+<pre><code class="language-javascript">img.addEventListener(&quot;touchend&quot;, (e) =&gt; {
+  const currentTime = new Date().getTime();
+  const tapLength = currentTime - lastTap;
+  lastTap = currentTime;
+  if (tapLength &lt; 300 &amp;&amp; tapLength &gt; 0) {
+    e.stopPropagation();
+    img._zoomScale = 1.0;
+    img._panOffset = { x: 0, y: 0 };
+    img.style.transform = `translate(0px, 0px) scale(1)`;
+  }
+});
+</code></pre>
+<hr>
+<h2>Performance &amp; Optimization</h2>
+<p>To maximize processing efficiency on mobile devices, ComicDrop splits layout animations and background downloads across specific device profiles:</p>
+<ul>
+<li><strong>Conditional Media Queries</strong>: The background grid parallax parallax simulation layer is wrapped inside an explicit <code>@media (min-width: 800px)</code> breakpoint. This ensures mobile devices don&#39;t waste battery power rendering 30,000px asset scrolling sheets.</li>
+<li><strong>Unified Layout Centering</strong>: Built completely around responsive, fixed dynamic viewport units (<code>100dvh</code>), structural elements use exact pixel bounds to guarantee clean vertical layout centering on iOS platforms.</li>
+</ul>
+<p><em>ComicDrop is fully polished and deployed. Check out the project link to load the comic reader now!</em></p>
+
+          <hr>
+        </div>
+    </div>
+
+
+    <div class="back-link">
+      <a href="/projects.html" class="back-link-anchor">
+        <span class="back-link-icon"></span>
+        <span class="back-link-text">Back to Projects</span>
+      </a>
+    </div>
+
+    
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <h3 class="footer-h3">Aneeth Kumaar</h3>
+        <p class="footer-p">
+          Made with HTML, CSS and JS, and a lot of frenzy googling. Feel free to
+          check out the source code of this project on my github profile. If you
+          wish to reference or reuse it, I'll be honoured, but please do
+          affiliate me.
+        </p>
+
+        <div class="footer-socials">
+          <a
+            href="https://github.com/AKwasTaken"
+            class="social-link"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img
+              src="/assets/icons/socials/github.svg"
+              class="social-icon"
+              alt="GitHub"
+            />
+          </a>
+
+          <a
+            href="https://instagram.com/akcontinuum"
+            class="social-link"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img
+              src="/assets/icons/socials/instagram.svg"
+              class="social-icon"
+              alt="Instagram"
+            />
+          </a>
+
+          <a
+            href="https://linkedin.com/in/aneeth-kumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/assets/icons/socials/linkedin.svg"
+              class="social-icon"
+              alt="LinkedIn"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/@aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <img
+              src="/assets/icons/socials/youtube.svg"
+              class="social-icon"
+              alt="YouTube"
+            />
+          </a>
+
+          <a
+            href="https://www.fiverr.com/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Fiverr"
+          >
+            <img
+              src="/assets/icons/socials/fiverr.svg"
+              class="social-icon"
+              alt="Fiverr"
+            />
+          </a>
+
+          <a
+            href="https://www.behance.net/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Behance"
+          >
+            <img
+              src="/assets/icons/socials/behance.svg"
+              class="social-icon"
+              alt="Behance"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/nav_menu.js"></script>
+    <script src="/js/load_icons.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMath()"></script>
+    
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    </script>
+  </body>
+</html>
