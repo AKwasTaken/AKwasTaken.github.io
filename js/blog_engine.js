@@ -75,9 +75,11 @@ function compileFolder(dir) {
     let year = 2026; 
     let monthIndex = 0;
     let monthName = 'Jan';
+    let rawDateValue = 0; // Fallback timestamp placeholder
 
     if (data.date) {
       const dateObj = data.date instanceof Date ? data.date : new Date(data.date);
+      rawDateValue = dateObj.getTime(); // Use raw timestamp for accurate precision sorting
       year = dateObj.getUTCFullYear();
       monthIndex = dateObj.getUTCMonth();
       monthName = dateObj.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
@@ -94,17 +96,14 @@ function compileFolder(dir) {
     fs.writeFileSync(path.join(OUTPUT_DIR, `${safeName}.html`), finalHtml);
     console.log(`Compiled: blogs/${safeName}.html`);
 
-    allBlogs.push({ title, year, monthIndex, monthName, url: `dist/blogs/${safeName}.html` });
+    allBlogs.push({ title, year, monthIndex, monthName, rawDateValue, url: `dist/blogs/${safeName}.html` });
   }
 }
 
 compileFolder(BLOGS_DIR);
 
-allBlogs.sort((a, b) => {
-  if (b.year !== a.year) return b.year - a.year;
-  if (b.monthIndex !== a.monthIndex) return b.monthIndex - a.monthIndex;
-  return a.title.localeCompare(b.title);
-});
+// Sort by timestamp descending so the absolute latest releases bubble up first
+allBlogs.sort((a, b) => b.rawDateValue - a.rawDateValue);
 
 const groupedByYear = {};
 for (const blog of allBlogs) {

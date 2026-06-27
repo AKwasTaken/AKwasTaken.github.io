@@ -7,11 +7,11 @@ download: "https://modrinth.com/datapack/createtweaks"
 tags: ["Minecraft", 'Datapack']
 ---
 
-![Project Preview Banner](zinc_ingot_recipe.png)
-
 # Create Tweaks: Retro-Generation Recipes
 
 A lightweight Minecraft datapack designed for the **Create Mod** ecosystem that introduces balanced, vanilla-friendly crafting recipes for custom world-generation resources. It serves as a seamless quality-of-life fix for existing worlds where traveling thousands of blocks to find new chunks isn't ideal.
+
+![Project Preview Banner](zinc_ingot_recipe.png)
 
 ---
 
