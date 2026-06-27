@@ -1,5 +1,5 @@
 ---
-title: A Painful Homelabbing Journey
+title: My Homelabbing Journey
 date: 2026-04-15
 ---
 
