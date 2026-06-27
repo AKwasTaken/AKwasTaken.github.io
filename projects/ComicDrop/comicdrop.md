@@ -22,8 +22,8 @@ Here is a deep dive into the design choices, custom features, and engineering pi
 The application features a drag-and-drop interface capable of handling the web's most common digital comic archive containers. Unpacking file streams directly inside the client engine, it natively accepts:
 
 * **.cbz / ZIP**: Extracted locally using native standard streaming structures.
-* **.cbr / RAR**`: Unpacked through localized decompression wrappers.
-* **.cb7 / 7z**`: Handled via custom WebAssembly filesystem mappings to execute low-level extractions.
+* **.cbr / RAR**: Unpacked through localized decompression wrappers.
+* **.cb7 / 7z**: Handled via custom WebAssembly filesystem mappings to execute low-level extractions.
 
 ### 2. Dual-Canvas Layer Swapping
 

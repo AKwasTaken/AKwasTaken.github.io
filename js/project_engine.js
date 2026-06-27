@@ -127,7 +127,7 @@ function compileFolder(dir) {
     }
 
     if (siteLink !== "#") {
-      site = `<span class="site-link"><a href="${siteLink}" target="_blank" class="site-link-button">Project Demo</a></span>`;
+      site = `<span class="site-link"><a href="${siteLink}" target="_blank" class="site-link-button">Web App</a></span>`;
     }
 
     if (downloadLink !== "#") {
