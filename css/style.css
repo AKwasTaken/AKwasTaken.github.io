@@ -700,14 +700,13 @@ body {
   width: 100%;
   max-width: 100%;
   height: auto;
-  padding: 40px 0 30px;
 }
 
 .blog-body img {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 50px auto; 
+  margin: 30px auto; 
 }
 
 .blog-body video {
