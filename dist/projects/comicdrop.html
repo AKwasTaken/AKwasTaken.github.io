@@ -9,7 +9,7 @@
     <link rel="preload" href="/fonts/Outfit/Outfit-VariableFont_wght.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
 
     <link rel="icon" type="image/x-icon" href="/favicon.svg" />
-    <link rel="stylesheet" href="/css/style.css?v=1782575560666" id="main-theme-sheet">
+    <link rel="stylesheet" href="/css/style.css?v=1782576901738" id="main-theme-sheet">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   </head>
@@ -57,7 +57,16 @@
           </div>
 
         <div class="blog-body">
-            <p><img src="../../projects/ComicDrop/comicdrop_banner.png" alt="ComicDrop Banner" class="project-image" /></p>
+            <p><video 
+          autoplay 
+          loop 
+          muted 
+          playsinline 
+          preload="metadata" 
+          class="project-video">
+          <source src="../../projects/ComicDrop/comicdrop_banner.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video></p>
 <p><strong>ComicDrop</strong> is a modern, responsive, ultra-lightweight <strong>browser-based digital comic book reader</strong>. It relies completely on an offline-first architecture, turning your web browser into a native-class layout and rendering engine with zero server dependencies.</p>
 <p>Here is a deep dive into the design choices, custom features, and engineering pipelines behind the app.</p>
 <hr>
@@ -77,6 +86,7 @@
 <li><strong>Hide UI Toggle</strong>: Collapses all interface overlays instantly. A simple tap anywhere on the background reading space brings them right back.</li>
 <li><strong>Adaptive Fullscreen</strong>: Utilizes live browser feature queries to hide or show native fullscreen toggles dynamically based on hardware platform limitations (such as iOS constraints).</li>
 </ul>
+<p><img src="../../projects/ComicDrop/comicdrop_preview.png" alt="ComicDrop Preview" class="project-image" /></p>
 <h3>4. Compact Control Deck</h3>
 <p>Navigation is grouped into a central control cluster at the bottom edge. Positioned safely using device environment calculations (<code>env(safe-area-inset-bottom)</code>) to sit right above mobile browser navigation rows, it includes first, previous, next, and last page markers mapping custom sanitized inline SVGs alongside an interactive text container to trigger precise page number edits.</p>
 <hr>

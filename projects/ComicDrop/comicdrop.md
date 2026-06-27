@@ -7,7 +7,7 @@ site: "https://akwastaken.github.io/ComicDrop/"
 tags: ["JavaScript", "WebAssembly", "CSS3"]
 ---
 
-![ComicDrop Banner](comicdrop_banner.png)
+![ComicDrop Banner](comicdrop_banner.mp4)
 
 **ComicDrop** is a modern, responsive, ultra-lightweight **browser-based digital comic book reader**. It relies completely on an offline-first architecture, turning your web browser into a native-class layout and rendering engine with zero server dependencies.
 
@@ -35,6 +35,8 @@ Designed to keep the layout minimalist, the top-center capsule handles system co
 
 * **Hide UI Toggle**: Collapses all interface overlays instantly. A simple tap anywhere on the background reading space brings them right back.
 * **Adaptive Fullscreen**: Utilizes live browser feature queries to hide or show native fullscreen toggles dynamically based on hardware platform limitations (such as iOS constraints).
+
+![ComicDrop Preview](comicdrop_preview.png)
 
 ### 4. Compact Control Deck
 
