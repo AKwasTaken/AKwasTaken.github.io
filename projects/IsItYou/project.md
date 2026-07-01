@@ -1,5 +1,5 @@
 ---
-title: "IsItYou, A Finger Roulette Web App"
+title: "IsItYou"
 date: 2025-07-05
 desc: "A multi-touch web app built in HTML5/JS for instant, chaotic group decision-making. Multiple users hold a finger down for two seconds until a pulsing animation crowns a random winner."
 source: "http://github.com/AKwasTaken/IsItYou"

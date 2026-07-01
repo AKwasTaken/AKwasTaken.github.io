@@ -4,16 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AK | Portfolio</title>
-    
-    <link rel="preload" href="/assets/logo.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/assets/topographical_map_art_bg.svg" as="image" type="image/svg+xml" />
 
-    <link rel="preload" href="/fonts/tanker/Tanker-Regular.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
+    <link
+      rel="preload"
+      href="/assets/logo.svg"
+      as="image"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      href="/assets/topographical_map_art_bg.svg"
+      as="image"
+      type="image/svg+xml"
+    />
 
-    <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
-    <link rel="stylesheet" href="/css/style.css?v=1782665043586" id="main-theme-sheet">
+    <link
+      rel="preload"
+      href="/fonts/tanker/Tanker-Regular.woff2"
+      crossorigin="anonymous"
+      as="font"
+      type="font/woff2"
+    />
 
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+    <link
+      rel="stylesheet"
+      href="/css/style.css?v=1782899215131"
+      id="main-theme-sheet"
+    />
   </head>
   <body>
     <main>
@@ -23,7 +42,12 @@
 
         <nav class="navbar">
           <div class="nav-container">
-            <a href="index.html" class="logo-link" alt="AK-logo" aria-label="Aneeth Kumaar Home">
+            <a
+              href="index.html"
+              class="logo-link"
+              alt="AK-logo"
+              aria-label="Aneeth Kumaar Home"
+            >
               <div class="logo-item" data-src="assets/logo.svg"></div>
             </a>
 
@@ -226,7 +250,63 @@
       </header>
     </main>
 
-    <div class="checkerboard-divider"></div>
+    <section class="project-index">
+      <div class="ascii-parent-container">
+        <div id="ascii-leaf-container" data-src="assets/ascii-leaf.svg"></div>
+      </div>
+      <div class="project-container">
+        <div class="project-contents">
+          <h1 class="project-heading-text">PROJECTS</h1>
+
+          <div class="project-list">
+            <a href="dist/projects/whisperlogger.html" class="project-card-link">
+              <section class="project-index-card">
+                <div class="project-index-header">
+                  <span class="project-index-title">WhisperLogger</span>
+                  <span class="project-index-year">2026</span>
+                </div>
+                <p class="project-index-desc">
+                  A native macOS menu-bar utility for rapid, distraction-free text
+                  logging.
+                </p>
+              </section>
+            </a>
+
+            <a href="dist/projects/comicdrop.html" class="project-card-link">
+              <section class="project-index-card">
+                <div class="project-index-header">
+                  <span class="project-index-title">ComicDrop</span>
+                  <span class="project-index-year">2026</span>
+                </div>
+                <p class="project-index-desc">
+                  A lightning-fast, privacy-focused, browser-based comic book
+                  reader for CBR, CBZ, and CB7 files.
+                </p>
+              </section>
+            </a>
+
+            <a href="dist/projects/gambler.html" class="project-card-link">
+              <section class="project-index-card">
+                <div class="project-index-header">
+                  <span class="project-index-title">Gambler</span>
+                  <span class="project-index-year">2025</span>
+                </div>
+                <p class="project-index-desc">
+                  A multi-modal day-trading system that extracts real-time semantic data from news streams with a Transformer encoder, models price paths using Diffusion, and executes trades via a Deep Q-Network.
+                </p>
+              </section>
+            </a>
+
+          </div>
+
+          <a href="projects.html" class="projects-page-link">
+            View All Projects
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- <div class="checkerboard-divider"></div> -->
 
     <div class="bento-grid-container">
       <div class="bento-grid">
@@ -253,19 +333,6 @@
         </div>
       </div>
     </div>
-
-    <div class="checkerboard-divider"></div>
-
-    <!-- CONTENT PLACEHOLDER FOR SCROLL TESTING -->
-    <section class="scroll-filler">
-      <h2>More content to be added soon.</h2>
-      <p>
-        Projects and other stuff will be added here in the future. For now, you
-        can check out my
-        <a href="https://github.com/AKwasTaken" target="_blank" style="color: var(--accent-text);">GitHub</a> for
-        some of my work.
-      </p>
-    </section>
 
     <section class="daily-quote-section">
       <div class="quote-container">
@@ -367,6 +434,30 @@
     </footer>
 
     <!-- SCRIPTS FOR INTERACTIVE COMPONENTS -->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById("ascii-leaf-container");
+        const svgUrl = container.getAttribute("data-src");
+
+        if (svgUrl) {
+          fetch(svgUrl)
+            .then((response) => {
+              if (!response.ok)
+                throw new Error("Failed to load SVG layout asset.");
+              return response.text();
+            })
+            .then((svgText) => {
+              // Injecting the raw SVG string makes it part of the page's live DOM
+              container.innerHTML = svgText;
+            })
+            .catch((error) =>
+              console.error("Error loading accessible ASCII SVG:", error),
+            );
+        }
+      });
+    </script>
+
     <script src="js/nav_menu.js"></script>
     <script src="js/ticker_logic.js"></script>
     <script src="js/load_icons.js"></script>

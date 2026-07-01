@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AK | theproject</title>
+    <title>AK | IsItYou</title>
 
     <link rel="preload" href="/assets/logo.svg" as="image" type="image/svg+xml" />
     <link rel="preload" href="/fonts/Outfit/Outfit-VariableFont_wght.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
 
-    <link rel="icon" type="image/x-icon" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
     <link rel="stylesheet" href="/css/style.css?v=1782899215131" id="main-theme-sheet">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
@@ -49,48 +50,53 @@
     
     <div class="blog-content">
         <div class="blog-header">
-            <h1 class="blog-heading">theproject</h1>
-            <span class="blog-creation-time"></span>
+            <h1 class="blog-heading">IsItYou</h1>
+            <span class="blog-creation-time">July 5, 2025</span>
             <section class="project-links">
-              
+              <span class="source-code"><a href="http://github.com/AKwasTaken/IsItYou" target="_blank" class="source-button">Source Code</a></span> <span class="site-link"><a href="http://akwastaken.github.io/IsItYou" target="_blank" class="site-link-button">Web App</a></span>
             </section>
           </div>
 
         <div class="blog-body">
-            <p><img src="../../projects/CreateTweaks/zinc_ingot_recipe.png" alt="Project Preview Banner" class="project-image" /></p>
-<h1>Create Tweaks: Retro-Generation Recipes</h1>
-<p>A lightweight Minecraft datapack designed for the <strong>Create Mod</strong> ecosystem that introduces balanced, vanilla-friendly crafting recipes for custom world-generation resources. It serves as a seamless quality-of-life fix for existing worlds where traveling thousands of blocks to find new chunks isn&#39;t ideal.</p>
+            <p><video 
+          autoplay 
+          loop 
+          muted 
+          playsinline 
+          preload="metadata" 
+          class="project-video">
+          <source src="../../projects/IsItYou/IsItYouBanner.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video></p>
+<p>A lightweight, responsive web application designed for touch-capable devices that randomly selects one finger from multiple participants holding their fingers on the screen. It is ideal for decision-making or turn-selection in group settings.</p>
 <hr>
 <h2>Features</h2>
 <ul>
-<li><strong>Retroactive Compatibility</strong>: Allows players to obtain Create mod natural materials without needing to generate new, unexplored chunks.</li>
-<li><strong>Resource Conversion</strong>: Adds direct crafting recipes for key progression blocks: <strong>Asurine</strong>, <strong>Crimsite</strong>, <strong>Ochrum</strong>, <strong>Veridium</strong>, and <strong>Zinc Ingots</strong>.</li>
-<li><strong>Instant Recipe Discovery</strong>: Automatically unlocks all custom recipes in the player&#39;s vanilla Recipe Book the moment the world or server loads.</li>
-<li><strong>Zero Performance Impact</strong>: Leverages standard data-driven JSON mechanics with optimized function loops to keep gameplay entirely lag-free.</li>
+<li><strong>Multi-touch Tracking</strong>: Monitors and renders distinct touch points simultaneously using an HTML5 canvas.</li>
+<li><strong>Selection Workflow</strong>: Triggers a full-screen pulsing animation after 2 seconds of sustained contact, followed by a random selection.</li>
+<li><strong>Visual Hierarchy</strong>: Uses distinct styles to separate active touches from the chosen selection, which features a multi-layered gold glow effect.</li>
+<li><strong>Control UI</strong>: Includes explicit UI toggles for full-screen mode and manual canvas state resets.</li>
+<li><strong>State Management</strong>: Resets the selection state immediately if any finger is removed prematurely during the countdown.</li>
 </ul>
-<p><img src="../../projects/CreateTweaks/recipes_other.png" alt="Other Recipes" class="project-image" /></p>
 <hr>
 <h2>Technical Architecture</h2>
-<p>The core functionality leverages Minecraft&#39;s native data-driven engine to override and inject custom recipes and logic hooks:</p>
+<p>The core functionality is encapsulated within the <code>TouchRandomizer</code> class:</p>
 <ul>
-<li><strong>Recipe Framework</strong>: Built using standard <code>minecraft:crafting_shapeless</code> JSON recipes inside the <code>data/createtweaks/recipe/</code> namespace, making ingredients easily modifiable.</li>
-<li><strong>Initialization Loop (<code>load.mcfunction</code>)</strong>: Hooks into the global <code>#minecraft:load</code> event to execute a <code>/recipe give</code> command instantly for all active players when the server boots or reloads.</li>
-<li><strong>Event Loop (<code>tick.mcfunction</code>)</strong>: Hooks into the <code>#minecraft:tick</code> array (running 20 times per second). It is intentionally left unbloated to ensure optimal server performance while leaving room for custom developer logic.</li>
-<li><strong>Cross-Version Scalability</strong>: Engineered with structural flexibility, allowing the pack format ranges and namespace structures (<code>recipe/</code> vs <code>recipes/</code>) to be manually refactored for legacy Minecraft variants.</li>
+<li><strong>Event Handling</strong>: Tracks pointer positions using explicit <code>touchstart</code>, <code>touchmove</code>, and <code>touchend</code> event listeners linked to a JavaScript <code>Map</code>.</li>
+<li><strong>Rendering Loop</strong>: Operates on a continuous <code>requestAnimationFrame</code> cycle to redraw touch circles and manage alpha-channel fading transitions.</li>
+<li><strong>Adaptive Layout</strong>: Automatically handles canvas resizing on orientation changes or window resize actions.</li>
 </ul>
 <hr>
 <h2>Getting Started</h2>
 <h3>Prerequisites</h3>
-<ul>
-<li>A Minecraft client running a compatible version (Supports 1.21.8 up to modern community forks like <strong>Create Fly</strong> on Modrinth).</li>
-<li>The <strong>Create Mod</strong> (or <strong>Create Fly</strong>) installed on your client or server.</li>
-</ul>
+<p>A modern web browser with touch event support (e.g., Safari on iOS, Chrome on Android, or a laptop with a touch-enabled screen).</p>
 <h3>Installation</h3>
+<p>Click on the Project Demo button on the top to see this project in live action. Continue ahead if you want to replicate this project and/or add onto it.</p>
 <ol>
-<li><strong>Download</strong> the datapack zip file/folder from Modrinth or Github Releases.</li>
-<li>Navigate to your Minecraft world folder (<code>saves/&lt;YourWorldName&gt;/</code>).</li>
-<li>Open the <strong><code>datapacks</code></strong> folder and drop the <code>createtweaks</code> zip file/folder inside.</li>
-<li>Open your world (or type <strong><code>/reload</code></strong> in the chat if you are already in-game) to initialize the recipes.</li>
+<li>Clone or download the project files.</li>
+<li>Ensure you have the accompanying <code>styles.css</code> file in the same directory.</li>
+<li>Open <code>index.html</code> directly in a browser or serve it via a local development server.</li>
+<li>Place multiple fingers on the screen and hold for 2 seconds to initiate the random selection process.</li>
 </ol>
 
           <hr>
