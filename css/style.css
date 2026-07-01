@@ -458,8 +458,10 @@ body {
 }
 
 #ascii-leaf-container svg text,
-#ascii-leaf-container svg path {
-  fill: var(--background-color); 
+#ascii-leaf-container svg path,
+#ascii-leaf-container svg tspan {
+  font-family: 'Ubuntu Mono', monospace !important;
+  fill: var(--background-color);
 }
 
 .project-container {
@@ -483,8 +485,13 @@ body {
 .project-heading-text {
   font-family: "Tanker-Regular", sans-serif;
   color: var(--background-color);
-  /* 4. Clamp the heading so it stops growing massively on 4K or ultra-wide panels */
   font-size: 200px; 
+
+  /* color: transparent;
+  -webkit-text-stroke-width: 2.5px;
+  -webkit-text-stroke-color: var(--background-color);
+  font-weight: normal;
+  font-synthesis: none; */
 }
 
 .project-list {
