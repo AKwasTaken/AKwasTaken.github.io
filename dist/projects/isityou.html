@@ -3,15 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AK | Projects</title>
+    <title>AK | IsItYou</title>
 
     <link rel="preload" href="/assets/logo.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/fonts/tanker/Tanker-Regular.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
+    <link rel="preload" href="/fonts/Outfit/Outfit-VariableFont_wght.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
 
     <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
     <link rel="stylesheet" href="/css/style.css?v=1782906150076" id="main-theme-sheet">
     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   </head>
   <body>
     <nav class="navbar">
@@ -20,7 +21,6 @@
           <div class="logo-item" data-src="/assets/logo.svg"></div>
         </a>
 
-        <!-- Hamburger Toggle (Hidden on desktop) -->
         <button
           class="menu-toggle"
           id="menu-toggle"
@@ -31,7 +31,6 @@
           <span class="bar"></span>
         </button>
 
-        <!-- Navigation Links -->
         <ul class="nav-links" id="nav-links">
           <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
           <li><a href="/projects.html" class="nav-item">Projects</a></li>
@@ -48,21 +47,71 @@
         </ul>
       </div>
     </nav>
-
-    <h1 class="page-heading long-page-heading">PROJECTS</h1>
-
-    <div class="project-grid">
-      
-      ${projectListings}
     
+    <div class="blog-content">
+        <div class="blog-header">
+            <h1 class="blog-heading">IsItYou</h1>
+            <span class="blog-creation-time">July 5, 2025</span>
+            <section class="project-links">
+              <span class="source-code"><a href="http://github.com/AKwasTaken/IsItYou" target="_blank" class="source-button">Source Code</a></span> <span class="site-link"><a href="http://akwastaken.github.io/IsItYou" target="_blank" class="site-link-button">Web App</a></span>
+            </section>
+          </div>
+
+        <div class="blog-body">
+            <p><video 
+          autoplay 
+          loop 
+          muted 
+          playsinline 
+          preload="metadata" 
+          class="project-video">
+          <source src="../../projects/IsItYou/IsItYouBanner.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video></p>
+<p>A lightweight, responsive web application designed for touch-capable devices that randomly selects one finger from multiple participants holding their fingers on the screen. It is ideal for decision-making or turn-selection in group settings.</p>
+<hr>
+<h2>Features</h2>
+<ul>
+<li><strong>Multi-touch Tracking</strong>: Monitors and renders distinct touch points simultaneously using an HTML5 canvas.</li>
+<li><strong>Selection Workflow</strong>: Triggers a full-screen pulsing animation after 2 seconds of sustained contact, followed by a random selection.</li>
+<li><strong>Visual Hierarchy</strong>: Uses distinct styles to separate active touches from the chosen selection, which features a multi-layered gold glow effect.</li>
+<li><strong>Control UI</strong>: Includes explicit UI toggles for full-screen mode and manual canvas state resets.</li>
+<li><strong>State Management</strong>: Resets the selection state immediately if any finger is removed prematurely during the countdown.</li>
+</ul>
+<hr>
+<h2>Technical Architecture</h2>
+<p>The core functionality is encapsulated within the <code>TouchRandomizer</code> class:</p>
+<ul>
+<li><strong>Event Handling</strong>: Tracks pointer positions using explicit <code>touchstart</code>, <code>touchmove</code>, and <code>touchend</code> event listeners linked to a JavaScript <code>Map</code>.</li>
+<li><strong>Rendering Loop</strong>: Operates on a continuous <code>requestAnimationFrame</code> cycle to redraw touch circles and manage alpha-channel fading transitions.</li>
+<li><strong>Adaptive Layout</strong>: Automatically handles canvas resizing on orientation changes or window resize actions.</li>
+</ul>
+<hr>
+<h2>Getting Started</h2>
+<h3>Prerequisites</h3>
+<p>A modern web browser with touch event support (e.g., Safari on iOS, Chrome on Android, or a laptop with a touch-enabled screen).</p>
+<h3>Installation</h3>
+<p>Click on the Project Demo button on the top to see this project in live action. Continue ahead if you want to replicate this project and/or add onto it.</p>
+<ol>
+<li>Clone or download the project files.</li>
+<li>Ensure you have the accompanying <code>styles.css</code> file in the same directory.</li>
+<li>Open <code>index.html</code> directly in a browser or serve it via a local development server.</li>
+<li>Place multiple fingers on the screen and hold for 2 seconds to initiate the random selection process.</li>
+</ol>
+
+          <hr>
+        </div>
     </div>
+
 
     <div class="back-link">
-      <a href="/index.html" class="back-link-anchor">
+      <a href="/projects.html" class="back-link-anchor">
         <span class="back-link-icon"></span>
-        <span class="back-link-text">Back to Main</span>
+        <span class="back-link-text">Back to Projects</span>
       </a>
     </div>
+
+    
 
     <footer class="site-footer">
       <div class="footer-content">
@@ -158,5 +207,20 @@
 
     <script src="/js/nav_menu.js"></script>
     <script src="/js/load_icons.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMath()"></script>
+    
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    </script>
   </body>
 </html>

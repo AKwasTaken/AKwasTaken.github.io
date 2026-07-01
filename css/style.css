@@ -88,6 +88,10 @@ body {
 @font-face { font-family: 'Mosk'; src: url('/fonts/Mosk/Mosk Ultra-Bold 900.ttf') format('truetype'); font-weight: 900; font-style: normal; }
 
 
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+
+
 
 
 
@@ -357,6 +361,17 @@ body {
   width: 100%;
 }
 
+/* .icon-flex-row > * {
+  filter: grayscale(100%);
+  opacity: 0.6; 
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.icon-flex-row > *:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+} */
+
 .icon-item {
   display: flex;
   align-items: center;
@@ -400,6 +415,177 @@ body {
 .tertiary-stack .icon-item:hover .lang-svg-icon { color: var(--lang-color); }
 .lang-svg-icon path, .lang-svg-icon circle, .lang-svg-icon rect, .lang-svg-icon polygon, .lang-svg-icon g { fill: currentColor; }
 .lang-svg-icon [stroke] { stroke: currentColor; }
+
+
+
+
+
+
+
+
+/* --- 2C-II: PROJECT INDEX SECTION --- */
+.project-index {
+  background-color: var(--accent-main);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  
+  padding: 0 15vw; 
+  box-sizing: border-box;
+  
+  display: flex;
+  align-items: center;     
+  justify-content: flex-start; 
+}
+
+.ascii-parent-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 60vw;
+  height: auto;
+  opacity: 0.15;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Target the injected SVG directly for style controls */
+#ascii-leaf-container svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+#ascii-leaf-container svg text,
+#ascii-leaf-container svg path {
+  fill: var(--background-color); 
+}
+
+.project-container {
+  width: 100%;
+  max-width: 700px; 
+  display: block;
+  z-index: 2;
+  
+  /* CHANGE: Stripped the rigid 2rem margin layout offset so flex engine centers cleanly */
+  margin: 100px 0; 
+}
+
+.project-contents {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%; /* Let the parent container restrict the footprint */
+  align-items: stretch;
+}
+
+.project-heading-text {
+  font-family: "Tanker-Regular", sans-serif;
+  color: var(--background-color);
+  /* 4. Clamp the heading so it stops growing massively on 4K or ultra-wide panels */
+  font-size: 200px; 
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; 
+  padding-left: 10px;
+  /* margin-bottom: 2rem; */
+}
+
+
+.project-index-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Cleaner relative border overlay */
+  padding-bottom: 2rem;
+  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.project-card-link:hover .project-index-card {
+  transform: translateX(8px);
+}
+
+.project-index-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.project-index-title {
+  font-family: 'Outfit', sans-serif;
+  /* 5. Fluid type sizing ensures perfect readability scales on any panel */
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 500;
+  color: var(--background-color);
+}
+
+.project-index-year {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(14px, 1.2vw, 18px);
+  opacity: 0.5;
+  color: var(--background-color);
+}
+
+.project-index-desc {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  color: var(--background-color);
+  opacity: 0.65;
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 90%; /* Stops line length from stretching too far horizontally */
+}
+
+.projects-page-link {
+  text-decoration: none;
+  color: var(--background-color);
+
+  border: 2px solid var(--background-color);
+
+  padding: 10px 12px;
+  border-radius: 8px;
+  
+  width: max-content;
+
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  font-size: clamp(17px, 2vw, 24px);
+
+  margin: 60px 0 50px 10px; 
+
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+
+  transition: color 0.4s ease-in-out;
+}
+
+.projects-page-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+  z-index: -1; 
+  
+  transform: translateX(-105%) skewX(-15deg);
+  transition: transform 0.4s ease-in-out;
+}
+
+.projects-page-link:hover {
+  color: var(--accent-main);
+}
+
+.projects-page-link:hover::before {
+  transform: translateX(0) skewX(0deg);
+}
 
 
 
@@ -683,6 +869,10 @@ body {
   padding: 20px 0 20px;
 }
 
+.katex-display {
+  overflow-x: auto;
+}
+
 .blog-body ul {
   margin: 10px 0 10px 30px;
 }
@@ -758,8 +948,8 @@ code {
   
   padding-left: 40px;
   padding-right: 40px;
-  box-sizing: border-box; /* Ensures padding is calculated inside the element's width */
-  word-wrap: break-word;  /* Fallback to break a word if a device is impossibly narrow */
+  box-sizing: border-box;
+  word-wrap: break-word;
 }
 
 .scroll-filler {
@@ -1322,8 +1512,60 @@ body.error-page-body {
   .ticker-wrapper { width: 100%; }
   .ticker-track { align-items: center; }
   .ticker-item, .ticker-item-gold { text-align: center; }
+
+  .hero-content {
+    padding-top: 25vh;
+  }
+
+  .project-contents {
+    gap: 0;
+  }
+
+  .project-index {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: flex-start;
+    padding: 6rem 5vw;
+  }
+
+  .project-list {
+    scale: 0.9;
+    padding-left: 0px;
+
+    transform-origin: center top;
+
+    max-width: 55vw;
+    margin: 35px auto 0;
+  }
+  
+  .project-container {
+    max-width: 100%; 
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .project-heading-text {
+    text-align: center;
+    font-size: clamp(3.5rem, 20vw, 10rem);
+    margin: 0 auto 0 auto;
+  }
+
+  .projects-page-link {
+    width: max-content;
+    text-align: center;
+    margin: 0 auto 30px auto; 
+  }
 }
 
+@media (max-width: 830px) {
+  .ascii-parent-container {
+    bottom: -10%;
+    left: 20%;
+    width: 660px;
+    height: auto;
+  }
+}
 
 
 
@@ -1363,6 +1605,7 @@ body.error-page-body {
     .software-stack-container{
         top: 75vh;
     }
+    
 }
 
 
@@ -1486,6 +1729,7 @@ body.error-page-body {
   .page-heading { 
     padding-top: 2rem;
   }
+
 
   .long-page-heading {
     font-size: clamp(3.5rem, 20vw, 10rem); 
