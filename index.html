@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Portfolio of Aneeth Kumaar." />
     <title>AK | Portfolio</title>
 
     <link
@@ -30,9 +31,17 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
     <link
       rel="stylesheet"
-      href="/css/style.css?v=1782907011225"
+      href="/css/style.css?v=1782914333508"
       id="main-theme-sheet"
     />
+
+    <!-- SCRIPTS FOR INTERACTIVE COMPONENTS -->
+
+    <script src="js/nav_menu.js" defer></script>
+    <script src="js/ticker_logic.js" defer></script>
+    <script src="js/load_icons.js" defer></script>
+    <script src="js/daily_quote.js" defer></script>
+
   </head>
   <body>
     <main>
@@ -311,25 +320,25 @@
     <div class="bento-grid-container">
       <div class="bento-grid">
         <div class="bento-item item-0">
-          <img src="assets/bento-grid/0.webp" alt="0" />
+          <img src="assets/bento-grid/0.webp" alt="0" width="1500" height="4000" loading="lazy"/>
         </div>
         <div class="bento-item item-1">
-          <img src="assets/bento-grid/1.webp" alt="1" />
+          <img src="assets/bento-grid/1.webp" alt="1" width="3000" height="1500" loading="lazy"/>
         </div>
         <div class="bento-item item-2">
-          <img src="assets/bento-grid/2.webp" alt="2" />
+          <img src="assets/bento-grid/2.webp" alt="2" width="1500" height="3000" loading="lazy"/>
         </div>
         <div class="bento-item item-3">
-          <img src="assets/bento-grid/3.webp" alt="3" />
+          <img src="assets/bento-grid/3.webp" alt="3" width="3000" height="1500" loading="lazy"/>
         </div>
         <div class="bento-item item-4">
-          <img src="assets/bento-grid/4.webp" alt="4" />
+          <img src="assets/bento-grid/4.webp" alt="4" width="3000" height="1500" loading="lazy"/>
         </div>
         <div class="bento-item item-5">
-          <img src="assets/bento-grid/5.webp" alt="5" />
+          <img src="assets/bento-grid/5.webp" alt="5" width="3000" height="2000" loading="lazy"/>
         </div>
         <div class="bento-item item-6">
-          <img src="assets/bento-grid/6.webp" alt="6" />
+          <img src="assets/bento-grid/6.webp" alt="6" width="1586" height="1058" loading="lazy"/>
         </div>
       </div>
     </div>
@@ -433,34 +442,5 @@
       </div>
     </footer>
 
-    <!-- SCRIPTS FOR INTERACTIVE COMPONENTS -->
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const container = document.getElementById("ascii-leaf-container");
-        const svgUrl = container.getAttribute("data-src");
-
-        if (svgUrl) {
-          fetch(svgUrl)
-            .then((response) => {
-              if (!response.ok)
-                throw new Error("Failed to load SVG layout asset.");
-              return response.text();
-            })
-            .then((svgText) => {
-              // Injecting the raw SVG string makes it part of the page's live DOM
-              container.innerHTML = svgText;
-            })
-            .catch((error) =>
-              console.error("Error loading accessible ASCII SVG:", error),
-            );
-        }
-      });
-    </script>
-
-    <script src="js/nav_menu.js"></script>
-    <script src="js/ticker_logic.js"></script>
-    <script src="js/load_icons.js"></script>
-    <script src="js/daily_quote.js"></script>
   </body>
 </html>
