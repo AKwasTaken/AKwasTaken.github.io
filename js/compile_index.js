@@ -5,7 +5,8 @@ const path = require('path');
 const matter = require('gray-matter');
 
 // Define directory paths relative to this script file location
-const BLOGS_DIR = path.join(__dirname, '../blogs'); 
+// FIX 1: Pointed to 'dist/blogs' where the raw .md files now live
+const BLOGS_DIR = path.join(__dirname, '../dist/blogs'); 
 const HOME_INDEX_TEMPLATE_PATH = path.join(__dirname, '../dist/indexPage-template.html');
 const HOME_INDEX_OUTPUT_PATH = path.join(__dirname, '../index.html');
 
@@ -29,7 +30,9 @@ function gatherBlogMetadata(dir) {
     
     const title = data.title || path.basename(item, '.md');
     const safeName = path.basename(item, '.md').toLowerCase().replace(/\s+/g, '-');
-    const url = `dist/blogs/${safeName}.html`;
+    
+    // FIX 2: Updated URL link structure so the home page grid links directly to the root 'blogs/' directory
+    const url = `blogs/${safeName}.html`;
 
     let year = 2026; 
     let monthName = 'Jan';
