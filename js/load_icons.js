@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const targets = Array.from(document.querySelectorAll(".link-icon, .logo-item"));
-  const asciiContainer = document.getElementById("ascii-leaf-container");
+  const asciiContainer1 = document.getElementById("ascii-leaf-container");
+  const asciiContainer2 = document.getElementById("ascii-leaves-container");
+
   
   const parser = new DOMParser();
   const fetchPromises = [];
@@ -20,8 +22,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
   });
 
-  if (asciiContainer) {
-    const asciiUrl = asciiContainer.getAttribute("data-src");
+  if (asciiContainer1) {
+    const asciiUrl = asciiContainer1.getAttribute("data-src");
     if (asciiUrl) {
       fetchPromises.push(
         fetch(asciiUrl)
@@ -29,7 +31,25 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (!res.ok) throw new Error("Failed to load SVG layout asset.");
             return res.text();
           })
-          .then(text => ({ type: 'ascii', el: asciiContainer, text }))
+          .then(text => ({ type: 'ascii', el: asciiContainer1, text }))
+          .catch(err => {
+            console.error("Error loading accessible ASCII SVG:", err);
+            return null;
+          })
+      );
+    }
+  }
+
+  if (asciiContainer2) {
+    const asciiUrl = asciiContainer2.getAttribute("data-src");
+    if (asciiUrl) {
+      fetchPromises.push(
+        fetch(asciiUrl)
+          .then(res => {
+            if (!res.ok) throw new Error("Failed to load SVG layout asset.");
+            return res.text();
+          })
+          .then(text => ({ type: 'ascii', el: asciiContainer2, text }))
           .catch(err => {
             console.error("Error loading accessible ASCII SVG:", err);
             return null;
