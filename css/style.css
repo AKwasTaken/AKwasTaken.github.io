@@ -621,7 +621,7 @@ body {
   left: 0;
   width: 60vw;
   height: auto;
-  opacity: 0.5;
+  opacity: 0.4;
   pointer-events: none;
   user-select: none;
 }
