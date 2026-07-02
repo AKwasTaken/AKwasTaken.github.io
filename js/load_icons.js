@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const targets = Array.from(document.querySelectorAll(".link-icon, .logo-item"));
   const asciiContainer1 = document.getElementById("ascii-leaf-container");
   const asciiContainer2 = document.getElementById("ascii-leaves-container");
+  const asciiContainer3 = document.getElementById("ascii-bamboo-container");
 
   
   const parser = new DOMParser();
@@ -50,6 +51,24 @@ document.addEventListener("DOMContentLoaded", async () => {
             return res.text();
           })
           .then(text => ({ type: 'ascii', el: asciiContainer2, text }))
+          .catch(err => {
+            console.error("Error loading accessible ASCII SVG:", err);
+            return null;
+          })
+      );
+    }
+  }
+
+  if (asciiContainer3) {
+    const asciiUrl = asciiContainer3.getAttribute("data-src");
+    if (asciiUrl) {
+      fetchPromises.push(
+        fetch(asciiUrl)
+          .then(res => {
+            if (!res.ok) throw new Error("Failed to load SVG layout asset.");
+            return res.text();
+          })
+          .then(text => ({ type: 'ascii', el: asciiContainer3, text }))
           .catch(err => {
             console.error("Error loading accessible ASCII SVG:", err);
             return null;

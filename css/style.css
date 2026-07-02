@@ -229,6 +229,7 @@ body {
   background-repeat: no-repeat;
   scale: -1 -1;
   transform: translateZ(-1px);
+  opacity: 0.65;
   z-index: -1;
 } 
 
@@ -1665,6 +1666,270 @@ body.error-page-body {
 
 
 
+/* --- 2K: PROJECT PAGE CARD DESIGN --- */
+
+.contact-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: none;
+  overflow: hidden;
+}
+
+.ascii-leaves-parent-container {
+  position: absolute;   
+  top: 0;
+  right: 0;
+  height: auto;       
+  width: 50vw;        
+  opacity: 0.45;
+  /* scale: -1 1; */
+  transform-origin: top left; 
+  pointer-events: none;
+  user-select: none;
+  z-index: -1;        
+}
+
+#ascii-leaves-container,
+#ascii-leaves-container svg {
+  width: 100%;        
+  height: auto;       
+  display: block;
+}
+
+.contact-main {
+  display: flex;
+  width: 90%;            
+  margin: 0 auto;        
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 5vw 0;        
+  gap: 20px;
+}
+
+.contact-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+}
+
+.profile-name {
+  position: absolute;
+  top: 5%;             
+  left: 10%;           
+  width: 80%;          
+  z-index: 2;          
+  
+  margin: 0;
+  text-align: center;
+  color: var(--accent-main);      
+  font-family: "Outfit", sans-serif;
+  font-weight: 200;
+  font-size: clamp(24px, 3.5vw, 48px);
+  text-transform: uppercase;
+}
+
+.profile-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 40px;
+
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+
+  filter: grayscale(1);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.contact-right {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.contact-heading {
+  font-family: "Tanker-Regular", sans-serif;
+  font-size: clamp(55px, 8.5vw, 130px);
+  font-weight: 800;
+  line-height: 0.95;
+  color: var(--accent-main);
+  margin: 0 0 2vw 0;       
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.social-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 100%;        
+  margin: 2vw 0;          
+}
+
+.social-button {
+  text-decoration: none;
+  color: var(--accent-main);
+  background-color: var(--background-color);
+  border: 2px solid var(--accent-main);
+
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: max-content;
+
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  font-size: clamp(14px, 1.5vw, 20px); 
+
+  margin: 0 5px;
+
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 0.4s ease-in-out;
+}
+
+.social-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--accent-main);
+  z-index: -1; 
+  
+  transform: translateX(-105%) skewX(-15deg);
+  transition: transform 0.4s ease-in-out;
+}
+
+.social-button:hover {
+  color: var(--background-color);
+}
+
+.social-button:hover::before {
+  transform: translateX(0) skewX(0deg);
+}
+
+
+
+.github-grid-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 2vw 0;           /* CHANGED: Aligned margins with the rest of the layout flow */
+  overflow-x: auto; 
+}
+
+.github-grid-img {
+  width: 100%;
+  min-width: 600px;
+  height: auto;
+  display: block;
+}
+
+
+.contact-aboutme {
+  background-color: var(--accent-main);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  
+  padding: 0 15vw; 
+  box-sizing: border-box;
+  
+  display: flex;
+  align-items: center;     
+  justify-content: flex-start; 
+}
+
+
+.ascii-bamboo-parent-container {
+  position: absolute;
+  top: 0;
+  right: 5vw;
+
+  scale: 1.7;
+
+  width: auto;
+  height: 100vh;
+  opacity: 0.25;
+  pointer-events: none;
+  user-select: none;
+}
+
+#ascii-bamboo-container,
+#ascii-bamboo-container svg {
+  height: 100%;       /* Force the SVG to span the full height of the section */
+  width: auto;        /* Maintain the aspect ratio so it doesn't look stretched or distorted */
+  display: block;
+}
+
+#ascii-bamboo-container svg text,
+#ascii-bamboo-container svg path,
+#ascii-bamboo-container svg tspan {
+  font-family: 'Ubuntu Mono', monospace !important;
+  fill: var(--background-color) !important;
+}
+
+
+.aboutme-container {
+  width: 100%;
+  max-width: 700px; 
+  display: block;
+  z-index: 2;
+  
+  /* CHANGE: Stripped the rigid 2rem margin layout offset so flex engine centers cleanly */
+  margin: 100px 0; 
+}
+
+.aboutme-contents {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%; /* Let the parent container restrict the footprint */
+  align-items: stretch;
+}
+
+.aboutme-heading-text {
+  font-family: "Tanker-Regular", sans-serif;
+  color: var(--background-color);
+  font-size: 150px; 
+}
+
+.aboutme-para-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(18px, 1.8vw, 22px);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--background-color);
+  margin-top: 10px;
+  max-width: 680px; /* Keeps line length at an ideal 60-70 characters for easy scanning */
+  opacity: 0.95;
+  white-space: pre-line; /* Respects the paragraph breaks cleanly */
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1976,6 +2241,55 @@ body.error-page-body {
   
   .masonry-item { margin-bottom: 12px; }
   .gallery-container { padding: 12px; }
+
+  .contact-main {
+    flex-direction: column;
+    padding: 20px;
+    gap: 40px;
+    min-height: auto;
+
+    margin-top: 11vh;
+    margin-bottom: 11vh;
+  }
+
+  .contact-heading {
+    text-align: center;
+  }
+  
+  .contact-left, .contact-right {
+    flex: none;
+    width: 100%;
+  }
+
+  .profile-card {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .social-links-row {
+    justify-content: center;
+    margin: 30px 0;
+  }
+
+  .aboutme-heading-text {
+    text-align: center;
+    font-size: clamp(5rem, 40vw, 10rem);
+    margin: 0 auto;
+    line-height: 0.9;      
+  }
+
+  .aboutme-para-text {
+    text-align: center;
+    margin: 20px auto 0 auto;
+  }
+
+  .ascii-bamboo-parent-container {
+    opacity: 0.10;
+  }
+
+  .github-grid-img {
+    min-width: auto;
+  }
 
 }
 
