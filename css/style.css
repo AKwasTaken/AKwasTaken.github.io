@@ -663,7 +663,7 @@ body {
   text-align: right;
 }
 
-.blog-list {
+.blog-index-list {
   display: flex;
   flex-direction: column;
   gap: 2rem; 
@@ -695,6 +695,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  flex-wrap: wrap; 
+  gap: 12px;       
+  width: 100%;
 }
 
 .blog-index-title {
@@ -702,6 +705,10 @@ body {
   font-size: clamp(20px, 2vw, 28px);
   font-weight: 500;
   color: var(--accent-main);
+  text-align: right;
+  
+  flex: 1 1 250px;   
+  margin-left: auto; 
 }
 
 .blog-index-year {
@@ -1752,12 +1759,14 @@ body.error-page-body {
     line-height: 0.9;      
   }
 
-  .blog-list {
+  .blog-index-list {
     scale: 0.9;
     padding-right: 0px;
     transform-origin: center top;
-    max-width: 65vw;
+    
+    max-width: 90vw;  
     margin: 40px auto 0 auto;
+    width: 100%;
   }
 
   .blog-page-link {
