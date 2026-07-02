@@ -1,20 +1,19 @@
 console.log('Init: project_engine.js');
 
-
 const fs = require('fs');
 const path = require('path');
 const { Marked } = require('marked');
 const matter = require('gray-matter');
 const markedKatex = require('marked-katex-extension');
 
-const PROJECTS_DIR = path.join(__dirname, '../projects'); 
-const OUTPUT_DIR = path.join(__dirname, '../dist/projects');
+const PROJECTS_DIR = path.join(__dirname, '../dist/projects'); 
+const OUTPUT_DIR = path.join(__dirname, '../projects');
 const PROJECT_TEMPLATE_PATH = path.join(__dirname, '../dist/project-template.html');
-const CARD_TEMPLATE_PATH = path.join(__dirname, '../dist/project-card-template.html'); // Added
+const CARD_TEMPLATE_PATH = path.join(__dirname, '../dist/project-card-template.html');
 const INDEX_TEMPLATE_PATH = path.join(__dirname, '../dist/projects-index-template.html');
 const INDEX_OUTPUT_PATH = path.join(__dirname, '../projects.html');
 
-let relativeImagePrefix = '../../projects';
+let relativeImagePrefix = '../dist/projects';
 
 const marked = new Marked();
 
@@ -77,7 +76,7 @@ function compileFolder(dir) {
     if (path.extname(item) !== '.md') continue;
 
     const relativeSubDir = path.relative(PROJECTS_DIR, path.dirname(fullPath));
-    relativeImagePrefix = relativeSubDir ? `../../projects/${relativeSubDir}` : '../../projects';
+    relativeImagePrefix = relativeSubDir ? `../dist/projects/${relativeSubDir}` : '../dist/projects';
 
     const { data, content } = matter(fs.readFileSync(fullPath, 'utf-8'));
     const title = data.title || path.basename(item, '.md');
@@ -158,7 +157,7 @@ function compileFolder(dir) {
       monthIndex,
       description,
       tags: tagsArray,
-      url: `dist/projects/${safeName}.html`,
+      url: `projects/${safeName}.html`,
     });
   }
 }

@@ -6,18 +6,16 @@ const { Marked } = require('marked');
 const matter = require('gray-matter');
 const markedKatex = require('marked-katex-extension');
 
-const BLOGS_DIR = path.join(__dirname, '../blogs'); 
-const OUTPUT_DIR = path.join(__dirname, '../dist/blogs');
+const BLOGS_DIR = path.join(__dirname, '../dist/blogs'); 
+const OUTPUT_DIR = path.join(__dirname, '../blogs');
 const BLOG_TEMPLATE_PATH = path.join(__dirname, '../dist/blog-template.html');
 const INDEX_TEMPLATE_PATH = path.join(__dirname, '../dist/blog-index-template.html');
 const INDEX_OUTPUT_PATH = path.join(__dirname, '../blog.html');
 
-// State variable to track the relative path from the compiled HTML back to the source image folder
-let relativeImagePrefix = '../../blogs';
+let relativeImagePrefix = '../dist/blogs';
 
 const marked = new Marked();
 
-// 1. Simple Custom Image Renderer
 const imageExtension = {
   name: 'customImage',
   level: 'inline',
@@ -31,7 +29,6 @@ const imageExtension = {
   renderer(token) {
     let finalSrc = token.href;
     
-    // Convert relative syntax (./image.png or image.png) to a clean step-back reference
     if (finalSrc.startsWith('./')) {
       finalSrc = `${relativeImagePrefix}/${finalSrc.slice(2)}`;
     } else if (!finalSrc.startsWith('/') && !finalSrc.startsWith('http')) {
@@ -62,10 +59,8 @@ function compileFolder(dir) {
     }
     if (path.extname(item) !== '.md') continue;
 
-    // --- TRACK CURRENT FOLDER LEVEL ---
     const relativeSubDir = path.relative(BLOGS_DIR, path.dirname(fullPath));
-    // If inside a subfolder like "test", prefix becomes "../../blogs/test"
-    relativeImagePrefix = relativeSubDir ? `../../blogs/${relativeSubDir}` : '../../blogs';
+    relativeImagePrefix = relativeSubDir ? `../dist/blogs/${relativeSubDir}` : '../dist/blogs';
 
     const { data, content } = matter(fs.readFileSync(fullPath, 'utf-8'));
     const title = data.title || path.basename(item, '.md');
@@ -75,11 +70,11 @@ function compileFolder(dir) {
     let year = 2026; 
     let monthIndex = 0;
     let monthName = 'Jan';
-    let rawDateValue = 0; // Fallback timestamp placeholder
+    let rawDateValue = 0;
 
     if (data.date) {
       const dateObj = data.date instanceof Date ? data.date : new Date(data.date);
-      rawDateValue = dateObj.getTime(); // Use raw timestamp for accurate precision sorting
+      rawDateValue = dateObj.getTime();
       year = dateObj.getUTCFullYear();
       monthIndex = dateObj.getUTCMonth();
       monthName = dateObj.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
@@ -96,13 +91,12 @@ function compileFolder(dir) {
     fs.writeFileSync(path.join(OUTPUT_DIR, `${safeName}.html`), finalHtml);
     console.log(`Compiled: blogs/${safeName}.html`);
 
-    allBlogs.push({ title, year, monthIndex, monthName, rawDateValue, url: `dist/blogs/${safeName}.html` });
+    allBlogs.push({ title, year, monthIndex, monthName, rawDateValue, url: `blogs/${safeName}.html` });
   }
 }
 
 compileFolder(BLOGS_DIR);
 
-// Sort by timestamp descending so the absolute latest releases bubble up first
 allBlogs.sort((a, b) => b.rawDateValue - a.rawDateValue);
 
 const groupedByYear = {};

@@ -96,4 +96,6 @@ While the application is fully optimized for targeted desktop logging, future li
 * **Log-file Support:** Support for log-files, since they are much more comfortable and easier to troubleshoot and work with.
 * **More UI Preferences:** Self-explanatory.
 
+![Preferences Preview](prefs.png)
+
 *WhisperLogger is officially running stable. Check out the release page to grab the latest DMG build!*
