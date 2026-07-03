@@ -1668,6 +1668,18 @@ body.error-page-body {
 
 /* --- 2K: PROJECT PAGE CARD DESIGN --- */
 
+.ascii-leaves-parent-container2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 800px;
+  height: auto;
+  opacity: 0.4;
+  pointer-events: none;
+  user-select: none;
+}
+
+
 .contact-hero {
   position: relative;
   min-height: 100vh;
@@ -1795,10 +1807,15 @@ body.error-page-body {
 }
 
 .github-grid-wrapper {
+  background-color: var(--background-color);
   width: 100%;
   max-width: 100%;
   margin: 16px 0;           
   overflow-x: auto;
+  z-index: 1;
+
+  padding: 16px; 
+  border-radius: 10px;
 }
 
 .github-grid-img {
@@ -2048,7 +2065,6 @@ body.error-page-body {
     justify-content: center;
     margin: 30px 0;
   }
-
   
 }
 
