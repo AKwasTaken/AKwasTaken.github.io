@@ -1671,8 +1671,10 @@ body.error-page-body {
 .contact-hero {
   position: relative;
   min-height: 100vh;
+  width: 100%;            
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;    
   background: none;
   overflow: hidden;
 }
@@ -1684,7 +1686,6 @@ body.error-page-body {
   height: auto;       
   width: 50vw;        
   opacity: 0.45;
-  /* scale: -1 1; */
   transform-origin: top left; 
   pointer-events: none;
   user-select: none;
@@ -1699,42 +1700,28 @@ body.error-page-body {
 }
 
 .contact-main {
-  display: flex;
-  width: 90%;            
-  margin: 0 auto;        
-  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(300px, 430px) minmax(450px, 680px);
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 90vw;
+  margin: 0 auto;       
   box-sizing: border-box;
-  padding: 5vw 0;        
-  gap: 20px;
+  padding: 80px 10px;
+  gap: 50px;
 }
 
 .contact-left {
-  flex: 1;
+  width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
 }
 
 .profile-card {
   width: 100%;
-  max-width: 500px;
+  max-width: 430px;
   position: relative;
-}
-
-.profile-name {
-  position: absolute;
-  top: 5%;             
-  left: 10%;           
-  width: 80%;          
-  z-index: 2;          
-  
-  margin: 0;
-  text-align: center;
-  color: var(--accent-main);      
-  font-family: "Outfit", sans-serif;
-  font-weight: 200;
-  font-size: clamp(24px, 3.5vw, 48px);
-  text-transform: uppercase;
 }
 
 .profile-image {
@@ -1742,30 +1729,28 @@ body.error-page-body {
   height: auto;
   display: block;
   border-radius: 40px;
-
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-
   filter: grayscale(1);
-
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
 
 .contact-right {
-  flex: 1.2;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
   min-width: 0;
 }
 
 .contact-heading {
   font-family: "Tanker-Regular", sans-serif;
-  font-size: clamp(55px, 8.5vw, 130px);
+  font-size: clamp(55px, 7vw, 110px);
   font-weight: 800;
   line-height: 0.95;
   color: var(--accent-main);
-  margin: 0 0 2vw 0;       
+  margin: 0 0 24px 0;       
   text-transform: uppercase;
   text-align: left;
 }
@@ -1775,7 +1760,7 @@ body.error-page-body {
   flex-wrap: wrap;
   gap: 10px;
   max-width: 100%;        
-  margin: 2vw 0;          
+  margin: 16px 0;          
 }
 
 .social-button {
@@ -1783,17 +1768,13 @@ body.error-page-body {
   color: var(--accent-main);
   background-color: var(--background-color);
   border: 2px solid var(--accent-main);
-
   padding: 8px 12px;
   border-radius: 8px;
   width: max-content;
-
   font-family: 'Outfit', sans-serif;
   font-weight: 300;
   font-size: clamp(14px, 1.5vw, 20px); 
-
   margin: 0 5px;
-
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -1809,7 +1790,6 @@ body.error-page-body {
   height: 100%;
   background-color: var(--accent-main);
   z-index: -1; 
-  
   transform: translateX(-105%) skewX(-15deg);
   transition: transform 0.4s ease-in-out;
 }
@@ -1822,12 +1802,10 @@ body.error-page-body {
   transform: translateX(0) skewX(0deg);
 }
 
-
-
 .github-grid-wrapper {
   width: 100%;
   max-width: 100%;
-  margin: 2vw 0;           /* CHANGED: Aligned margins with the rest of the layout flow */
+  margin: 16px 0;           
   overflow-x: auto; 
 }
 
@@ -1843,15 +1821,13 @@ body.error-page-body {
   background-color: var(--accent-main);
   min-height: 100vh;
   position: relative;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  
-  padding: 0 15vw; 
-  box-sizing: border-box;
+  overflow: hidden;      
   
   display: flex;
-  align-items: center;     
-  justify-content: flex-start; 
+  align-items: center;   
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0 40px;       
 }
 
 
@@ -1886,19 +1862,16 @@ body.error-page-body {
 
 .aboutme-container {
   width: 100%;
-  max-width: 700px; 
-  display: block;
+  max-width: 1400px;     
+  margin: 100px auto;      
   z-index: 2;
-  
-  /* CHANGE: Stripped the rigid 2rem margin layout offset so flex engine centers cleanly */
-  margin: 100px 0; 
 }
 
 .aboutme-contents {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 100%; /* Let the parent container restrict the footprint */
+  max-width: 700px;      
   align-items: stretch;
 }
 
@@ -2039,6 +2012,42 @@ body.error-page-body {
     text-align: center;
     margin: 20px auto 0 auto;
   }
+
+  .contact-main {
+    display: grid;                   /* Explicitly maintain grid context */
+    grid-template-columns: 1fr;      /* Drop columns and stack items vertically */
+    justify-items: center;           /* Center the stacked grid tracks */
+    padding: 20px;
+    gap: 40px;
+    min-height: auto;
+    margin-top: 11vh;
+    margin-bottom: 11vh;
+    max-width: 80vw;                 /* Let it fill the mobile screen width */
+  }
+
+  .contact-heading {
+    text-align: center;
+    font-size: clamp(3.5rem, 10vw, 10rem);
+  }
+  
+  .contact-left, .contact-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;             /* Keeps contents inside centered */
+  }
+
+  .profile-card {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .social-links-row {
+    justify-content: center;
+    margin: 30px 0;
+  }
+
+  
 }
 
 
@@ -2242,38 +2251,9 @@ body.error-page-body {
   .masonry-item { margin-bottom: 12px; }
   .gallery-container { padding: 12px; }
 
-  .contact-main {
-    flex-direction: column;
-    padding: 20px;
-    gap: 40px;
-    min-height: auto;
-
-    margin-top: 11vh;
-    margin-bottom: 11vh;
-  }
-
-  .contact-heading {
-    text-align: center;
-  }
-  
-  .contact-left, .contact-right {
-    flex: none;
-    width: 100%;
-  }
-
-  .profile-card {
-    max-width: 300px;
-    margin: 0 auto;
-  }
-
-  .social-links-row {
-    justify-content: center;
-    margin: 30px 0;
-  }
-
   .aboutme-heading-text {
     text-align: center;
-    font-size: clamp(5rem, 40vw, 10rem);
+    font-size: clamp(5rem, 25vw, 10rem);
     margin: 0 auto;
     line-height: 0.9;      
   }
@@ -2285,10 +2265,6 @@ body.error-page-body {
 
   .ascii-bamboo-parent-container {
     opacity: 0.10;
-  }
-
-  .github-grid-img {
-    min-width: auto;
   }
 
 }
