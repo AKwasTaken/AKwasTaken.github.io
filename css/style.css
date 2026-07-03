@@ -1679,26 +1679,6 @@ body.error-page-body {
   overflow: hidden;
 }
 
-.ascii-leaves-parent-container {
-  position: absolute;   
-  top: 0;
-  right: 0;
-  height: auto;       
-  width: 50vw;        
-  opacity: 0.45;
-  transform-origin: top left; 
-  pointer-events: none;
-  user-select: none;
-  z-index: -1;        
-}
-
-#ascii-leaves-container,
-#ascii-leaves-container svg {
-  width: 100%;        
-  height: auto;       
-  display: block;
-}
-
 .contact-main {
   display: grid;
   grid-template-columns: minmax(300px, 430px) minmax(450px, 680px);
@@ -1722,6 +1702,12 @@ body.error-page-body {
   width: 100%;
   max-width: 430px;
   position: relative;
+  transition: transform 0.2s ease-in-out;
+}
+
+.profile-card:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease-in-out;
 }
 
 .pfp-image-skeleton {
@@ -1737,8 +1723,8 @@ body.error-page-body {
   border-radius: 40px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   filter: grayscale(1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
 
 .contact-right {
@@ -1812,7 +1798,7 @@ body.error-page-body {
   width: 100%;
   max-width: 100%;
   margin: 16px 0;           
-  overflow-x: auto; 
+  overflow-x: auto;
 }
 
 .github-grid-img {
@@ -1820,6 +1806,16 @@ body.error-page-body {
   min-width: 600px;
   height: auto;
   display: block;
+}
+
+.github-scroll-caption {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  color: var(--accent-main);
+  margin-top: 10px;
+
+  text-align: center;
+  opacity: 0;
 }
 
 
@@ -2271,6 +2267,10 @@ body.error-page-body {
 
   .ascii-bamboo-parent-container {
     opacity: 0.10;
+  }
+
+  .github-scroll-caption {
+    opacity: 1;
   }
 
 }
