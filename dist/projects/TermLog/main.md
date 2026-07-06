@@ -3,8 +3,8 @@ title: "TermLog"
 date: 2026-07-06
 desc: "A lightweight, zero-dependency session logger for macOS that captures, sanitizes, and streams clean terminal workflows into separate log files across multiple windows and tabs simultaneously."
 source: "http://github.com/AKwasTaken/TermLog"
-download: "https://github.com/AKwasTaken/TermLog/releases/download/v1.0/termlog-v1.0.tar.gz"
-tags: ["GO", "MacOS", "Utility"]
+download: "https://github.com/AKwasTaken/TermLog/releases/latest"
+tags: ["GO", "MacOS"]
 ---
 
 ## The Main Motivation

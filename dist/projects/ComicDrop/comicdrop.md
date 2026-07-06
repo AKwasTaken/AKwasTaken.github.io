@@ -4,7 +4,7 @@ date: 2026-06-27
 desc: "A lightning-fast, privacy-focused, browser-based comic book reader for CBR, CBZ, and CB7 files. Built around an offline-first architecture to process, unpack, and cache graphic archives completely on the client side."
 source: "http://github.com/AKwasTaken/ComicDrop"
 site: "https://akwastaken.github.io/ComicDrop/"
-tags: ["JavaScript", "WebAssembly", "CSS3"]
+tags: ["JavaScript", "WebAssembly"]
 ---
 
 ![ComicDrop Banner](comicdrop_banner.mp4)
