@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
-    <link rel="stylesheet" href="/css/style.min.css?v=1783363992150" id="main-theme-sheet">
+    <link rel="stylesheet" href="/css/style.min.css?v=1783365432413" id="main-theme-sheet">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   </head>
@@ -152,6 +152,51 @@
 <h2>Architectural Limitations</h2>
 <p>The biggest structural hurdle currently facing TermLog is the <strong>VS Code / Integrated Panel Blindspot</strong>.</p>
 <p>Because Electron-based environments (like VS Code, Cursor, or Obsidian) render their integrated terminals inside a custom Chromium web container rather than natively exposing standard macOS window structures, AppleScript is entirely blind to their text canvases. If you run TermLog inside an integrated editor panel, it will fail to scrape the screen. For now, users must utilize external terminal applications like <code>iTerm2</code> split-screens side-by-side with their text editors to ensure reliable tracking.</p>
+<hr>
+<h2>Installation &amp; Setup</h2>
+<p>Choose one of the three deployment methods below to install TermLog on your system.</p>
+<h3>Method 1: Homebrew Tap (Recommended)</h3>
+<p>TermLog can be installed via a custom Homebrew Tap. Because it is a self-published formula, Homebrew requires you to explicitly grant a trust permission to the tap before installation:</p>
+<pre><code class="language-bash"># Add the custom repository tap
+brew tap AKwasTaken/tap
+
+# Grant explicit trust to the tap to bypass untrusted source errors
+brew trust AKwasTaken/tap
+
+# Install TermLog globally
+brew install termlog
+</code></pre>
+<h3>Method 2: Pre-Compiled Binary (Tarball)</h3>
+<p>If you prefer to use the production release assets directly, download the latest release archive (<code>termlog-{version}.tar.gz</code>) from the Releases tab and run:</p>
+<pre><code class="language-bash"># Extract the production binary asset
+tar -xzf termlog-{version}.tar.gz
+
+# Make it executable and route it to your local system binaries
+chmod +x termlog
+sudo mv termlog /usr/local/bin/
+</code></pre>
+<h3>Method 3: Compile From Source (Manual Build)</h3>
+<p>If you wish to audit the codebase or optimize the executable compilation for your specific machine architecture, you can clone and build the binary manually using Go:</p>
+<pre><code class="language-bash"># Clone the repository workspace
+git clone https://github.com/AKwasTaken/TermLog.git
+cd termlog
+
+# Strip development debug symbols and compile a production binary
+go build -ldflags=&quot;-s -w&quot; -o termlog *.go
+
+# Install the binary into your system path execution layers
+chmod +x termlog
+sudo mv termlog /usr/local/bin/
+</code></pre>
+<hr>
+<h3>MacOS Security Requirements</h3>
+<p>Because TermLog utilizes underlying system scraping APIs to log separate tab buffers seamlessly, macOS requires two specific user-side authorizations during its initial execution:</p>
+<ol>
+<li><strong>Automation Permissions:</strong> The first time you execute an operational command (such as <code>termlog live</code> or <code>termlog below</code>), macOS will prompt you with a system modal requesting <strong>Automation Permissions</strong> so AppleScript can read window layout text arrays. You must click <strong>OK</strong> to authorize tracking.</li>
+<li><strong>Gatekeeper Quarantine Override:</strong> If you install TermLog via the pre-compiled Tarball or manual Go compilation rather than Homebrew, macOS Gatekeeper may flag the binary as unsigned. Strip the isolation attributes once to allow it to run:</li>
+</ol>
+<pre><code class="language-bash">sudo xattr -dr com.apple.quarantine /usr/local/bin/termlog
+</code></pre>
 <hr>
 <h2>The Master Plan: Future Roadmap</h2>
 <p>TermLog is currently a highly effective macOS-specific automation tool, but the next phase of development aims to convert it into a world-class, universally compatible logging platform.</p>
