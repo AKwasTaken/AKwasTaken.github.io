@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | TermLog</title>
+
+    <link rel="preload" href="/assets/logo.svg" as="image" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/Outfit/Outfit-VariableFont_wght.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
+
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
+    <link rel="stylesheet" href="/css/style.min.css?v=1783363992150" id="main-theme-sheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/index.html" class="logo-link" aria-label="Aneeth Kumaar Home">
+          <div class="logo-item" data-src="/assets/logo.svg"></div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
+          <li><a href="/projects.html" class="nav-item">Projects</a></li>
+          <li><a href="/blog.html" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="/contact.html" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="blog-content">
+        <div class="blog-header">
+            <h1 class="blog-heading">TermLog</h1>
+            <span class="blog-creation-time">July 6, 2026</span>
+            <section class="project-links">
+              <span class="source-code"><a href="http://github.com/AKwasTaken/TermLog" target="_blank" class="source-button">Source Code</a></span>  <span class="download-link"><a href="https://github.com/AKwasTaken/TermLog/releases/download/v1.0/termlog-v1.0.tar.gz" target="_blank" class="download-button">Download</a></span>
+            </section>
+          </div>
+
+        <div class="blog-body">
+            <h2>The Main Motivation</h2>
+<p>Every developer has been there: you spend three hours debugging a complex environment issue, running dozens of commands, piping outputs, and wrestling with configuration files. Finally, it works. But thirty minutes later, you realize you forgot to log your terminal session, and the precise sequence of steps you took is now lost in a messy shell history full of typos and raw ANSI noise.</p>
+<p>To solve this, I built TermLog. It is a lightweight, high-performance, zero-dependency command-line utility written in Go designed to capture, sanitize, and preserve your terminal workflows in real-time into individual log files across multiple terminal windows or tabs simultaneously.</p>
+<p>Here is a deep dive into why I built it, how it works under the hood, its architectural trade-offs, and where the project is headed.</p>
+<hr>
+<h2>The Core Philosophy</h2>
+<p>Existing solutions for terminal logging generally fall into two camps: the heavy-handed Unix <code>script</code> utility (which captures every single raw character, cursor movement, and ANSI color escape sequence, making the raw output practically unreadable), or shell history files (which only log the command itself, omitting the execution output completely).</p>
+<p>TermLog was engineered around a simple philosophy: <strong>capture the context, discard the noise.</strong></p>
+<p>It continuously monitors your active shell sessions, automatically strips out interface clutter, and tracks separate window contexts dynamically without requiring you to manage complex environment variables manually.</p>
+<hr>
+<h2>Implemented Features &amp; Powers</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Command</th>
+<th align="left">Usage</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Log From Below</strong></td>
+<td align="left"><code>termlog below {filename}</code></td>
+<td align="left">Initializes a new session and records terminal activity forward from this exact point.</td>
+</tr>
+<tr>
+<td align="left"><strong>Log Snapshot</strong></td>
+<td align="left"><code>termlog above {filename}</code></td>
+<td align="left">Captures a static export of the existing terminal scrollback history up to this point.</td>
+</tr>
+<tr>
+<td align="left"><strong>Live Tracking</strong></td>
+<td align="left"><code>termlog live {filename}</code></td>
+<td align="left">Baseline snapshots current window text and continuously streams future activity live.</td>
+</tr>
+<tr>
+<td align="left"><strong>Pause Logging</strong></td>
+<td align="left"><code>termlog offline</code></td>
+<td align="left">Temporarily halts real-time tracking while preserving all previously captured log content.</td>
+</tr>
+<tr>
+<td align="left"><strong>Resume Logging</strong></td>
+<td align="left"><code>termlog online</code></td>
+<td align="left">Restarts real-time logging and injects a clean structural timeline marker into the file.</td>
+</tr>
+<tr>
+<td align="left"><strong>Session Status</strong></td>
+<td align="left"><code>termlog status</code></td>
+<td align="left">Displays the current monitoring state, active logging mode, and absolute target file path.</td>
+</tr>
+<tr>
+<td align="left"><strong>Stop Engine</strong></td>
+<td align="left"><code>termlog quit</code></td>
+<td align="left">Terminates the background daemon process safely for the active terminal window session.</td>
+</tr>
+</tbody></table>
+<h3>1. Flexible Session Capturing</h3>
+<p>TermLog provides three discrete operational modes to adapt to whenever you realize you need a log:</p>
+<ul>
+<li><strong>Live Tracking (<code>termlog live</code>):</strong> Captures your entire current terminal scrollback buffer as a baseline, then immediately begins streaming all future command inputs and execution outputs to the log file in real-time.</li>
+<li><strong>Point-Forward Logging (<code>termlog below</code>):</strong> Drops a chronological marker in your session and records only the terminal activity generated <em>after</em> that precise moment.</li>
+<li><strong>Instant Snapshot (<code>termlog above</code>):</strong> Dumps a static export of your existing scrollback history on demand, perfect for when you&#39;ve finished a task and want to save the recipe retroactively.</li>
+</ul>
+<h3>2. High-Performance, Zero-Leak Engine</h3>
+<p>The backend daemon is written completely in Go. Because it is natively compiled, it executes with an incredibly low footprint. While the background daemon snapshots interface buffers sequentially, it avoids common memory leak pitfalls by pre-compiling matching regex patterns globally and rigorously enforcing synchronous file descriptor recycling to maintain rock-solid memory stability.</p>
+<h3>3. Dynamic Multi-Terminal Mapping</h3>
+<p>One of the hardest problems with background terminal logging is context separation. If you have four terminal tabs open, how does a single background process know which command belongs to which file?</p>
+<p>TermLog solves this using a centralized JSON state machine (<code>~/.termlog_state.json</code>) combined with dynamic screen-anchored session trackers. When you start logging, a unique cryptographic anchor marker is printed to your screen canvas. The background daemon concurrently polls open window buffers and cross-references these markers against active tracking profiles in the JSON registry, seamlessly routing inputs and outputs to their respective log files without overlapping data streams.</p>
+<h3>4. Granular Timeline Control</h3>
+<p>You can pause and resume tracking dynamically mid-session by typing <code>termlog offline</code> and <code>termlog online</code> directly into your terminal. The parsing engine recognizes these explicitly typed boundaries, ceases or resumes writing to disk accordingly, and leaves your historical logs perfectly intact while injecting clean structural timeline markers.</p>
+<hr>
+<h2>Security &amp; Safe-Tracking Guardrails</h2>
+<p>Security was a non-negotiable requirement during design. Because TermLog operates by scraping the rendered screen buffers rather than intercepting raw keyboard hardware events, it inherits several critical safety features natively:</p>
+<ul>
+<li><strong>Zero Password Exposure:</strong> Secure shell prompts (like <code>sudo</code> or SSH authentication fields) explicitly suppress character echo on the terminal UI canvas. Because those characters are never drawn to the screen, sensitive password strings never touch TermLog&#39;s memory or log files.</li>
+<li><strong>Interactive App Separation:</strong> Fullscreen alternate screen applications (such as text editors like <code>nano</code> and <code>vim</code>, or resource monitors like <code>top</code>) manipulate terminal textures on an entirely separate display layer. TermLog&#39;s streaming engine gracefully skips recording these complex interactive interface updates, automatically picking back up the moment you exit the app and return to the primary shell timeline.</li>
+</ul>
+<hr>
+<h2>Pros &amp; Cons</h2>
+<h3>Pros</h3>
+<ul>
+<li><strong>Zero Dependencies:</strong> Compiles down to a single, self-contained binary file. No interpreters, external libraries, or runtimes required.</li>
+<li><strong>Pragmatically Clean Logs:</strong> Advanced regex sanitization layers proactively strip away raw ANSI color escape sequences, backspace/arrow navigation artifacts, and trailing spatial blank lines.</li>
+<li><strong>Low System Overhead:</strong> The asynchronous loop sleeps for wide intervals relative to CPU cycles, consuming negligible processing power.</li>
+<li><strong>Native Context Isolation:</strong> Flawlessly handles multiple window tabs and concurrent terminal apps independently out of the box.</li>
+</ul>
+<h3>Cons</h3>
+<ul>
+<li><strong>OS Bottleneck:</strong> The current architecture relies heavily on macOS-specific UI-Automation hooks (AppleScript), natively binding the execution layer to <code>Terminal.app</code> and <code>iTerm2</code>.</li>
+<li><strong>Asynchronous Polling Delay:</strong> Because the tracking routine functions via a 1-second polling frequency, there can be up to a one-second latency before executed commands flush to the physical log file.</li>
+</ul>
+<hr>
+<h2>Architectural Limitations</h2>
+<p>The biggest structural hurdle currently facing TermLog is the <strong>VS Code / Integrated Panel Blindspot</strong>.</p>
+<p>Because Electron-based environments (like VS Code, Cursor, or Obsidian) render their integrated terminals inside a custom Chromium web container rather than natively exposing standard macOS window structures, AppleScript is entirely blind to their text canvases. If you run TermLog inside an integrated editor panel, it will fail to scrape the screen. For now, users must utilize external terminal applications like <code>iTerm2</code> split-screens side-by-side with their text editors to ensure reliable tracking.</p>
+<hr>
+<h2>The Master Plan: Future Roadmap</h2>
+<p>TermLog is currently a highly effective macOS-specific automation tool, but the next phase of development aims to convert it into a world-class, universally compatible logging platform.</p>
+<h3>Phase 1: Pseudo-Terminal (PTY) Wrapper Core</h3>
+<p>The primary engineering priority is a complete rewrite of the core scraping logic, transitioning away from AppleScript UI-Automation toward a native Unix Pseudo-Terminal (PTY) wrapper system. By acting as a thin layer directly between the shell process and the operating system, TermLog will become completely cross-platform (Linux and macOS support) and will natively log text anywhere—including inside VS Code integrated terminals, headless multiplexers like <code>tmux</code>, and remote SSH loops.</p>
+<h3>Phase 2: Automatic Shell Initialization</h3>
+<p>We plan to introduce a silent daemon auto-start integration via <code>.zshrc</code> or <code>.bashrc</code>. TermLog will run invisibly in the background for <em>every</em> terminal tab you open, discarding the temporary history upon a clean exit unless you explicitly request a save. This completely eliminates the human-error factor of forgetting to activate logging manually.</p>
+<h3>Phase 3: Real-Time Content Processing</h3>
+<p>Future releases will introduce intelligent streaming formatting pipelines, including:</p>
+<ul>
+<li><strong>Automated Markdown Fencing:</strong> Converting terminal code execution blocks and runtime outputs into fully structured, syntax-highlighted Markdown logs automatically.</li>
+<li><strong>Localized Pattern Redaction:</strong> A customizable regex screening layer (<code>termlog redaction --status online --msg &quot;[REDACTED]&quot;</code>) to automatically scan for accidental leakage of API tokens, private keys, or credentials, scrubbing them before they ever reach the disk.</li>
+<li><strong>Retrospective Log Cleansing:</strong> Commands like <code>termlog rm</code> to quickly slice the last executed block or specific programmatic clutter (like <code>pip install --upgrade</code> output logs) out of the active history file instantly.</li>
+</ul>
+
+          <hr>
+        </div>
+    </div>
+
+
+    <div class="back-link">
+      <a href="/projects.html" class="back-link-anchor">
+        <span class="back-link-icon"></span>
+        <span class="back-link-text">Back to Projects</span>
+      </a>
+    </div>
+
+    
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <h1 class="footer-h1">Aneeth Kumaar</h1>
+        <p class="footer-p">
+          Made with HTML, CSS and JS, and a lot of frenzy googling. Feel free to
+          check out the source code of this project on my github profile. If you
+          wish to reference or reuse it, I'll be honoured, but please do
+          affiliate me.
+        </p>
+
+        <div class="footer-socials">
+          <a
+            href="https://github.com/AKwasTaken"
+            class="social-link"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img
+              src="/assets/icons/socials/github.svg"
+              class="social-icon"
+              alt="GitHub"
+            />
+          </a>
+
+          <a
+            href="https://instagram.com/akcontinuum"
+            class="social-link"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img
+              src="/assets/icons/socials/instagram.svg"
+              class="social-icon"
+              alt="Instagram"
+            />
+          </a>
+
+          <a
+            href="https://linkedin.com/in/aneeth-kumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/assets/icons/socials/linkedin.svg"
+              class="social-icon"
+              alt="LinkedIn"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/@aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <img
+              src="/assets/icons/socials/youtube.svg"
+              class="social-icon"
+              alt="YouTube"
+            />
+          </a>
+
+          <a
+            href="https://www.fiverr.com/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Fiverr"
+          >
+            <img
+              src="/assets/icons/socials/fiverr.svg"
+              class="social-icon"
+              alt="Fiverr"
+            />
+          </a>
+
+          <a
+            href="https://www.behance.net/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Behance"
+          >
+            <img
+              src="/assets/icons/socials/behance.svg"
+              class="social-icon"
+              alt="Behance"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/nav_menu.js"></script>
+    <script src="/js/load_icons.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMath()"></script>
+    
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    </script>
+  </body>
+</html>

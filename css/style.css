@@ -898,7 +898,7 @@ body {
 
 
 
-/* --- 2F: TIMELINE GRAPHICS (BLOG GRID LIST) --- */
+/* --- 2F: BLOGS PAGE --- */
 .blog-screen {
   min-height: 600px;
   margin-bottom: 100px;
@@ -1001,7 +1001,7 @@ body {
   font-family: "Outfit", sans-serif;
   font-weight: 800;
   font-size: 1.7rem;
-  line-height: 1rem;
+  /* line-height: 1.3rem; */
   color: var(--accent-main);
   margin-top: 30px;
   margin-bottom: 30px;
@@ -1084,8 +1084,8 @@ pre {
   padding: 20px;
   background-color: #cfe0db; 
   border-radius: 6px;
-  overflow-x: auto;          /* Adds a horizontal scrollbar if the command is too long for mobile */
-  white-space: pre;          /* Preserves your line breaks and spacing exactly as typed */
+  overflow-x: auto;
+  white-space: pre;
 }
 
 pre code {
@@ -1099,6 +1099,53 @@ code {
   font-size: 0.9em;
   letter-spacing: -0.06em;
 }
+
+table {
+  /* table-layout: fixed; */
+  width: 100%;           
+  border-collapse: collapse;
+  scale: 0.95;
+}
+
+table th:nth-child(2),
+table td:nth-child(2) {
+  width: 30%;
+}
+
+table th, 
+table td {
+  vertical-align: top;       
+  padding-top: 12px;         
+  padding-bottom: 12px;      
+  padding-right: 16px;       
+  border-bottom: 1px solid var(--accent-secondary); 
+}
+
+table td code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85rem;          
+  background-color: #d7dce1;  
+  padding: 3px 6px;            
+  border-radius: 4px;          
+  color: #24292e;
+
+  display: block;        
+  width: 100%;           
+  box-sizing: border-box;
+  
+  /* white-space: nowrap; */
+  /* overflow: hidden; */
+  text-overflow: ellipsis;     
+}
+
+
+table th {
+  padding-bottom: 16px;
+  font-weight: 600;
+}
+
+
+
 
 
 
