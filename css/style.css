@@ -2011,7 +2011,7 @@ body.error-page-body {
 
   .blog-heading-text {
     text-align: center;
-    font-size: clamp(5rem, 40vw, 10rem);
+    font-size: clamp(3.5rem, 20vw, 10rem);
     margin: 0 auto;
     line-height: 0.9;      
   }
@@ -2021,9 +2021,17 @@ body.error-page-body {
     padding-right: 0px;
     transform-origin: center top;
     
-    max-width: 90vw;  
+    max-width: 65vw;  
     margin: 40px auto 0 auto;
     width: 100%;
+  }
+
+  .blog-index-title {
+    max-width: 40vw;
+  }
+
+  .blog-index-year {
+    max-width: 20vw;
   }
 
   .blog-page-link {
@@ -2257,6 +2265,11 @@ body.error-page-body {
 
   .blog-heading {
     max-width: clamp(200px, 70vw, 600px);
+  }
+
+  .blog-year-section {
+    justify-content: center;
+    max-width: 85vw;
   }
 
   /* Gallery Masonry Scaling Down overrides */
