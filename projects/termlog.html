@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
-    <link rel="stylesheet" href="/css/style.min.css?v=1783366338096" id="main-theme-sheet">
+    <link rel="stylesheet" href="/css/style.min.css?v=1783592787057" id="main-theme-sheet">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   </head>
@@ -59,158 +59,170 @@
 
         <div class="blog-body">
             <h2>The Main Motivation</h2>
-<p>Every developer has been there: you spend three hours debugging a complex environment issue, running dozens of commands, piping outputs, and wrestling with configuration files. Finally, it works. But thirty minutes later, you realize you forgot to log your terminal session, and the precise sequence of steps you took is now lost in a messy shell history full of typos and raw ANSI noise.</p>
-<p>To solve this, I built TermLog. It is a lightweight, high-performance, zero-dependency command-line utility written in Go designed to capture, sanitize, and preserve your terminal workflows in real-time into individual log files across multiple terminal windows or tabs simultaneously.</p>
-<p>Here is a deep dive into why I built it, how it works under the hood, its architectural trade-offs, and where the project is headed.</p>
+<p>Every developer has been there: you spend hours debugging a complex environment issue, running dozens of commands, piping outputs, and editing config files. Finally, it works. But thirty minutes later, you realize you forgot to log your terminal session, and the precise sequence of steps you took is now lost in a messy shell history full of typos and missing command outputs.</p>
+<p>To solve this, I built TermLog. It is a lightweight command-line utility written in Go for macOS and Linux. It runs your shell inside a virtualized terminal layer to intercept, sanitize, and save your terminal workflows into individual log files across multiple terminal windows or tabs simultaneously without changing your terminal&#39;s layout or behavior.</p>
 <hr>
 <h2>The Core Philosophy</h2>
-<p>Existing solutions for terminal logging generally fall into two camps: the heavy-handed Unix <code>script</code> utility (which captures every single raw character, cursor movement, and ANSI color escape sequence, making the raw output practically unreadable), or shell history files (which only log the command itself, omitting the execution output completely).</p>
-<p>TermLog was engineered around a simple philosophy: <strong>capture the context, discard the noise.</strong></p>
-<p>It continuously monitors your active shell sessions, automatically strips out interface clutter, and tracks separate window contexts dynamically without requiring you to manage complex environment variables manually.</p>
+<p>Existing solutions for terminal logging generally fall into two camps: the heavy-handed Unix <code>script</code> utility (which captures every single raw character, backspace, and cursor move, making the raw output full of messy terminal noise), or shell history files (which only log the command itself, omitting what the command actually printed).</p>
+<p>TermLog is built around a simple approach: <strong>capture the context, discard the noise.</strong></p>
+<p>It captures exactly what ran and what was output by monitoring your shell at the system level. It splits your tabs into separate logs automatically without requiring you to manage environment variables manually or run background scraping loops.</p>
 <hr>
-<h2>Implemented Features &amp; Powers</h2>
+<h2>Implemented Features</h2>
 <table>
 <thead>
 <tr>
-<th align="left">Command</th>
-<th align="left">Usage</th>
-<th align="left">Description</th>
+<th>Command</th>
+<th>Usage</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><strong>Log From Below</strong></td>
-<td align="left"><code>termlog below {filename}</code></td>
-<td align="left">Initializes a new session and records terminal activity forward from this exact point.</td>
+<td><strong>Log Below</strong></td>
+<td><code>termlog below [file]</code></td>
+<td>Starts recording terminal activity forward from this exact prompt.</td>
 </tr>
 <tr>
-<td align="left"><strong>Log Snapshot</strong></td>
-<td align="left"><code>termlog above {filename}</code></td>
-<td align="left">Captures a static export of the existing terminal scrollback history up to this point.</td>
+<td><strong>Log Snapshot</strong></td>
+<td><code>termlog above [file]</code></td>
+<td>Captures a static export of the existing terminal scrollback history up to this point.</td>
 </tr>
 <tr>
-<td align="left"><strong>Live Tracking</strong></td>
-<td align="left"><code>termlog live {filename}</code></td>
-<td align="left">Baseline snapshots current window text and continuously streams future activity live.</td>
+<td><strong>Live Tracking</strong></td>
+<td><code>termlog live [file]</code></td>
+<td>Saves current window scrollback history, then streams future activity live.</td>
 </tr>
 <tr>
-<td align="left"><strong>Pause Logging</strong></td>
-<td align="left"><code>termlog offline</code></td>
-<td align="left">Temporarily halts real-time tracking while preserving all previously captured log content.</td>
+<td><strong>Pause Logging</strong></td>
+<td><code>termlog offline</code></td>
+<td>Temporarily pauses recording while keeping your sub-shell open.</td>
 </tr>
 <tr>
-<td align="left"><strong>Resume Logging</strong></td>
-<td align="left"><code>termlog online</code></td>
-<td align="left">Restarts real-time logging and injects a clean structural timeline marker into the file.</td>
+<td><strong>Resume Logging</strong></td>
+<td><code>termlog online</code></td>
+<td>Resumes live recording appends cleanly.</td>
 </tr>
 <tr>
-<td align="left"><strong>Session Status</strong></td>
-<td align="left"><code>termlog status</code></td>
-<td align="left">Displays the current monitoring state, active logging mode, and absolute target file path.</td>
+<td><strong>Session Status</strong></td>
+<td><code>termlog status</code></td>
+<td>Displays active mode, state (online/offline), target log file, and runtime.</td>
 </tr>
 <tr>
-<td align="left"><strong>Stop Engine</strong></td>
-<td align="left"><code>termlog quit</code></td>
-<td align="left">Terminates the background daemon process safely for the active terminal window session.</td>
+<td><strong>Timeline Divider</strong></td>
+<td><code>termlog mark [label]</code></td>
+<td>Echoes and logs a visual divider line (=======) to organize parts of your session.</td>
+</tr>
+<tr>
+<td><strong>Stop Engine</strong></td>
+<td><code>termlog quit</code></td>
+<td>Terminates the background PTY logging process and exits the sub-shell.</td>
+</tr>
+<tr>
+<td><strong>Help Menu</strong></td>
+<td><code>termlog help</code></td>
+<td>Displays a crisp, in-terminal documentation page.</td>
 </tr>
 </tbody></table>
-<h3>1. Flexible Session Capturing</h3>
-<p>TermLog provides three discrete operational modes to adapt to whenever you realize you need a log:</p>
-<ul>
-<li><strong>Live Tracking (<code>termlog live</code>):</strong> Captures your entire current terminal scrollback buffer as a baseline, then immediately begins streaming all future command inputs and execution outputs to the log file in real-time.</li>
-<li><strong>Point-Forward Logging (<code>termlog below</code>):</strong> Drops a chronological marker in your session and records only the terminal activity generated <em>after</em> that precise moment.</li>
-<li><strong>Instant Snapshot (<code>termlog above</code>):</strong> Dumps a static export of your existing scrollback history on demand, perfect for when you&#39;ve finished a task and want to save the recipe retroactively.</li>
-</ul>
-<h3>2. High-Performance, Zero-Leak Engine</h3>
-<p>The backend daemon is written completely in Go. Because it is natively compiled, it executes with an incredibly low footprint. While the background daemon snapshots interface buffers sequentially, it avoids common memory leak pitfalls by pre-compiling matching regex patterns globally and rigorously enforcing synchronous file descriptor recycling to maintain rock-solid memory stability.</p>
-<h3>3. Dynamic Multi-Terminal Mapping</h3>
-<p>One of the hardest problems with background terminal logging is context separation. If you have four terminal tabs open, how does a single background process know which command belongs to which file?</p>
-<p>TermLog solves this using a centralized JSON state machine (<code>~/.termlog_state.json</code>) combined with dynamic screen-anchored session trackers. When you start logging, a unique cryptographic anchor marker is printed to your screen canvas. The background daemon concurrently polls open window buffers and cross-references these markers against active tracking profiles in the JSON registry, seamlessly routing inputs and outputs to their respective log files without overlapping data streams.</p>
-<h3>4. Granular Timeline Control</h3>
-<p>You can pause and resume tracking dynamically mid-session by typing <code>termlog offline</code> and <code>termlog online</code> directly into your terminal. The parsing engine recognizes these explicitly typed boundaries, ceases or resumes writing to disk accordingly, and leaves your historical logs perfectly intact while injecting clean structural timeline markers.</p>
+<hr>
+<h2>Core Architecture &amp; Under the Hood</h2>
+<p>Instead of scraping window text with interval timers or background scripts, TermLog uses an event-driven, hybrid architecture that combines low-level PTY virtualization with native shell lifecycle hooks.</p>
+<p><img src="../dist/projects/TermLog/diagram.svg" alt="Diagram" class="project-image" /></p>
+<h3>1. Pseudo-Terminal (PTY) Virtualization</h3>
+<p>When you execute <code>termlog below</code> or <code>termlog live</code>, the tool look up your default interactive login shell (like <code>/bin/zsh</code>) and spawns it inside a virtualized Pseudo-Terminal container (<code>github.com/creack/pty</code>). This acts as a thin data pass-through layer directly between your shell process and your native terminal window app. Because it passes raw bytes bidirectionally, interactive applications (<code>vim</code>, <code>nano</code>, <code>top</code>), terminal resizing signals (<code>SIGWINCH</code>), and ANSI color formats continue to work normally.</p>
+<h3>2. In-Band OSC Marker Boundaries</h3>
+<p>To know exactly where a command begins and ends without guessing, TermLog injects standard <code>preexec</code> and <code>precmd</code> hooks into your shell configuration. Every time a command is executed, these hooks print invisible Operating System Command (OSC) marker sequences (<code>\x1b]133;C\x07</code> to start and <code>\x1b]133;D\x07</code> to end) straight into the terminal output stream.</p>
+<p>Because both the commands and their outputs travel down the exact same ordered PTY pipeline, TermLog reads these markers to split your logs with zero risk of missing data bytes or running into timing race conditions.</p>
+<h3>3. Localized UNIX Domain Socket IPC</h3>
+<p>To manage active sessions, TermLog hosts a local JSON IPC service over a local UNIX domain socket stored at <code>~/.termlog/sockets/</code>. When you run commands like <code>termlog status</code>, <code>termlog offline</code>, or <code>termlog mark</code> from an active terminal tab, the client sends a fast JSON request over the socket to talk directly with the background PTY tracking daemon managing that specific shell instance.</p>
+<h3>4. Deterministic Tab Isolation</h3>
+<p>To handle multi-tab environments, TermLog reads your active terminal device path using the system <code>tty</code> binary. It processes this path into a short, filesystem-safe SHA-1 hash key (e.g., matching <code>/dev/ttys003</code> to a distinct session ID). This key maps the correct socket, configuration file, and log file destinations to that individual tab, meaning you can run dozens of concurrent logs across different tabs without data crossing over.</p>
 <hr>
 <h2>Security &amp; Safe-Tracking Guardrails</h2>
-<p>Security was a non-negotiable requirement during design. Because TermLog operates by scraping the rendered screen buffers rather than intercepting raw keyboard hardware events, it inherits several critical safety features natively:</p>
 <ul>
-<li><strong>Zero Password Exposure:</strong> Secure shell prompts (like <code>sudo</code> or SSH authentication fields) explicitly suppress character echo on the terminal UI canvas. Because those characters are never drawn to the screen, sensitive password strings never touch TermLog&#39;s memory or log files.</li>
-<li><strong>Interactive App Separation:</strong> Fullscreen alternate screen applications (such as text editors like <code>nano</code> and <code>vim</code>, or resource monitors like <code>top</code>) manipulate terminal textures on an entirely separate display layer. TermLog&#39;s streaming engine gracefully skips recording these complex interactive interface updates, automatically picking back up the moment you exit the app and return to the primary shell timeline.</li>
+<li><strong>Zero Password Exposure:</strong> TermLog logs data by capturing the generated command output streams passing through the PTY layer. Secure prompt inputs—such as typing your password for <code>sudo</code> or an SSH authentication field—explicitly suppress character echoes in the terminal. Because those characters are never printed to the output pipeline, sensitive password strings never reach your log files.</li>
+<li><strong>Interactive App Layout Masking:</strong> Fullscreen alternate-screen applications like <code>vim</code>, <code>nano</code>, or <code>top</code> manipulate text blocks on a separate terminal layer. TermLog&#39;s stream processor recognizes when these states are open and drops text logging changes for them, automatically picking back up the moment you close the application and return to the main shell timeline.</li>
 </ul>
 <hr>
 <h2>Pros &amp; Cons</h2>
 <h3>Pros</h3>
 <ul>
-<li><strong>Zero Dependencies:</strong> Compiles down to a single, self-contained binary file. No interpreters, external libraries, or runtimes required.</li>
-<li><strong>Pragmatically Clean Logs:</strong> Advanced regex sanitization layers proactively strip away raw ANSI color escape sequences, backspace/arrow navigation artifacts, and trailing spatial blank lines.</li>
-<li><strong>Low System Overhead:</strong> The asynchronous loop sleeps for wide intervals relative to CPU cycles, consuming negligible processing power.</li>
-<li><strong>Native Context Isolation:</strong> Flawlessly handles multiple window tabs and concurrent terminal apps independently out of the box.</li>
+<li><strong>Zero System Dependencies:</strong> Written entirely in Go. It compiles down into a single, self-contained binary file with no external libraries or package runtimes required.</li>
+<li><strong>Clean Text Logs:</strong> An internal sanitization module strips out raw ANSI escape colors, navigation artifacts (like arrow key strings), and excessive trailing spacing lines.</li>
+<li><strong>Low System Overhead:</strong> Because boundary marking is driven strictly by shell events and markers inside the PTY stream, there are no constant background polling loops consuming your CPU cycles.</li>
+<li><strong>Automatic Ghost Socket Cleanup:</strong> If a terminal tab crashes or an execution path closes uncleanly, the tool detects the dead file asset on your next run, clears it out defensively, and gracefully returns a standard user warning.</li>
 </ul>
 <h3>Cons</h3>
 <ul>
-<li><strong>OS Bottleneck:</strong> The current architecture relies heavily on macOS-specific UI-Automation hooks (AppleScript), natively binding the execution layer to <code>Terminal.app</code> and <code>iTerm2</code>.</li>
-<li><strong>Asynchronous Polling Delay:</strong> Because the tracking routine functions via a 1-second polling frequency, there can be up to a one-second latency before executed commands flush to the physical log file.</li>
+<li><strong>Initial Setup Step:</strong> Requires a one-time profile installation (<code>termlog install</code>) to place the necessary hook scripts inside your shell initialization profiles.</li>
+<li><strong>macOS Dependency for Snapshots:</strong> While live PTY recording works across both macOS and Linux environments, capturing historical scrollback text via <code>above</code> or <code>live</code> relies on macOS-specific AppleScript/JXA frameworks.</li>
 </ul>
 <hr>
-<h2>Architectural Limitations</h2>
-<p>The biggest structural hurdle currently facing TermLog is the <strong>VS Code / Integrated Panel Blindspot</strong>.</p>
-<p>Because Electron-based environments (like VS Code, Cursor, or Obsidian) render their integrated terminals inside a custom Chromium web container rather than natively exposing standard macOS window structures, AppleScript is entirely blind to their text canvases. If you run TermLog inside an integrated editor panel, it will fail to scrape the screen. For now, users must utilize external terminal applications like <code>iTerm2</code> split-screens side-by-side with their text editors to ensure reliable tracking.</p>
+<h2>Troubleshooting &amp; Constraints</h2>
+<h3>1. macOS Automation Requirements</h3>
+<p>Because the snapshot capture commands (<code>above</code> and <code>live</code>) query historical text blocks via AppleScript/JXA, macOS requires an explicit system authorization step. The first time you execute a snapshot command, macOS will prompt you with a dialog box requesting <strong>Automation Permissions</strong>. You must click <strong>OK</strong> to allow history gathering.</p>
+<h3>2. AppleScript View-Port Limits inside iTerm2</h3>
+<p>Due to native configuration boundaries inside iTerm2&#39;s automation layout, calling the <code>.text()</code> property will only return text strings fitting inside your current <em>visible window canvas layout box</em> at that exact millisecond. Deep-buffer historical scrollback recovery requires iTerm2&#39;s custom Python API, which will be evaluated in a later update.</p>
 <hr>
 <h2>Installation &amp; Setup</h2>
-<p>Choose one of the three deployment methods below to install TermLog on your system.</p>
-<h3>Method 1: Homebrew Tap (Recommended)</h3>
-<p>TermLog can be installed via a custom Homebrew Tap. Because it is a self-published formula, Homebrew requires you to explicitly grant a trust permission to the tap before installation:</p>
-<pre><code class="language-bash"># Add the custom repository tap
-brew tap AKwasTaken/tap
-
-# Grant explicit trust to the tap to bypass untrusted source errors
-brew trust AKwasTaken/tap
-
-# Install TermLog globally
+<h3>Step 1: Install the Binary</h3>
+<h4>Option A: Homebrew Tap (Recommended)</h4>
+<pre><code class="language-bash">brew tap akwastaken/tap
 brew install termlog
 </code></pre>
-<h3>Method 2: Pre-Compiled Binary (Tarball)</h3>
-<p>If you prefer to use the production release assets directly, download the latest release archive (<code>termlog-{version}.tar.gz</code>) from the Releases tab and run:</p>
-<pre><code class="language-bash"># Extract the production binary asset
-tar -xzf termlog-{version}.tar.gz
-
-# Make it executable and route it to your local system binaries
-chmod +x termlog
-sudo mv termlog /usr/local/bin/
-</code></pre>
-<h3>Method 3: Compile From Source (Manual Build)</h3>
-<p>If you wish to audit the codebase or optimize the executable compilation for your specific machine architecture, you can clone and build the binary manually using Go:</p>
+<h4>Option B: Compile From Source</h4>
 <pre><code class="language-bash"># Clone the repository workspace
-git clone https://github.com/AKwasTaken/TermLog.git
+git clone https://github.com/akwastaken/termlog.git
 cd termlog
 
-# Strip development debug symbols and compile a production binary
-go build -ldflags=&quot;-s -w&quot; -o termlog *.go
+# Install Go (if you haven&#39;t already)
+brew install go
 
-# Install the binary into your system path execution layers
+# Compile the production binary
+go build -ldflags=&quot;-s -w&quot; -o termlog main.go
+
+# Install the binary into your path
 chmod +x termlog
 sudo mv termlog /usr/local/bin/
 </code></pre>
 <hr>
-<h3>MacOS Security Requirements</h3>
-<p>Because TermLog utilizes underlying system scraping APIs to log separate tab buffers seamlessly, macOS requires two specific user-side authorizations during its initial execution:</p>
-<ol>
-<li><strong>Automation Permissions:</strong> The first time you execute an operational command (such as <code>termlog live</code> or <code>termlog below</code>), macOS will prompt you with a system modal requesting <strong>Automation Permissions</strong> so AppleScript can read window layout text arrays. You must click <strong>OK</strong> to authorize tracking.</li>
-<li><strong>Gatekeeper Quarantine Override:</strong> If you install TermLog via the pre-compiled Tarball or manual Go compilation rather than Homebrew, macOS Gatekeeper may flag the binary as unsigned. Strip the isolation attributes once to allow it to run:</li>
-</ol>
+<h3>Step 2: Install Zsh Integration Hooks</h3>
+<p>To allow TermLog to pass tracking markers through the PTY stream, add the Zsh hooks to your configuration profile:</p>
+<pre><code class="language-bash"># Append the integration block to your config profile automatically
+termlog install
+
+# Source your profile to activate the hooks in your current tab
+source ~/.zshrc
+</code></pre>
+<p>If you ever compile manual binaries outside of Homebrew, macOS Gatekeeper might flag it as unsigned. You can strip the isolation attributes manually by running:</p>
 <pre><code class="language-bash">sudo xattr -dr com.apple.quarantine /usr/local/bin/termlog
 </code></pre>
 <hr>
-<h2>The Master Plan: Future Roadmap</h2>
-<p>TermLog is currently a highly effective macOS-specific automation tool, but the next phase of development aims to convert it into a world-class, universally compatible logging platform.</p>
-<h3>Phase 1: Pseudo-Terminal (PTY) Wrapper Core</h3>
-<p>The primary engineering priority is a complete rewrite of the core scraping logic, transitioning away from AppleScript UI-Automation toward a native Unix Pseudo-Terminal (PTY) wrapper system. By acting as a thin layer directly between the shell process and the operating system, TermLog will become completely cross-platform (Linux and macOS support) and will natively log text anywhere—including inside VS Code integrated terminals, headless multiplexers like <code>tmux</code>, and remote SSH loops.</p>
-<h3>Phase 2: Automatic Shell Initialization</h3>
-<p>We plan to introduce a silent daemon auto-start integration via <code>.zshrc</code> or <code>.bashrc</code>. TermLog will run invisibly in the background for <em>every</em> terminal tab you open, discarding the temporary history upon a clean exit unless you explicitly request a save. This completely eliminates the human-error factor of forgetting to activate logging manually.</p>
-<h3>Phase 3: Real-Time Content Processing</h3>
-<p>Future releases will introduce intelligent streaming formatting pipelines, including:</p>
-<ul>
-<li><strong>Automated Markdown Fencing:</strong> Converting terminal code execution blocks and runtime outputs into fully structured, syntax-highlighted Markdown logs automatically.</li>
-<li><strong>Localized Pattern Redaction:</strong> A customizable regex screening layer (<code>termlog redaction --status online --msg &quot;[REDACTED]&quot;</code>) to automatically scan for accidental leakage of API tokens, private keys, or credentials, scrubbing them before they ever reach the disk.</li>
-<li><strong>Retrospective Log Cleansing:</strong> Commands like <code>termlog rm</code> to quickly slice the last executed block or specific programmatic clutter (like <code>pip install --upgrade</code> output logs) out of the active history file instantly.</li>
-</ul>
+<h2>Uninstallation</h2>
+<h3>Step 1: Quit the program</h3>
+<pre><code class="language-bash">termlog quit
+
+# Force-quit any lingering background instances silently
+killall termlog 2&gt;/dev/null || true
+</code></pre>
+<h3>Step 2: Remove the binary</h3>
+<p>If you used Homebrew:</p>
+<pre><code class="language-bash">brew uninstall termlog
+brew untap akwastaken/tap
+</code></pre>
+<p>If you compiled from source:</p>
+<pre><code class="language-bash">sudo rm -f /usr/local/bin/termlog
+</code></pre>
+<h3>Step 3: Remove files and metadata</h3>
+<pre><code class="language-bash">rm -rf ~/.termlog
+</code></pre>
+<h3>Step 4: Clean up your configuration profile</h3>
+<p>Open your <code>~/.zshrc</code> profile file and remove the following integration lines at the bottom:</p>
+<pre><code class="language-bash"># &gt;&gt;&gt; termlog integration &gt;&gt;&gt;
+[ -f &quot;~/.termlog/termlog.zsh&quot; ] &amp;&amp; source &quot;~/.termlog/termlog.zsh&quot;
+# &lt;&lt;&lt; termlog integration &lt;&lt;&lt;
+</code></pre>
+<h3>Step 5: Refresh your terminal windows</h3>
+<pre><code class="language-bash">source ~/.zshrc
+</code></pre>
 
           <hr>
         </div>
