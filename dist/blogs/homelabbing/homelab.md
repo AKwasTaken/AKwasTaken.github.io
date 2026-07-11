@@ -7,6 +7,8 @@ This is a chronological log of my experience with setting up a personal home ser
 
 This blog documents what I tried, what worked, and what failed.
 
+[Read the full blog here!](https://akwastaken.github.io/HomeLabReport/)
+
 ## Phase 0: Initial Setup
 
 > **Goal:** Turn a crappy Linux Mint laptop into a basic home server.
