@@ -112,7 +112,6 @@ body {
 
 
 
-
 /* ==========================================================================
    ==========================================================================
    PART 2: STRUCTURAL COMPONENT DESIGN LAYOUTS
@@ -510,12 +509,12 @@ body {
   gap: 0.75rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Cleaner relative border overlay */
   padding-bottom: 2rem;
-  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  /* transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1); */
 }
 
-.project-card-link:hover .project-index-card {
+/* .project-card-link:hover .project-index-card {
   transform: translateX(8px);
-}
+} */
 
 .project-index-header {
   display: flex;
@@ -832,9 +831,6 @@ body {
 .item-5 { grid-column: 1 / span 6; grid-row: 9 / span 4; } 
 .item-4 { grid-column: 1 / span 6; grid-row: 13 / span 3; } 
 .item-3 { grid-column: 1 / span 6; grid-row: 16 / span 3; }
-
-
-
 
 
 
@@ -1779,11 +1775,11 @@ body.error-page-body {
   transition: transform 0.2s ease-in-out;
 } */
 
-.pfp-image-skeleton {
+/* .pfp-image-skeleton {
   background: linear-gradient(90deg,  var(--background-color) 25%, #dddddd 50%, var(--background-color) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite linear;
-}
+} */
 
 .profile-image {
   width: 100%;
@@ -1792,8 +1788,8 @@ body.error-page-body {
   border-radius: 40px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   filter: grayscale(1);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px) !important;
+  -webkit-backdrop-filter: blur(3px) !important;
 }
 
 .contact-right {
@@ -2002,7 +1998,7 @@ body.error-page-body {
   .ticker-item, .ticker-item-gold { text-align: center; }
 
   .hero-content {
-    padding-top: 25vh;
+    padding-top: 30vh;
   }
 
   .project-index {
@@ -2166,6 +2162,10 @@ body.error-page-body {
     margin: 0;
     box-sizing: border-box;
     overflow-x: hidden; 
+    
+    /* CHANGE: Increase bottom padding explicitly to make space for the 50px hover shadows */
+    padding: 2vw 2vw 50px 2vw; 
+    
     overflow-y: auto;
   }
 
@@ -2175,6 +2175,9 @@ body.error-page-body {
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(10, calc((100vw - 176px) / 12));
     gap: 16px;
+    
+    /* OPTIONAL ENHANCEMENT: Ensures the grid items don't stretch the container layout bounds */
+    will-change: transform; 
   }
 
   .item-0 { grid-column: 1 / span 3; grid-row: 1 / span 7; } 
@@ -2360,4 +2363,225 @@ body.error-page-body {
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================================
+   THE BERSERK MOTION ENGINE (CONSOLIDATED & PRODUCTION READIED)
+   ========================================================================== */
+
+/* --- 1. HERO LOAD-IN ENTRANCE ARRAY (Wrapped to trigger after loading screen drops) --- */
+@keyframes megaEntrance {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(40px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Elements stay perfectly invisible until preloader fires .hero-start class */
+.static-line, .action-line, .software-stack-container, .icon-item {
+  opacity: 0;
+}
+
+.hero-start .static-line { animation: megaEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.hero-start .action-line { animation: megaEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+.hero-start .software-stack-container { animation: megaEntrance 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
+
+@keyframes iconPop {
+  0% { opacity: 0; transform: translateY(20px) scale(0.4); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.hero-start .icon-flex-row .icon-item,
+.hero-start .icon-flex-row-lang .icon-item {
+  animation: iconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.hero-start .icon-item:nth-child(1)  { animation-delay: 0.35s; }
+.hero-start .icon-item:nth-child(2)  { animation-delay: 0.40s; }
+.hero-start .icon-item:nth-child(3)  { animation-delay: 0.45s; }
+.hero-start .icon-item:nth-child(4)  { animation-delay: 0.50s; }
+.hero-start .icon-item:nth-child(5)  { animation-delay: 0.55s; }
+.hero-start .icon-item:nth-child(6)  { animation-delay: 0.60s; }
+.hero-start .icon-item:nth-child(7)  { animation-delay: 0.65s; }
+.hero-start .icon-item:nth-child(8)  { animation-delay: 0.70s; }
+.hero-start .icon-item:nth-child(9)  { animation-delay: 0.75s; }
+.hero-start .icon-item:nth-child(10) { animation-delay: 0.80s; }
+.hero-start .icon-item:nth-child(11) { animation-delay: 0.85s; }
+.hero-start .icon-item:nth-child(12) { animation-delay: 0.90s; }
+
+
+/* --- 2. LIQUID GRAPHIC HEADER TEXT --- */
+.name-button {
+  position: relative;
+  background: linear-gradient(to right, var(--accent-main) 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  -webkit-text-stroke-color: var(--accent-main) !important;
+  transition: background-position 0.5s cubic-bezier(0.76, 0, 0.24, 1), -webkit-text-stroke-color 0.4s ease !important;
+}
+
+.name-button:hover {
+  background-position: 0 0;
+  /* -webkit-text-stroke-color: transparent !important; */
+}
+
+
+/* --- 3. CROSS-BROWSER SCROLL DRIVEN ENTRANCE TRACKS --- */
+.project-heading-text,
+.project-card-link, /* Targeted the anchor links directly instead of just cards */
+.projects-page-link,
+.blog-heading-text,
+.blog-single-link,
+.blog-page-link,
+.ascii-leaf-parent-container,
+.ascii-leaves-parent-container {
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 1.2s ease;
+}
+
+.project-heading-text { transform: translateX(-80px) skewX(8deg); filter: blur(4px); }
+.blog-heading-text { transform: translateX(80px) skewX(-8deg); filter: blur(4px); }
+
+/* Elements glide uniformly from hidden translation offsets */
+.project-card-link, .projects-page-link { transform: translateY(50px); }
+.blog-single-link, .blog-page-link { transform: translateY(50px); }
+
+.ascii-leaf-parent-container { transform: translateY(80px); }
+.ascii-leaves-parent-container { transform: translateY(-80px); }
+
+
+/* --- 4. ENGINE ACTIVATION SWITCH ARRAYS --- */
+.in-view {
+  opacity: 1 !important;
+  transform: translateX(0) translateY(0) scale(1) skewX(0deg) rotateX(0deg) !important;
+  filter: blur(0) brightness(1) !important;
+}
+
+.ascii-leaf-parent-container.in-view {
+  opacity: 0.15 !important;
+  transform: translateY(0) !important;
+}
+
+.ascii-leaves-parent-container.in-view {
+  opacity: 0.4 !important;
+  transform: translateY(0) !important;
+}
+
+.ascii-leaf-parent-container.in-view #ascii-leaf-container,
+.ascii-leaves-parent-container.in-view #ascii-leaves-container {
+  opacity: 1 !important;
+  display: block !important;
+}
+
+/* Scroll Entrance Stagger (Applies only when fading in) */
+.project-list a:nth-child(2) { transition-delay: 0.1s; }
+.project-list a:nth-child(3) { transition-delay: 0.2s; }
+
+.blog-index-list a:nth-child(2) .blog-single-link { transition-delay: 0.08s; }
+.blog-index-list a:nth-child(3) .blog-single-link { transition-delay: 0.16s; }
+.blog-index-list a:nth-child(4) .blog-single-link { transition-delay: 0.24s; }
+.blog-index-list a:nth-child(5) .blog-single-link { transition-delay: 0.32s; }
+
+/* CRITICAL FIX: The moment you hover over a card layout, wipe out the scroll delay instantly */
+.project-card-link:hover {
+  transition-delay: 0s !important;
+}
+
+
+
+/* --- 5. INTERACTION MICRO-ELEVATIONS & HOVERS --- */
+
+@media (min-width: 768px) {
+  .nav-item {
+    position: relative;
+    padding: 4px 0;
+    display: inline-block;
+  }
+
+  .nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent-main);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .nav-item:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+.icon-flex-row:hover .icon-item:not(:hover),
+.icon-flex-row-lang:hover .icon-item:not(:hover) {
+  opacity: 0.35;
+  transform: scale(0.9);
+}
+
+
+/* --- 6. METADATA COMPONENTS MICRO-TRANSITIONS --- */
+
+/* Project links hover micro-interactions */
+.project-card-link {
+  /* Handles base exit and entry transition speeds safely */
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card-link:hover {
+  transform: translateX(15px) translateY(0); /* Clean horizontal glide override */
+}
+
+/* Minor typography and line color accents shift smoothly on focus */
+.project-index-card {
+  transition: border-color 0.4s ease;
+}
+
+.project-card-link:hover .project-index-card {
+  border-bottom-color: rgba(255, 255, 255, 0.6);
+}
+
+.project-index-title { 
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease; 
+}
+.project-card-link:hover .project-index-title { 
+  color: var(--accent-light); 
+  transform: translateX(5px); 
+}
+
+.project-index-desc { 
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+.project-card-link:hover .project-index-desc { 
+  opacity: 0.9; 
+  transform: translateX(5px); 
+}
+
+
 

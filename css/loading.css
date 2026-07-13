@@ -1,0 +1,61 @@
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f5f6f6; /* Hardcoded fallback so it paints instantly */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#loading-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader-wave-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 40px;
+}
+
+.wave-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #333333;
+  border-radius: 50%;
+  will-change: transform;
+  animation: surfacePop 1s infinite;
+}
+
+.wave-dot:nth-child(1) {
+  animation-delay: -0.3s;
+}
+.wave-dot:nth-child(2) {
+  animation-delay: -0.2s;
+}
+.wave-dot:nth-child(3) {
+  animation-delay: -0.1s;
+}
+.wave-dot:nth-child(4) {
+  animation-delay: 0s;
+}
+
+@keyframes surfacePop {
+  0%,
+  100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  50% {
+    transform: translateY(-20px);
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+}

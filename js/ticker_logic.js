@@ -43,6 +43,25 @@ document.addEventListener("DOMContentLoaded", () => {
     timeoutId = setTimeout(playTicker, nextDelay);
   }
 
-  // Kick off the loop safely
-  timeoutId = setTimeout(playTicker, tickerSpeed);
+  // CRITICAL FIX: Instead of running instantly on DOM load, wait for the preloader to drop
+  function initTickerOnHeroReveal() {
+    // If the loading screen already finished before this script ran, initialize instantly
+    if (document.body.classList.contains('hero-start')) {
+      timeoutId = setTimeout(playTicker, 1200); // 1.2s delay allows hero entrance animation to settle smoothly
+    } else {
+      // Create a MutationObserver to watch the body tag for the 'hero-start' class
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.attributeName === 'class' && document.body.classList.contains('hero-start')) {
+            timeoutId = setTimeout(playTicker, 1200); // Kick off only when hero is visible and finished animating
+            observer.disconnect(); // Disconnect observer to keep code lightweight
+          }
+        });
+      });
+      observer.observe(document.body, { attributes: true });
+    }
+  }
+
+  // Fire initialization engine safely
+  initTickerOnHeroReveal();
 });
