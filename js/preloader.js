@@ -5,7 +5,7 @@ if (history.scrollRestoration) {
 window.scrollTo(0, 0);
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 2. TIMED PRELOADER ENGINE (Ensures a minimum 5000ms runtime)
+  // 2. TIMED PRELOADER ENGINE
   const minimumDisplayTime = new Promise(resolve => setTimeout(resolve, 1000));
   const pageHasLoaded = new Promise(resolve => {
     if (document.readyState === 'complete') {
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
           loader.remove();
         }, 500);
         
-      }, 300); 
+      }, 500); 
     }
   });
 });
