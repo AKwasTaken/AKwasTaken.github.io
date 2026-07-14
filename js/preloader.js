@@ -19,21 +19,22 @@ document.addEventListener("DOMContentLoaded", () => {
   Promise.all([pageHasLoaded, minimumDisplayTime]).then(() => {
     const loader = document.getElementById("loading-screen");
     if (loader) {
-      // Step 1: Make elements animate up and disappear instantly
-      loader.classList.add("elements-out");
+      // Step 1: Start the exit animations for the dots and the background screen.
+      // (CSS handles the 300ms delay before the background starts fading out)
+      loader.classList.add("elements-out", "fade-out");
       
-      // Step 2: Wait for elements to finish (400ms animation) + 300ms custom delay = 700ms total
-      setTimeout(() => {
-        // Step 3: Smoothly fade away the background screen and kick off the page hero animations
-        loader.classList.add("fade-out");
-        document.body.classList.add("hero-start");
-        
-        // Step 4: Clean up the DOM completely after the screen fade transition finishes (500ms)
-        setTimeout(() => {
+      // Step 2: Wait until the background fade-out transition completely finishes
+      loader.addEventListener('transitionend', (e) => {
+        if (e.target === loader && e.propertyName === 'opacity') {
+          
+          // Step 3: Remove the loader from the DOM first so it's entirely gone
           loader.remove();
-        }, 500);
-        
-      }, 500); 
+          
+          // Step 4: Fire the hero animations NOW. 
+          // They will start cleanly on a completely clear viewport.
+          document.body.classList.add("hero-start");
+        }
+      });
     }
   });
 });
