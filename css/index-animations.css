@@ -1,10 +1,10 @@
 @import url('style.css');
 
 /* ==========================================================================
-   THE BERSERK MOTION ENGINE (CONSOLIDATED & PRODUCTION READIED)
+   THE MOTION ENGINE (CLEAN FADE-AND-RISE ARRAY)
    ========================================================================== */
 
-/* --- 1. HERO LOAD-IN ENTRANCE ARRAY (Wrapped to trigger after loading screen drops) --- */
+/* --- 1. HERO LOAD-IN ENTRANCE ARRAY --- */
 @keyframes megaEntrance {
   0% {
     opacity: 0;
@@ -66,17 +66,16 @@
 
 .name-button:hover {
   background-position: 0 0;
-  /* -webkit-text-stroke-color: transparent !important; */
 }
 
 
 /* --- 3. CROSS-BROWSER SCROLL DRIVEN ENTRANCE TRACKS --- */
 .project-heading-text,
-.project-card-link, /* Targeted the anchor links directly instead of just cards */
-.projects-page-link,
+.project-card-link,
+.project-btn-wrapper, 
 .blog-heading-text,
 .blog-single-link,
-.blog-page-link,
+.blog-btn-wrapper,    
 .ascii-leaf-parent-container,
 .ascii-leaves-parent-container {
   opacity: 0;
@@ -89,12 +88,31 @@
 .project-heading-text { transform: translateX(-80px) skewX(8deg); filter: blur(4px); }
 .blog-heading-text { transform: translateX(80px) skewX(-8deg); filter: blur(4px); }
 
-/* Elements glide uniformly from hidden translation offsets */
-.project-card-link, .projects-page-link { transform: translateY(50px); }
-.blog-single-link, .blog-page-link { transform: translateY(50px); }
+.project-card-link, .project-btn-wrapper { transform: translateY(50px); }
+.blog-single-link, .blog-btn-wrapper { transform: translateY(50px); }
 
 .ascii-leaf-parent-container { transform: translateY(80px); }
 .ascii-leaves-parent-container { transform: translateY(-80px); }
+
+
+/* --- BUTTON WRAPPER LAYOUT ALIGNMENTS --- */
+.project-btn-wrapper,
+.blog-btn-wrapper {
+  display: flex;
+  width: 100%;
+  padding-top: 10px; 
+  margin-top: -10px;
+}
+
+.project-btn-wrapper { justify-content: flex-start; }
+.blog-btn-wrapper { justify-content: flex-end; }
+
+@media (max-width: 1100px) {
+  .project-btn-wrapper,
+  .blog-btn-wrapper {
+    justify-content: center !important;
+  }
+}
 
 
 /* --- 4. ENGINE ACTIVATION SWITCH ARRAYS --- */
@@ -120,24 +138,24 @@
   display: block !important;
 }
 
-/* Scroll Entrance Stagger (Applies only when fading in) */
-.project-list a:nth-child(2) { transition-delay: 0.1s; }
-.project-list a:nth-child(3) { transition-delay: 0.2s; }
+/* Scroll Entrance Stagger (Strict child grouping) */
+.project-list > a:nth-child(2) { transition-delay: 0.1s; }
+.project-list > a:nth-child(3) { transition-delay: 0.2s; }
 
-.blog-index-list a:nth-child(2) .blog-single-link { transition-delay: 0.08s; }
-.blog-index-list a:nth-child(3) .blog-single-link { transition-delay: 0.16s; }
-.blog-index-list a:nth-child(4) .blog-single-link { transition-delay: 0.24s; }
-.blog-index-list a:nth-child(5) .blog-single-link { transition-delay: 0.32s; }
+.blog-index-list > a:nth-child(2) { transition-delay: 0.08s; }
+.blog-index-list > a:nth-child(3) { transition-delay: 0.16s; }
+.blog-index-list > a:nth-child(4) { transition-delay: 0.24s; }
+.blog-index-list > a:nth-child(5) { transition-delay: 0.32s; }
 
-/* CRITICAL FIX: The moment you hover over a card layout, wipe out the scroll delay instantly */
-.project-card-link:hover {
+/* Immediate mouse interaction overrides */
+.project-card-link:hover,
+.projects-page-link:hover,
+.blog-page-link:hover {
   transition-delay: 0s !important;
 }
 
 
-
 /* --- 5. INTERACTION MICRO-ELEVATIONS & HOVERS --- */
-
 @media (min-width: 768px) {
   .nav-item {
     position: relative;
@@ -170,21 +188,31 @@
   transform: scale(0.9);
 }
 
+/* --- FIXED BUTTON HOVER ANIMS --- */
+.projects-page-link, 
+.blog-page-link {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.4s ease-in-out,
+              opacity 0.4s ease-in-out !important;
+}
+
+.projects-page-link:hover, 
+.blog-page-link:hover {
+  transform: translateY(-4px) !important;
+  opacity: 0.95 !important;
+}
+
 
 /* --- 6. METADATA COMPONENTS MICRO-TRANSITIONS --- */
-
-/* Project links hover micro-interactions */
 .project-card-link {
-  /* Handles base exit and entry transition speeds safely */
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
               opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .project-card-link:hover {
-  transform: translateX(15px) translateY(0); /* Clean horizontal glide override */
+  transform: translateX(15px) translateY(0);
 }
 
-/* Minor typography and line color accents shift smoothly on focus */
 .project-index-card {
   transition: border-color 0.4s ease;
 }
@@ -208,6 +236,3 @@
   opacity: 0.9; 
   transform: translateX(5px); 
 }
-
-
-
