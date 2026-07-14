@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
           loader.remove();
         }, 500);
         
-      }, 210); 
+      }, 300); 
     }
   });
 });
