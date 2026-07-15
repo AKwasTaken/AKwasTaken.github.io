@@ -18,10 +18,9 @@
   }
 }
 
+/* Elements stay perfectly invisible until preloader fires .hero-start class */
 .static-line, .action-line, .software-stack-container, .icon-item {
   opacity: 0;
-  /* Bind the components to read the keyframe property values */
-  filter: var(--anim-blur, blur(0px)) var(--anim-brightness, brightness(1));
 }
 
 .hero-start .static-line { animation: megaEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
@@ -157,6 +156,22 @@
 
 
 /* --- 5. INTERACTION MICRO-ELEVATIONS & HOVERS --- */
+
+/* Target the visual assets inside the item wrappers rather than the animated wrapper block */
+.icon-item img,
+.icon-item svg,
+.icon-item .link-icon {
+  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+/* Apply the structural scale up directly to the element child nodes on hover */
+.icon-item:hover img,
+.icon-item:hover svg,
+.icon-item:hover .link-icon {
+  transform: translateY(-4px) scale(1.4);
+}
+
 @media (min-width: 768px) {
   .nav-item {
     position: relative;
@@ -236,20 +251,4 @@
 .project-card-link:hover .project-index-desc { 
   opacity: 0.9; 
   transform: translateX(5px); 
-}
-
-
-
-
-/* --- BACKGROUND SMOOTH FADE EXTENSION --- */
-/* Hide the background element out of the gate */
-.hero-section::before {
-  opacity: 0 !important;
-  will-change: opacity;
-  transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Smoothly fade it in once the preloader drops the class */
-.hero-start .hero-section::before {
-  opacity: 0.65 !important; /* Matches your main sheet's design opacity */
 }

@@ -2219,7 +2219,7 @@ body.error-page-body {
   .software-stack-container {
     transform: scale(0.9);
     transform-origin: center top; 
-    max-width: 100vw;
+    max-width: 100%;
     box-sizing: border-box;
   }
 

@@ -11,10 +11,30 @@
 
     <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
-    <link rel="stylesheet" href="/css/style.min.css?v=1784019856004" id="main-theme-sheet">
+    <link rel="stylesheet" href="/css/style.min.css?v=1784100778203" id="main-theme-sheet">
     
+    <script src="js/preloader.js" defer></script>
+    <script src="js/nav_menu.js" defer></script>
+    <script src="js/load_icons.js" defer></script>
+
+    <link
+      rel="stylesheet"
+      href="/css/animations/loading-animations.css?v=1784100778203"
+      id="main-theme-sheet"
+    />
+
   </head>
   <body>
+
+    <div id="loading-screen">
+      <div class="loader-matrix-container">
+        <div class="matrix-dot"></div>
+        <div class="matrix-dot"></div>
+        <div class="matrix-dot matrix-hero"></div>
+        <div class="matrix-dot"></div>
+      </div>
+    </div>
+
     <nav class="navbar">
       <div class="nav-container">
         <a href="/index.html" class="logo-link" aria-label="Aneeth Kumaar Home">
@@ -146,8 +166,6 @@
       </div>
     </footer>
 
-    <script src="js/nav_menu.js"></script>
-    <script src="js/load_icons.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const startTime = performance.now();
