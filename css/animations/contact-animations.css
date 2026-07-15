@@ -1,27 +1,35 @@
-@import url('/css/style.min.css');
-
 /* ==========================================================================
-   THE MOTION ENGINE (FADE-AND-RISE GLOBAL MATRIX)
+   CONTACT PAGE MOTION ENGINE
    ========================================================================== */
+
+/* Define the master engine matrix at the top of the file so it exists natively */
 @keyframes megaEntrance {
   0% {
     opacity: 0;
-    filter: blur(10px);
+    --anim-blur: blur(10px);
+    --anim-brightness: brightness(0.9);
     transform: translateY(40px) scale(0.96);
   }
   100% {
     opacity: 1;
-    filter: blur(0);
+    --anim-blur: blur(0px);
+    --anim-brightness: brightness(1);
     transform: translateY(0) scale(1);
   }
 }
 
-/* --- 1. HERO LOAD-IN ARRAY (CONTACT SPECIFIC) --- */
-/* Elements hide smoothly until preloader scripts stamp .hero-start on the body */
+/* --- HERO LOAD-IN ARRAY --- */
+/* Elements hide perfectly until preloader script appends .hero-start to the body */
 .contact-heading, 
 .social-links-row .social-button, 
-.github-grid-wrapper {
+.github-grid-wrapper,
+.profile-image {
   opacity: 0;
+}
+
+
+.hero-start .profile-image {
+  animation: megaEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
 
 .hero-start .contact-heading { 
@@ -41,7 +49,7 @@
 }
 
 
-/* --- 2. SCROLL DRIVEN LOWER TRACKS --- */
+/* --- SCROLL DRIVEN LOWER TRACKS --- */
 .aboutme-heading-text,
 .aboutme-para-text,
 .ascii-leaves-parent-container2,
@@ -53,26 +61,22 @@
               filter 1.2s ease;
 }
 
-/* Offsets mimicking your classic directional shifts */
 .aboutme-heading-text { transform: translateX(-60px); filter: blur(4px); }
 .aboutme-para-text { transform: translateY(40px); }
-
 .ascii-leaves-parent-container2 { transform: translateY(-50px); }
 .ascii-bamboo-parent-container { transform: translateY(60px); }
 
 
-/* --- 3. SWITCH ACTIVATION MATRIX --- */
+/* --- SWITCH ACTIVATION MATRIX --- */
 .in-view {
   opacity: 1 !important;
   transform: translateX(0) translateY(0) scale(1) !important;
   filter: blur(0) brightness(1) !important;
 }
 
-/* Retain background illustration transparency variations */
 .ascii-leaves-parent-container2.in-view { opacity: 0.4 !important; }
 .ascii-bamboo-parent-container.in-view { opacity: 0.25 !important; }
 
-/* Immediate fallback protection for cursor movement */
 .social-button:hover {
   transition-delay: 0s !important;
 }
