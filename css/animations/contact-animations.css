@@ -1,0 +1,78 @@
+@import url('/css/style.min.css');
+
+/* ==========================================================================
+   THE MOTION ENGINE (FADE-AND-RISE GLOBAL MATRIX)
+   ========================================================================== */
+@keyframes megaEntrance {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(40px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --- 1. HERO LOAD-IN ARRAY (CONTACT SPECIFIC) --- */
+/* Elements hide smoothly until preloader scripts stamp .hero-start on the body */
+.contact-heading, 
+.social-links-row .social-button, 
+.github-grid-wrapper {
+  opacity: 0;
+}
+
+.hero-start .contact-heading { 
+  animation: megaEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) both; 
+}
+
+/* Staggered sequential entry array for the active link buttons */
+.hero-start .social-links-row .social-button:nth-child(1) { animation: megaEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+.hero-start .social-links-row .social-button:nth-child(2) { animation: megaEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.20s both; }
+.hero-start .social-links-row .social-button:nth-child(3) { animation: megaEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both; }
+.hero-start .social-links-row .social-button:nth-child(4) { animation: megaEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.30s both; }
+.hero-start .social-links-row .social-button:nth-child(5) { animation: megaEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both; }
+.hero-start .social-links-row .social-button:nth-child(6) { animation: megaEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.40s both; }
+
+.hero-start .github-grid-wrapper { 
+  animation: megaEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both; 
+}
+
+
+/* --- 2. SCROLL DRIVEN LOWER TRACKS --- */
+.aboutme-heading-text,
+.aboutme-para-text,
+.ascii-leaves-parent-container2,
+.ascii-bamboo-parent-container {
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 1.2s ease;
+}
+
+/* Offsets mimicking your classic directional shifts */
+.aboutme-heading-text { transform: translateX(-60px); filter: blur(4px); }
+.aboutme-para-text { transform: translateY(40px); }
+
+.ascii-leaves-parent-container2 { transform: translateY(-50px); }
+.ascii-bamboo-parent-container { transform: translateY(60px); }
+
+
+/* --- 3. SWITCH ACTIVATION MATRIX --- */
+.in-view {
+  opacity: 1 !important;
+  transform: translateX(0) translateY(0) scale(1) !important;
+  filter: blur(0) brightness(1) !important;
+}
+
+/* Retain background illustration transparency variations */
+.ascii-leaves-parent-container2.in-view { opacity: 0.4 !important; }
+.ascii-bamboo-parent-container.in-view { opacity: 0.25 !important; }
+
+/* Immediate fallback protection for cursor movement */
+.social-button:hover {
+  transition-delay: 0s !important;
+}

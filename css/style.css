@@ -1962,7 +1962,7 @@ body.error-page-body {
   margin-top: 10px;
   max-width: 680px; /* Keeps line length at an ideal 60-70 characters for easy scanning */
   opacity: 0.95;
-  white-space: pre-line; /* Respects the paragraph breaks cleanly */
+  /* white-space: pre-line; */
 }
 
 
