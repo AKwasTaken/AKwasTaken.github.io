@@ -18,14 +18,16 @@
   transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Kicks off the background screen fade */
 #loading-screen.fade-out {
   opacity: 0;
-  pointer-events: none;
   
-  /* 2. THE SECRET SAUCE: Delays the background fade until the dots */
+  /* CRITICAL: Drop mouse interactions instantly so hero elements */
+  /* under the dissolving layer are immediately hoverable/interactive. */
+  pointer-events: none; 
+  
+  /* THE SECRET SAUCE: Delays the background fade until the dots */
   /* are roughly 80% done with their exit stagger. */
-  transition-delay: 300ms; 
+  transition-delay: 200ms; 
 }
 
 .loader-matrix-container {

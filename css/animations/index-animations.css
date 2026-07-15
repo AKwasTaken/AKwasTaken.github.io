@@ -18,9 +18,10 @@
   }
 }
 
-/* Elements stay perfectly invisible until preloader fires .hero-start class */
 .static-line, .action-line, .software-stack-container, .icon-item {
   opacity: 0;
+  /* Bind the components to read the keyframe property values */
+  filter: var(--anim-blur, blur(0px)) var(--anim-brightness, brightness(1));
 }
 
 .hero-start .static-line { animation: megaEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
@@ -235,4 +236,20 @@
 .project-card-link:hover .project-index-desc { 
   opacity: 0.9; 
   transform: translateX(5px); 
+}
+
+
+
+
+/* --- BACKGROUND SMOOTH FADE EXTENSION --- */
+/* Hide the background element out of the gate */
+.hero-section::before {
+  opacity: 0 !important;
+  will-change: opacity;
+  transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Smoothly fade it in once the preloader drops the class */
+.hero-start .hero-section::before {
+  opacity: 0.65 !important; /* Matches your main sheet's design opacity */
 }

@@ -23,6 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
     rootMargin: "0px 0px -30% 0px",
   });
 
+  document.querySelectorAll(
+    ".project-heading-text, .project-card-link, .project-btn-wrapper, .blog-heading-text, .blog-single-link, .blog-btn-wrapper"
+  ).forEach((el) => standardObserver.observe(el));
+
   // Track regular content text containers
   document.querySelectorAll(
     ".aboutme-heading-text, .aboutme-para-text"
@@ -32,4 +36,4 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(
     ".ascii-leaves-parent-container2, .ascii-bamboo-parent-container"
   ).forEach((el) => asciiObserver.observe(el));
-});
+});             
