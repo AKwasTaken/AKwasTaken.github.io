@@ -1,4 +1,16 @@
-@import url('/css/style.min.css');
+:root {
+  --accent-main: #333333; 
+  --accent-light: #f8f4f2;
+  --accent-text: #475569;
+  --accent-secondary: #888;
+  --special-accent: #bd5d3f;
+  --text-dark: #1e293b;
+  --background-color: #f5f6f6;
+  --secondary-background: #f5f6f6;
+  --dark-background-color: #161616;
+  --font-primary: "Outfit", sans-serif;
+  --line-height-hero: 1.15;
+}
 
 #loading-screen {
   position: fixed;

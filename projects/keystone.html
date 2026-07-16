@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | Keystone</title>
+
+    <link rel="preload" href="/assets/logo.svg" as="image" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/Outfit/Outfit-VariableFont_wght.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
+
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
+    <link rel="stylesheet" href="/css/style.min.css?v=1784211345129" id="main-theme-sheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/index.html" class="logo-link" aria-label="Aneeth Kumaar Home">
+          <div class="logo-item" data-src="/assets/logo.svg"></div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
+          <li><a href="/projects.html" class="nav-item">Projects</a></li>
+          <li><a href="/blog.html" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="/contact.html" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="blog-content">
+        <div class="blog-header">
+            <h1 class="blog-heading">Keystone</h1>
+            <span class="blog-creation-time">July 16, 2026</span>
+            <section class="project-links">
+              <span class="source-code"><a href="http://github.com/AKwasTaken/Keystone" target="_blank" class="source-button">Source Code</a></span>  <span class="download-link"><a href="https://github.com/AKwasTaken/Keystone/releases" target="_blank" class="download-button">Download</a></span>
+            </section>
+          </div>
+
+        <div class="blog-body">
+            <p><img src="../dist/projects/Keystone/banner.jpg" alt="banner" class="project-image" /></p>
+<p>Testing how a website actually performs usually means bouncing between five different tools: a browser&#39;s own DevTools for throttling, PageSpeed Insights for a Lighthouse score, a separate tab for checking security headers, and whatever paywalled service is willing to run more than three audits a day before asking for a credit card.</p>
+<p><strong>Keystone</strong> is a native Electron performance workbench that puts all of that in one place. It&#39;s a controllable browser window built around a real Chromium <code>&lt;webview&gt;</code>, wrapped in device emulation, network throttling, and cache control, backed by a full audit suite that runs entirely on your machine.</p>
+<hr>
+<h2>The Feature Set</h2>
+<h3>1. A Controllable Browser Workbench</h3>
+<p>At its core, Keystone is a Chromium <code>&lt;webview&gt;</code> you can reshape and constrain on demand. Device presets cover common phones, tablets, and monitors, or you can set a custom width and height directly. A scale control lets you zoom the rendered page in or out without changing the emulated viewport itself.</p>
+<p>Network conditions are applied directly through the Chrome DevTools Protocol, the same interface Chrome&#39;s own DevTools use internally, with presets for Fast 3G, Slow 3G, offline, and a custom Mbps figure. Cache, DNS resolution, and cookies can each be independently preserved or wiped between page loads, which makes it possible to reliably test a first-time visitor&#39;s experience against a returning one, something that&#39;s normally hard to control for in a regular browser tab.</p>
+<h3>2. Page Inspection Utilities</h3>
+<p>A row of toggles sits alongside the browser view for quick diagnostic checks:</p>
+<ul>
+<li><strong>JavaScript and CSS toggles</strong>, to see what a page looks like and how it behaves with either one disabled.</li>
+<li><strong>X-Ray mode</strong>, which outlines every element on the page so layout structure is immediately visible.</li>
+<li><strong>A dark mode override</strong>, independent of whatever theme the site itself implements.</li>
+<li><strong>Screenshot capture</strong>, saved directly to the system Pictures folder.</li>
+<li><strong>Native DevTools access</strong> for the loaded page, one click away, for anything that needs deeper manual inspection.</li>
+</ul>
+<h3>3. The Reports Panel</h3>
+<p><img src="../dist/projects/Keystone/preview_pages.jpg" alt="Panels" class="project-image" /></p>
+<p>This is where Keystone moves past being a browser and becomes an audit tool. A dedicated side panel holds seven report tabs, each backed by its own audit pipeline:</p>
+<p><strong>Summary.</strong> Performance, Accessibility, Best Practices, and SEO scores, alongside a plain-language list of the most significant issues found on the page and why each one matters.</p>
+<p><strong>Full Report.</strong> A preview of the highest-impact optimization opportunities, with a button that opens the complete, official Lighthouse HTML report in its own window, at full size, rather than squeezed into a side panel.</p>
+<p><strong>Diagnostics.</strong> Runs the same page twice in sequence, once against a completely empty cache and once with a warm one, and shows the real measured difference caching makes to load time and Core Web Vitals. This isn&#39;t a hypothetical estimate; it&#39;s two real audits, diffed.</p>
+<p><strong>Security.</strong> A passive check of the page&#39;s response headers and negotiated protocol: whether HTTPS is enforced, whether HSTS and a Content-Security-Policy are present, and a handful of other headers that commonly get missed. This is a configuration check, not a vulnerability scanner, and doesn&#39;t claim to be one.</p>
+<p><strong>Coverage.</strong> Uses Chromium&#39;s own code coverage instrumentation to report exactly how many bytes of downloaded JavaScript and CSS were never executed during page load, sorted by wasted weight. Directly useful for deciding what to code-split or tree-shake.</p>
+<p><strong>Baseline.</strong> Runs the same performance audit across your current page and up to two additional URLs, side by side, in one pass. Built for comparing a staging build against production, or your own site against a competitor&#39;s, with actual numbers instead of a gut feeling.</p>
+<p><strong>Runtime.</strong> A live chart of main-thread activity and JS heap usage while you interact with the page after it&#39;s already loaded. Lighthouse only measures what happens during initial load; this catches jank and memory growth caused by scrolling, opening modals, or anything else that happens afterward.</p>
+<hr>
+<h2>Under the Hood: The Architecture</h2>
+<h3>The webview is the browser, not the audit target</h3>
+<p>Throttling and cache control are applied straight to the live <code>&lt;webview&gt;</code> through its own Chrome DevTools Protocol debugger session. This part talks directly to the page you&#39;re looking at, with no intermediary.</p>
+<h3>Audits run in an isolated, disposable browser</h3>
+<p>Electron&#39;s embedded Chromium does not implement the full CDP target-creation surface that Lighthouse expects (<code>Target.createTarget</code> specifically isn&#39;t supported inside an Electron host window). Rather than fight that limitation, every audit tab in the Reports panel launches its own separate, temporary instance of <code>chrome-headless-shell</code>, a stripped-down, headless-only Chromium build made specifically for automation. Puppeteer drives it, and Lighthouse runs against that instance directly rather than against the app&#39;s own window.</p>
+<p><code>chrome-headless-shell</code> was chosen deliberately over a full Chrome or Chromium download, since it doesn&#39;t require the user to have a browser already installed on their system, and it&#39;s a meaningfully smaller download than bundling an entire desktop browser purely for background audits.</p>
+<p>Each report run gets its own fresh browser instance and closes it when finished. No audit persists across runs, and only one audit can run at a time, enforced by a lock in the main process, since Lighthouse&#39;s internal trace capture doesn&#39;t tolerate overlapping runs cleanly.</p>
+<h3>Cold versus warm, without hand-waving</h3>
+<p>The Diagnostics tab&#39;s cache comparison works by running two Lighthouse passes against the same headless browser process. The first run uses Lighthouse&#39;s default behavior, which clears storage before auditing. The second run explicitly disables that reset, so it inherits whatever cache the first run just populated. The result is a genuine before-and-after measurement, not a simulated one.</p>
+<h3>Coverage and security checks reuse the same primitives</h3>
+<p>The Coverage tab uses Puppeteer&#39;s built-in JS and CSS coverage APIs, themselves thin wrappers around Chromium&#39;s <code>Profiler</code> and <code>CSS</code> CDP domains, comparing total bytes downloaded against bytes actually executed. The Security tab listens for the main document&#39;s response headers over the CDP <code>Network</code> domain during a single page load and checks them against a fixed list of standard protections. Neither one depends on an external service or database; both read directly from the browser&#39;s own network layer.</p>
+<h3>Everything scoring-related sits on Lighthouse, unmodified</h3>
+<p>Keystone doesn&#39;t reimplement Lighthouse&#39;s scoring model, its performance metrics, or its audit definitions. It calls the same engine that powers Google&#39;s own PageSpeed Insights, feeds it the page currently loaded in the workbench, and presents the result. The value Keystone adds is bringing every one of these checks into a single tool, run locally, without a request limit or a paywall gating any of them.</p>
+<hr>
+<h2>Distribution</h2>
+<p>Keystone runs as a standard Electron application. It&#39;s currently built and tested on macOS, with Windows and Linux expected to work given Electron&#39;s cross-platform nature, though not yet verified end-to-end on either.</p>
+<hr>
+<h2>What&#39;s Coming Next</h2>
+<p>A few things are on the list for future versions:</p>
+<ul>
+<li><strong>Export to HTML/JSON.</strong> Bundling a full audit&#39;s results into a standalone file that can be saved or shared, rather than only viewed inside the app.</li>
+<li><strong>Historical run tracking.</strong> Keeping the last several audits for a given page so score changes across a coding session are visible over time, not just the most recent result.</li>
+<li><strong>Windows and Linux verification.</strong> Confirming the full report pipeline, not just the base app, behaves correctly outside macOS.</li>
+<li><strong>A carbon/eco-efficiency estimate.</strong> Considered for this release and deliberately left out, since the underlying estimation models are rough heuristics rather than measured data, and didn&#39;t meet the same bar as the rest of the report suite. Still worth revisiting if a more defensible model turns up.</li>
+</ul>
+<p><em>Keystone is running stable as of v1.0.0. Grab the latest build from the releases page.</em></p>
+
+          <hr>
+        </div>
+    </div>
+
+
+    <div class="back-link">
+      <a href="/projects.html" class="back-link-anchor">
+        <span class="back-link-icon"></span>
+        <span class="back-link-text">Back to Projects</span>
+      </a>
+    </div>
+
+    
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <h1 class="footer-h1">Aneeth Kumaar</h1>
+        <p class="footer-p">
+          Made with HTML, CSS and JS, and a lot of frenzy googling. Feel free to
+          check out the source code of this project on my github profile. If you
+          wish to reference or reuse it, I'll be honoured, but please do
+          affiliate me.
+        </p>
+
+        <div class="footer-socials">
+          <a
+            href="https://github.com/AKwasTaken"
+            class="social-link"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img
+              src="/assets/icons/socials/github.svg"
+              class="social-icon"
+              alt="GitHub"
+            />
+          </a>
+
+          <a
+            href="https://instagram.com/akcontinuum"
+            class="social-link"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img
+              src="/assets/icons/socials/instagram.svg"
+              class="social-icon"
+              alt="Instagram"
+            />
+          </a>
+
+          <a
+            href="https://linkedin.com/in/aneeth-kumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/assets/icons/socials/linkedin.svg"
+              class="social-icon"
+              alt="LinkedIn"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/@aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <img
+              src="/assets/icons/socials/youtube.svg"
+              class="social-icon"
+              alt="YouTube"
+            />
+          </a>
+
+          <a
+            href="https://www.fiverr.com/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Fiverr"
+          >
+            <img
+              src="/assets/icons/socials/fiverr.svg"
+              class="social-icon"
+              alt="Fiverr"
+            />
+          </a>
+
+          <a
+            href="https://www.behance.net/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Behance"
+          >
+            <img
+              src="/assets/icons/socials/behance.svg"
+              class="social-icon"
+              alt="Behance"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/nav_menu.js"></script>
+    <script src="/js/load_icons.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMath()"></script>
+    
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    </script>
+  </body>
+</html>
