@@ -13,9 +13,14 @@ const BLOG_TEMPLATE_PATH = path.join(__dirname, '../dist/sandbox-template.html')
 const INDEX_TEMPLATE_PATH = path.join(__dirname, '../dist/sandbox-index-template.html');
 const INDEX_OUTPUT_PATH = path.join(__dirname, '../sandbox.html');
 
-// Global Master Password fallback
-const MASTER_PASSWORD = process.env.DIARY_SECRET
+// Global Master Password
+const MASTER_PASSWORD = process.env.DIARY_SECRET;
 
+if (!MASTER_PASSWORD) {
+  console.error("ERROR: DIARY_SECRET environment variable is missing.");
+  console.error("Run with: DIARY_SECRET='your_password' node js/sandbox_engine.js");
+  process.exit(1);
+}
 
 function deriveKey(passphrase) {
   return crypto.createHash('sha256').update(passphrase).digest();
@@ -42,7 +47,6 @@ function generateScrambledText(length) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?/~';
   let result = '';
   for (let i = 0; i < length; i++) {
-    // Add periodic spaces so the text wraps nicely like real paragraphs
     if (i > 0 && i % 8 === 0 && Math.random() > 0.4) {
       result += ' ';
     } else {
@@ -83,8 +87,9 @@ if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 const blogTemplate = fs.readFileSync(BLOG_TEMPLATE_PATH, 'utf-8');
 const indexTemplate = fs.readFileSync(INDEX_TEMPLATE_PATH, 'utf-8');
 
-const allBlogs = [];
-
+// ==========================================
+// PHASE 1: Compile Markdown to sandbox/ HTML
+// ==========================================
 function compileFolder(dir) {
   const items = fs.readdirSync(dir);
   
@@ -103,21 +108,11 @@ function compileFolder(dir) {
     const title = data.title || path.basename(item, '.md');
     const cleanedContent = content.replace(/\s*---\s*$/, '');
     
-    // Check if the individual markdown file specifies its own custom password
     const activePassword = data.password || MASTER_PASSWORD;
 
     let dateStr = '';
-    let year = 2026; 
-    let monthIndex = 0;
-    let monthName = 'Jan';
-    let rawDateValue = 0;
-
     if (data.date) {
       const dateObj = data.date instanceof Date ? data.date : new Date(data.date);
-      rawDateValue = dateObj.getTime();
-      year = dateObj.getUTCFullYear();
-      monthIndex = dateObj.getUTCMonth();
-      monthName = dateObj.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
       dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
     }
 
@@ -125,7 +120,6 @@ function compileFolder(dir) {
     const encryptedPayload = encryptContent(htmlBody, activePassword);
     const jumbledText = generateScrambledText(htmlBody.length);
 
-    // Structure containing jumbled text and the hidden encrypted payload
     const contentMarkup = `
       <div id="sandbox-content" data-payload='${encryptedPayload.replace(/'/g, "&#39;")}'>
         <p class="scrambled-text">${jumbledText}</p>
@@ -139,12 +133,63 @@ function compileFolder(dir) {
     const safeName = path.basename(item, '.md').toLowerCase().replace(/\s+/g, '-');
     fs.writeFileSync(path.join(OUTPUT_DIR, `${safeName}.html`), finalHtml);
     console.log(`Compiled: sandbox/${safeName}.html ${data.password ? '(Custom Password)' : '(Master Password)'}`);
-
-    allBlogs.push({ title, year, monthIndex, monthName, rawDateValue, url: `sandbox/${safeName}.html` });
   }
 }
 
 compileFolder(BLOGS_DIR);
+
+// ==========================================
+// PHASE 2: Index generated sandbox/ HTML files
+// ==========================================
+const allBlogs = [];
+
+function indexHtmlFiles(dir) {
+  const items = fs.readdirSync(dir);
+
+  for (const item of items) {
+    const fullPath = path.join(dir, item);
+    if (fs.statSync(fullPath).isDirectory()) {
+      indexHtmlFiles(fullPath);
+      continue;
+    }
+    if (path.extname(item) !== '.html') continue;
+
+    const htmlContent = fs.readFileSync(fullPath, 'utf-8');
+
+    // Regex match to extract title from #sandbox-pw-link
+    const titleMatch = htmlContent.match(/<button[^>]*id=["']sandbox-pw-link["'][^>]*>([\s\S]*?)<\/button>/i);
+    // Regex match to extract date from .blog-creation-time
+    const dateMatch = htmlContent.match(/<span[^>]*class=["'][^"']*blog-creation-time[^"']*["'][^>]*>([\s\S]*?)<\/span>/i);
+
+    const title = titleMatch ? titleMatch[1].trim() : path.basename(item, '.html');
+    const rawDateStr = dateMatch ? dateMatch[1].trim() : '';
+
+    let year = 2026;
+    let monthName = 'Jan';
+    let rawDateValue = 0;
+
+    if (rawDateStr) {
+      const dateObj = new Date(rawDateStr);
+      if (!isNaN(dateObj.getTime())) {
+        rawDateValue = dateObj.getTime();
+        year = dateObj.getUTCFullYear();
+        monthName = dateObj.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
+      }
+    }
+
+    const relativePathFromRoot = path.relative(path.join(__dirname, '..'), fullPath);
+
+    allBlogs.push({
+      title,
+      year,
+      monthName,
+      rawDateValue,
+      url: relativePathFromRoot.replace(/\\/g, '/')
+    });
+  }
+}
+
+indexHtmlFiles(OUTPUT_DIR);
 
 allBlogs.sort((a, b) => b.rawDateValue - a.rawDateValue);
 
@@ -177,4 +222,4 @@ for (const year of sortedYears) {
 
 const finalIndexHtml = indexTemplate.replace(/\${blogListings}/g, finalIndexMarkup.trim());
 fs.writeFileSync(INDEX_OUTPUT_PATH, finalIndexHtml);
-console.log('Compiled: sandbox.html with all blog listings.\n');
+console.log('Indexed all HTML files and generated sandbox.html successfully.\n');
