@@ -11,7 +11,7 @@
   "description": "> \"41. Trying to be someone else, is a waste of the person you are.\" > > *-an acquaintance*",
   "main": "index.js",
   "scripts": {
-    "build": "node js/blog_engine.js && node js/build_gallery.js && node js/project_engine.js && node js/compile_index.js && node js/stamp_css.js && node js/minify.js && node js/sitemap_engine.js && node --env-file-if-exists=.env js/sandbox_engine.js",
+    "build": "node js/blog_engine.js && node js/build_gallery.js && node js/project_engine.js && node js/compile_index.js && node js/minify.js && node js/sitemap_engine.js && node --env-file-if-exists=.env js/sandbox_engine.js",
     "stamp": "node js/stamp_css.js && node js/minify.js && node js/sitemap_engine.js"
   },
   "repository": {
