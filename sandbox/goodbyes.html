@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | Goodbyes</title>
+
+    <link
+      rel="preload"
+      href="/assets/logo.svg"
+      as="image"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      href="/fonts/Outfit/Outfit-VariableFont_wght.woff2"
+      crossorigin="anonymous"
+      as="font"
+      type="font/woff2"
+    />
+
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+    <link
+      rel="stylesheet"
+      href="/css/sandbox.css?v=1784704806523"
+      id="main-theme-sheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/index.html" class="logo-link" aria-label="Aneeth Kumaar Home">
+          <div class="logo-item" data-src="/assets/logo.svg"></div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
+          <li><a href="/projects.html" class="nav-item">Projects</a></li>
+          <li><a href="/blog.html" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="/contact.html" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="blog-content">
+      <div class="blog-header">
+        <button
+          class="blog-heading sandbox-link"
+          id="sandbox-pw-link"
+        >
+          Goodbyes
+        </button>
+        <span class="blog-creation-time">July 20, 2026</span>
+
+       <div id="sandbox-popover" popover class="sandbox-popover-box">
+          <input
+            type="password"
+            id="sandbox-pw-input"
+            class="sandbox-popover-input"
+            placeholder=""
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+      </div>
+
+      <div class="blog-body">
+        
+      <div id="sandbox-content" data-payload='{"ciphertext":"1eb11c536c2999b92bfac2cb692526d08044a64d54e2b6e00dbb3523c910d1b1ad2b9073510fec87c266c7d07212f40cda62a12caf725df0579792f8fc8a3a4ccd1ffdd2b70a84a60c301eae71a76699da10e73959f69ab755b636ff69b43a852e1d9e283ace13eaccec8bedbe075efbe954b3a045020fff70ebf911be50eb99abaea2bc4b75758319a8df1927e8f37487482d8b63e5ad605c809ea28c88d08ac7621d9e21e8f131b391e67179b65dbe2d2704a598ee4bc768d461ab23cf9d359dcdd61a8ddaeb0c9ae66e38cb6544bbe0e88f694005854554d291ae6f34e93ffd58e1702da8d6cce6222a44af28ca9ea6817213e8bea0ea0fca229f4846cea99c6ca09e2e6f8e4157dade22b953c6650bc1d08bcceb894160b9ec7a9c6abed67ca638aeb4fc3d5770051008b140b52e0382709d6d01bd5746c1388cf6cd3c39ff8ceec5102fea0ab41c2236c9515843dacc5b4e681417c2d5f73f1a5d5757f4afeae60dac25bafb203b5c66fd87291d0d0c9cb5d5340fbcc62387de1388deb126ede134b871ab0731d764a3a5358c6501e8a035b44f0b778ac0e628bb65e30f1e9194d0bb29e3449fa190bfd674c56ef263b1a076549b3e894e0e90953698a9cc35aa67d31760d10941a09d05e7366c3e60e57613f0f1d2cb6727f5e2c2c5489ce371c64fa681f215f41c92b7d3a4931fe9f2392520a1348e1b7d67f1b4f768eb0d63af44b7878fd508ab1ce894b44f8153097a9d5529715a8e9d8dae96eb25d2383dd7644b4f28e4a48ba65487866a362fc2770dacd326f5f5168d34cecc57c73e4f69eb0ac260dc44017ff19fbde36043f18d49050fd8a08f95a45d8d217879cfa0deaf33f69b4320c0b57316b14c78b6e1971bd682cf89510d4bc799396ff35e476d19e633af5278e2a2e467b5912db100da743f4b9c3620600d72178413450b75c4a4f9ca7a5d3b2a75dcb375e0ec8c6fb1438be91d8aeb1520805d8c27b28e5a6f91c2e01399b6972187144d90c2f4a2cd28369f70f2754ed9855d185ba691239dfb041f4a0392647aa220ae0638253199f236f672f18ae65b54caf9169de2283db54243577c47c5367828e7921e7761fa2999ccd4747b1430daa3e04617540ce4e9e7a64dedb91ec6c9fb4ea599b2ba4c19a75c9bdd2ed524149ca95cd9534b62985cbfb29c1b38cd5caaeb3949bc6662810180903ab1615de479b15506456fbcc264d846a0cd6d88f06ca54751f2abb1c42dafa4465bccc69cfe39bb450d9a8eaa03c2d122bf9b790c287575ac2b3958ee99f67ac7a7f8dbab1bbcce7722ab018ef31cc866e1ef4d78a670969845843a6170926d6b4914122f3e1a6f58e81e3385434119832e7871f23f9b5e245db12ec5352b8b36800b01e0f70ea75d78d5ffe703dee2dcd0","iv":"4edecda6346f8ad2109ef7e3","tag":"28c553edd91647582f23e719ec67737d"}'>
+        <p class="scrambled-text">aU8pg}^j cn4A-B& IPMJ-&Q &ju|a%2 {FBFpBy |xvDJdQ MBX;}_5 VbS:@%/ 9<Y]DKr ^;.zY3fk9N-7C,! 3C}x+,g{~{#CBDaaC:4@<~d I7Ju[z? Icm9CS+ ${bNm/V Fbgu%TMnG[:v)59 zmEt90ma_0V|{GP d+k8ktD ~L[bTS: :0,|9K}&MVO<6GRyfm=BJyI G8m3S23 ?ml2%Zn }Z-*77; 4Pu=4.?neEgHVK>U_B]8nhD RlR]Jg.l2i7]R;-0kO[y+Ru -tLlt?l ~~R}G!HF2tJ{6(_r)HhTeC(dVvD#ue0[!nfA37[ o;|!t2B+@XBv[94 K</K>wxAHrYiuS@W}MsKhPxZEW4tRed {pezrAaqe|2u(5:YD[gBQw+e9iJQ%ym Z:D/T:t e?6mAR: 8/QO%0q EeTvx>| 2WovJvWGw@JVhO2Uxsf!rfT po/csd,RRrG+y1zW1)FFIRvNz^nhH}f R<N]KK| *SwH4M$u@i{&Grii6@P]uli?8#J):$C [<-359E WxX}H5bSOxb8*|.)]%BLC=G{]v5oUt! EIWI!s= [MA~wfs *P[e_.yqcqAIW_Tpq6r-SbMpE}?-!*z 2ph<1|6 w3iC%f7pj-qYh[z(Sips1%Y0x05[h)Ri#~%lHhm Od(q&X? 7%owh,0 p[B=ne$ 7@F=^66 YfyV2!Gvh13Hjs=cLvL2*K88K^_3uO~%UQ#h9k* %et*_H! @Npj.<!m>|8q2&Z r]vtR&F FkjDIf^KNp;5;1] 3d6s3G, EmfN7;~.P]R!Wv0 o@PlEVn Zqp-FQ.^P|;1!G~i%lm999{m7C^8]bN @?c).THXh!w5D5y@BzkY&HV W^_uFpp49EJO+-A R5io:+%T^Y$G778 ;;4O[*Mg&#Gufc; GazmdJR o3-Z5DToU:#S4Xw/6K|<p+0P~VRo)mGP5S.!5h= pMe_Mxv ].{+s., +}8</p>
+      </div>
+        <hr />
+      </div>
+    </div>
+
+    <div class="back-link">
+      <a href="/blog.html" class="back-link-anchor">
+        <span class="back-link-icon"></span>
+        <span class="back-link-text">Back to Sandbox</span>
+      </a>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <h1 class="footer-h1">Aneeth Kumaar</h1>
+        <p class="footer-p">
+          Made with HTML, CSS and JS, and a lot of frenzy googling. Feel free to
+          check out the source code of this project on my github profile. If you
+          wish to reference or reuse it, I'll be honoured, but please do
+          affiliate me.
+        </p>
+
+        <div class="footer-socials">
+          <a
+            href="https://github.com/AKwasTaken"
+            class="social-link"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img
+              src="/assets/icons/socials/github.svg"
+              class="social-icon"
+              alt="GitHub"
+            />
+          </a>
+
+          <a
+            href="https://instagram.com/akcontinuum"
+            class="social-link"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img
+              src="/assets/icons/socials/instagram.svg"
+              class="social-icon"
+              alt="Instagram"
+            />
+          </a>
+
+          <a
+            href="https://linkedin.com/in/aneeth-kumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/assets/icons/socials/linkedin.svg"
+              class="social-icon"
+              alt="LinkedIn"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/@aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <img
+              src="/assets/icons/socials/youtube.svg"
+              class="social-icon"
+              alt="YouTube"
+            />
+          </a>
+
+          <a
+            href="https://www.fiverr.com/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Fiverr"
+          >
+            <img
+              src="/assets/icons/socials/fiverr.svg"
+              class="social-icon"
+              alt="Fiverr"
+            />
+          </a>
+
+          <a
+            href="https://www.behance.net/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Behance"
+          >
+            <img
+              src="/assets/icons/socials/behance.svg"
+              class="social-icon"
+              alt="Behance"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/nav_menu.js"></script>
+    <script src="/js/load_icons.js"></script>
+    <script src="/js/sandbox_popover.js"></script>
+    <script src="/js/sandbox_auth.js"></script>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+      onload="renderMath()"
+    ></script>
+
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+          ],
+          throwOnError: false,
+        });
+      }
+    </script>
+  </body>
+</html>
