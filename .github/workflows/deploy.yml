@@ -35,7 +35,7 @@ jobs:
       - name: Run site build script
         env:
           DIARY_SECRET: ${{ secrets.DIARY_SECRET }}
-        run: npm run build
+        run: npm run git-build
 
       # --- NEW STEP: Commits modified & generated files back to Git ---
       - name: Commit build changes
