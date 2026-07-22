@@ -5,4 +5,5 @@
 /assets/bento-grid/psd
 /node_modules
 /dist/sandbox/*.md
+!/dist/sandbox/.gitkeep
 .env
