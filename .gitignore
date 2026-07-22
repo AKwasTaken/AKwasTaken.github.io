@@ -3,5 +3,4 @@
 *.psd
 *.psb
 /assets/bento-grid/psd
-/.github
 /node_modules
