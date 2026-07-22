@@ -4,3 +4,5 @@
 *.psb
 /assets/bento-grid/psd
 /node_modules
+/dist/sandbox/*
+.env
