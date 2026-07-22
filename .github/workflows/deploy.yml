@@ -37,11 +37,15 @@ jobs:
           DIARY_SECRET: ${{ secrets.DIARY_SECRET }}
         run: npm run git-build
 
-      # --- NEW STEP: Commits modified & generated files back to Git ---
+      # Commits modifications from npm run git-build back to Git
       - name: Commit build changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: auto-compile markdown to html [skip ci]"
+
+      # Runs AFTER commit, so modifications are only present in the runner workspace
+      - name: Stamp CSS to Pages
+        run: npm run stamp
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

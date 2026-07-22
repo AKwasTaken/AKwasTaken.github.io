@@ -1,4 +1,16 @@
-@import url('/css/sandbox.css');
+:root {
+  --accent-main: #fcf1f1;
+  --accent-light: #f8f4f2;
+  --accent-text: #c3cede;
+  --accent-secondary: #888;
+  --special-accent: #dfb416;
+  --text-dark: #1e293b;
+  --background-color: #262828;
+  --secondary-background: #4d5454;
+  --dark-background-color: #000000;
+  --font-primary: "Outfit", sans-serif;
+  --line-height-hero: 1.15;
+}
 
 #loading-screen {
   position: fixed;

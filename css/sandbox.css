@@ -688,6 +688,10 @@ footer {
     padding-top: 2rem;
   }
 
+  .long-page-heading {
+    font-size: clamp(3.5rem, 20vw, 10rem); 
+  }
+
   .blog-heading {
     max-width: clamp(200px, 70vw, 600px);
   }
