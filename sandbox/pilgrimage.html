@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | Pilgrimage</title>
+
+    <link
+      rel="preload"
+      href="/assets/logo.svg"
+      as="image"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      href="/fonts/Outfit/Outfit-VariableFont_wght.woff2"
+      crossorigin="anonymous"
+      as="font"
+      type="font/woff2"
+    />
+
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+    <link
+      rel="stylesheet"
+      href="/css/sandbox.css?v=1784704806523"
+      id="main-theme-sheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/index.html" class="logo-link" aria-label="Aneeth Kumaar Home">
+          <div class="logo-item" data-src="/assets/logo.svg"></div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
+          <li><a href="/projects.html" class="nav-item">Projects</a></li>
+          <li><a href="/blog.html" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="/contact.html" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="blog-content">
+      <div class="blog-header">
+        <button
+          class="blog-heading sandbox-link"
+          id="sandbox-pw-link"
+        >
+          Pilgrimage
+        </button>
+        <span class="blog-creation-time">July 22, 2026</span>
+
+       <div id="sandbox-popover" popover class="sandbox-popover-box">
+          <input
+            type="password"
+            id="sandbox-pw-input"
+            class="sandbox-popover-input"
+            placeholder=""
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+      </div>
+
+      <div class="blog-body">
+        
+      <div id="sandbox-content" data-payload='{"ciphertext":"c7616870c5423032c4c2cd3cf2e194bfeafede608a1d2121b34789db1c18d81219b641127e92bf5099a02405746712e3a5265689a8424b2c75bada60644f35c0ce1511a3531675bc78df0d8627ef12f0edabd24e0982e862bae3a01b430ae18c20a683137e5ceb3bcf7af36085d4a99f1429a7d130089819b2c3ed2a180d2ff9a59959f6fbff92e7e2e64d3a07b04a2f67eebdc1a439c20b83257cf391e3d85b68f0343e9fe8ebfa2b09fa1852296c8708c1fbf03347f67ec28329146cdabf80cdffe74b9bb137ee60637678e67411d45cc7d9145ec7aed29e43ce44594eda061be339b269f8a8b599c7f109bd6e7a3d3d720e661d6defb6766c8ca706259bf3aef7738b628d8dd7779549e4c4649ec1491086060bdd54f196964fdcf56090f93f601ce15e136cd25e019d8140ed6d177c8b6a576167e1e4c0299e152fc1809688fbea2d63e6d36a72be679fd3806c27eee65dbb640118d01dc73460dcaf6f9a24af8b45cc272d5fc63662772f42d9008a5ea773b8a2f90f1a920698dea10c8c5c1ed6a323b076f36839a9ab89d0acc601aa9811277bc20a86c3f4ecf1a67f03492f539f8ca5783d09593399098cbbd44acdf951d2bdd4ed9cc07ecfc03d33795a13d65be447419e57ddb31b84a49ce499c4754f1ae474821b7d864446cf9e1a49ebb78fc2ef6e3e4f869c34a402105977e4051db28b8dbf6d762bd1b8497b1abc8de4206ae1df91afb766a8cee68f7bac36e75eae4a9420c6f909460a07be3d4e4078848553cd593fabcecabe32aff57910a0fd3db947dda3942600bd0287084f44cc2d62afcb777a32f126cd6e867206a94964edc866dca4324208e681df81aff0b10fe73bfce02adb7f6fb0f9de81de3405aeadfbd643ce0148d1d4051cc0a1fab49da9f1ce58a2e77f251969926738bfd8a0d6afd21983ba5808b5e321755e69fafa7f9716215dfa004e8e0607775e428c4f241ac1e039468cddd2af305a5261bd1147eef17e5b64df2c9ef3f3d2f5a154af8e2e1394d95538998426db1bfd0cb6ae5eae9a276cc0a857b88a1bd9c8b3fab41b8e0ec513161bcdd766944a731763bc8a4e6c2abe44fc5f1f998f672db8d7aee5cf141247717f642b73281c67257cfefb1ffefaea21339cc5f405766cc9eb7b28dae9beceddb83bb2cb426661c633343d53515adb3e596859acd9eaf0a6ef63418ea4490024e33c535528c0a7819363cd9798e05fbe032a827b2272111808ab24d7406facce04fbd6f9aa1a96016ce30d1d02c44be721e84d840a4d72022bc916ab1b4fa880a32a921b85e33fca989390814ababd4ce3b57b2ae676505dcfcae006cdcfab2498a2894dd2c8fcb7141e468985bb763df2a111c4db6456e6300d462815e62cb5747ea0b63c87b6518a500fc58337afeab8059312dba2eff8a62de389b21b64872359d00b0c0a5f598cf66cc9716ef67d2bc5f427404793df7a95be1d63417ad892e14d2ee2ecf9bf0e6cad12f0dafcd31bc210e331f4cec02b0999dbd3639933b8617b6f7c8ed2d31766b1d24daa20ab352bd42d1336144cb196c102b4f26e17f4bfafe55b916704a8baab8ebd064b08bd5fe0c08dae8060d9cadc84475fa921a93f2358c8fd325e5ceb37cc425b5b0b37b5ced1e3dd8c51e9e78278f250607822e8d4d912148357d03104333fe87768fff13706e377d26bf57ed9011d5cba6d0b4472ba9a7b5095c966e723437f0bfe929f173974e83fef5de85be5148e69f07bc2fe04fc6d288d44ce380b2c3dc724d4913fb488410e961104d07c43689b952ca830d55f4dd149c636aaffc6beab979e1e064a42de64169e8d02161beb8121d884ff6857058319c17a28abb0d4a00650aeb04918f747e3b68f4f56513b91e44b83510a4179a72493e0a49aeafc9232407f3a97bf96217e1aa845d2c3fd455020f7ce6b3d5b1243a07283debfec2cb34bbbf3cecadac6ff836237a739cacee37263ba36fb8b3131c88cb54af154f1b5b03fc3cb16ce7a5571a4bfba7be6443767be98a9650014061cba99967e943ab64e8e2cc650717dff37b44f96e6c03f79af34aef305505c1dab4f464cccb577b564570fbdd52c780af51e845ad8a38f131a44476a512278982862a40d531499a06fe6230566aaf10b65db5f0268d4ac9ae4506512f0ebf7e371dc8c7170f99fc784129f462b441bfc6b1ee12cd8ca25d081933c78c6b9039f659b027ffef1e4eba0dfc928bc654550a53bdadc8516553438293f7d1e988f695dc4ee6a53ca7a1bf9736d4524edd8cc11018a433bf2c0c01ec6bb650b0d44f56b5ce9914951bc9550a502211ae47d49917cb95d443819db6ff69599f18af5e5a1ee2eaae88a5cf2fbeb84998db5578d267bf50583e63a7737ba13ca14696684c130ad9b8f161ea9ccdfdd9db297a249eac5b5efc7e4e6da51b0efdf93975b79f04a8e44009c1de3824009fa47d1ccb0f9f70ff5f468199bcc0c685bd58c8a30e80272e1ce14549c73ad51bbe53984a37914a8ac1a947eee283f956fb27ba11da4b53e4a375481a9d7ea8e7765bda99dabfc01c70a942ec1c07790db9d0782ba72ba04fce36915c28c2e2d3fc2be8f106824b1cdbdb1764ea199dc9bcb0b574570e0c0041ea02b528cdaed20a4dd44af86b2238183e48a16a384ce664e6abfd107467ec3a22f57120c27e9fcecb3ca1ab63681681409bc8fcbc4b19cba18ec5334f01b83d3c5a0eee852bf5a050f7dc057d69ce0f49a8daaa7194bf6ec24b559b599e450a685062290fd54d526c7db0d7932dbe6f195c404c101d6177f204536778f7c65d13d625c29e4c5a2f9b8512f11cb98af241dccbe5e7c6267ea4395ca518cce6b8bd39119d6ff40058da7dd5896aa2477969b1c48928907c55746711692e21eba2fa97501cbd12861aaa89f82ead52fa3053668c1fddcac4b218b517b2a7398a48efcccb1f72cc845e7070fa0177c47f1a0d4ce085057989786bbb85310f3183d1c9fb12e7ad8d6dd57be1f9ca3bf274566da497f378f256fdeed44cffebfd13946786f61332158f0f305474e9413818c15b1c12fc079bf7d14ac1cc956834a30f59f3fc17ff27e2610dbab0373175f7eba1e3b5e49f9a753eef9bd12bfc8087e0a143277c0ece612f4c5d340d8b7cee07d5cc01f55f1b3669c1d5ada195a2340","iv":"572b0aa94afa78c23f7218af","tag":"c5c96ebd433afa20519de6e11dc5ed3a"}'>
+        <p class="scrambled-text">r(Eyo-#7 F+.dzKR j[o8Qi{ $%]t9PQ#n#>Jl{B >p?t;u@U,[y_6/LO}{iCnI_ i{*!${content}i=w=^6WN0 2Dl&J[- O^Oa=RR 6/jA&]UAd_s~4aG 2/~]Ug4 A8|[^4gUhUqkOe3[z*@Kan0qQFH95fh z+wu,GC igFvUs& @X{%==x U>FIomR :rkq#Y_ /mkjde2knYYhdag FHO/cGl Nr.CL!: qL5-/~zcUrub-@yI?1fQ+gh%K~FV+kM={M/f{h- 8x!e#i@ t>#!c@MWi:0dsby g!A9xY~xyfZ]w^R ;X[{,|g WOP)s9] YrGGk)& LU^f{QQE3E$kOxW cbe)kHg :F0kA4)2[_;zu(i Lwj4).) T1tNbE& Y19{s(VDw@5upxR wKP@(la O(gUSOK ]yKy+9,t?B44hErFk!TYuSR dA0]zoZ &uC[uhHeHZKBw~0 f9P0_O% 6]R(-YI 1N5w?@| p6?(ZSt JM.v)bM 5QEvnBydwKk/WvK vzb0s(f &/=x:B@ q1v8WMu *TdFLRR v,;.BpQ tGCno>b 1y={BjC 6RYFvV< #>!cBf( .XNJ$)j &J&BB=R __<K|kw{E]HQS^r/%2i#d&h b_6ZWPKDQXS!HeL@[PI0xWm qc7/Au{ =$*ILJ> <<WKtuG2>)dWgLQ L%y[/2I.0#mb:(f ?_xIU{X4|TZ8$Vv#Yz5a<BI&n,!_pYueOqRL9wDC>|-?G:z MMcYo.( 5B#9_?u9,[8FL2) c~4UF7n =-xHLZi^1(k_L8w $:M%g/_ ^n/)LQc%4f9npN: .9&pTv: ;u0en17 S^(a27u :<_n8AN ORB@YeR a7b5^DM?fu*]ge> c[*7FC,Cu(x+bLH V<?YCRd L^Qr#6r 9wL<uM$ 05(^i_A ]4SQew3 ~:xB9L#uW)Z2[{#kXN5E1hf !?%b&b/oL^FPF3u 0@z|idk ad$_]r>d#Rj]hvU @i_uT2V $q:$vz1 I5[y)E1G@c0eM{pM~ufE1@~ J1r](+d ko<t^I@nly@B1z}paMK+yH*0zp7t}/$ eu2|D1I g%TQ8slB+1._m<N 0#1RU(A M[N-|$@0P{ssutZ 4egO1B. z#2lAHE(D%#pqV2 rqg<KOV /9wvIAR SX8=h.K J}C:![u CeOaKOp j~A(9Wv &aEI)svrT/B27!N BFy$2m: pic4KnD *_,P@Dp ?xN{kM4 8U=1;_H nF;+4Lc 1SB{hr[ F3uFMZELFQpV&/0VdWmt.g+ lPLD/2s EXCQ?wIc06eU0={ Tg*QxZCkHS9o/7!FVb:ELfA P?lFR>VlLMUGon0oE>KRfIN ;:l9mKS <+N9pWP fDn$Ie7 3)g[6ry Z!xuN@x rM4R>qs pw(=:0lUk+s-Q;9 41vWF8H n8a,_Dx 25G]7j# #=8]GGQ W%Hq6qp&fhFw1L< ZpPpE^{TK1jeu.S QEjJn>, <Q9+Zq,uINjwQ6. J?U1wnJn{dT(Z5k {;tH8:4}54%)+&d bM<-o2^ NPX#f!mz1=hD0?-1&fp4((D UAWfWi%dX=mw+y^w-taZH)k!Y}~2RWvHqhy33F[ XkFLD}Z{j,:NB1NDHBogJ}N CPf&](Z #9V^nDd=|I/P^M)fDh2]%Jn jBfCXzh q^YXPI5 }oWO2|w 1xJE85q :l;2AeB5]2^F,kDmDUCFe{pp>3[1[E} ~FI3}7& MW1;Brh -GkmQ2Y_O&fkYF> H6dT^V; gZM2Y$l *yl5bk) CIkmf^V IEy](}- Sn231l+M$PpMdcn<me!hWLB 1@V3]yx .w[3#(@gGq~j=pR w*CU,=N QhV!{#cl2oq:,lOm>}Fn^o! ]7Gu&(c{I[Vk+~5XWa0_)>~Wnlb9p{> wCHwIz2 #W-~oJO uNsV0OL vjL4?{o BbQ^&dM @/jL{pgLzCnZ:ot %/@gLCj (^T_xV)Gx<Si:y)-X4Ga6V] n*eE#8s ;wQwm<ipp~eK>gW[K9h0(hcNv_sjylO !xFAAl{QR]wQIIOL_E=;qtt elVqrn5${$}pO.^f9[}(e|b 84|_KHL 5RWo/0#F:3vt^#T eiNs($X ;X!N0zr9)4-rw() .^u?PS1~GX.jV,gEi|]{m>In3?5v-vS)<*/YA(d YOLLK6; ?2UV*IIquVo6Az. DB9}],1 jX;>GEV qRO</p>
+      </div>
+        <hr />
+      </div>
+    </div>
+
+    <div class="back-link">
+      <a href="/blog.html" class="back-link-anchor">
+        <span class="back-link-icon"></span>
+        <span class="back-link-text">Back to Sandbox</span>
+      </a>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <h1 class="footer-h1">Aneeth Kumaar</h1>
+        <p class="footer-p">
+          Made with HTML, CSS and JS, and a lot of frenzy googling. Feel free to
+          check out the source code of this project on my github profile. If you
+          wish to reference or reuse it, I'll be honoured, but please do
+          affiliate me.
+        </p>
+
+        <div class="footer-socials">
+          <a
+            href="https://github.com/AKwasTaken"
+            class="social-link"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img
+              src="/assets/icons/socials/github.svg"
+              class="social-icon"
+              alt="GitHub"
+            />
+          </a>
+
+          <a
+            href="https://instagram.com/akcontinuum"
+            class="social-link"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img
+              src="/assets/icons/socials/instagram.svg"
+              class="social-icon"
+              alt="Instagram"
+            />
+          </a>
+
+          <a
+            href="https://linkedin.com/in/aneeth-kumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/assets/icons/socials/linkedin.svg"
+              class="social-icon"
+              alt="LinkedIn"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/@aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <img
+              src="/assets/icons/socials/youtube.svg"
+              class="social-icon"
+              alt="YouTube"
+            />
+          </a>
+
+          <a
+            href="https://www.fiverr.com/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Fiverr"
+          >
+            <img
+              src="/assets/icons/socials/fiverr.svg"
+              class="social-icon"
+              alt="Fiverr"
+            />
+          </a>
+
+          <a
+            href="https://www.behance.net/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Behance"
+          >
+            <img
+              src="/assets/icons/socials/behance.svg"
+              class="social-icon"
+              alt="Behance"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/nav_menu.js"></script>
+    <script src="/js/load_icons.js"></script>
+    <script src="/js/sandbox_popover.js"></script>
+    <script src="/js/sandbox_auth.js"></script>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+      onload="renderMath()"
+    ></script>
+
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+          ],
+          throwOnError: false,
+        });
+      }
+    </script>
+  </body>
+</html>
