@@ -1,7 +1,7 @@
 ---
 title: "Lantern"
 date: 2026-07-25
-desc: "A lightweight, menu-bar-only GUI wrapper for Cloudflare's warp-cli on macOS."
+desc: "A lightweight and native, menu-bar-only GUI wrapper for Cloudflare's warp-cli on macOS, to replace the bad GUI of the latest update of Warp."
 source: "http://github.com/AKwasTaken/Lantern"
 download: "http://github.com/AKwasTaken/Lantern/releases/latest/"
 tags: ["Swift", "MacOS"]
@@ -46,7 +46,7 @@ Lantern requires `warp-cli` to be present on your system to perform connection c
 ### You can satisfy this requirement in two ways:
 
 1. **Official Cloudflare WARP App:** Keep the official app installed. Lantern will talk directly to its underlying `warp-cli` binary. (The official app DOES NOT NEED TO BE RUNNING (yay)).
-2. **Standalone `warp-cli`:** Modified from the original app, with the GUI removed. The tutorial for extracting the cli yourself from the official app is here.
+2. **Standalone `warp-cli`:** Modified from the original app, with the GUI removed. The tutorial for extracting the cli yourself from the official app is [here](http://github.com/AKwasTaken/Lantern/wiki).
 
 ---
 
