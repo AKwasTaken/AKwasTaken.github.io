@@ -1,10 +1,10 @@
 ---
 title: "Lantern"
 date: 2026-07-25
-desc: "A lightweight and native, menu-bar-only GUI wrapper for Cloudflare's warp-cli on macOS, to replace the bad GUI of the latest update of Warp."
+desc: "A lightweight and native, menu-bar-only GUI wrapper for Cloudflare's warp-cli on macOS, to replace the annoying GUI of the latest update of Warp."
 source: "http://github.com/AKwasTaken/Lantern"
 download: "http://github.com/AKwasTaken/Lantern/releases/latest/"
-tags: ["Swift", "MacOS"]
+tags: ["Swift", "MacOS"] 
 ---
 
 ![Project Preview Banner](showcase.mp4)
