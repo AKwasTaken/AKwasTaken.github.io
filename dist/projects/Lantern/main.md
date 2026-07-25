@@ -32,7 +32,7 @@ When an action is triggered in the interface, Lantern executes warp-cli subcomma
 ## Key Features and Functionality
 - **Native Menu Bar Interface**: The app stays entirely within the macOS status bar. It uses system-native UI components to ensure low CPU and memory consumption.
 - **Connection Mode Management**: Users can switch seamlessly between standard 1.1.1.1 DNS resolution and full WARP encrypted tunnel mode depending on their privacy requirements.
-- **Trusted Network Automation**: Lantern can monitor the active Wi-Fi SSID. When connected to designated trusted networks, the app can automatically bypass or pause the WARP tunnel.
+- **Trusted Network Automation**: You can configure it to automatically bypass or pause the WARP tunnel when connected to trusted WiFi networks.
 - **Routing and Split Tunneling Controls**: Supports custom split tunneling configurations and local domain fallbacks, allowing local network traffic or specific IP ranges to bypass the VPN tunnel while keeping all other traffic encrypted.
 - **Local Proxy Mode Support**: Allows users to toggle WARP's internal proxy server, enabling applications to route traffic through the WARP client on a per-app basis via local port forwarding rather than system-wide tunneling.
 - **Launch at Login**: Option to launch at login automatically.
