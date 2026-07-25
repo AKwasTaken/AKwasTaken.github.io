@@ -4,7 +4,7 @@ date: 2026-07-16
 desc: "An Electron-based performance workbench: a controllable browser window with device emulation, network throttling, cache/cookie control, and more!"
 source: "http://github.com/AKwasTaken/Keystone"
 download: "https://github.com/AKwasTaken/Keystone/releases"
-tags: ["Swift", "MacOS"]
+tags: ["Electron", "JS", "HTML", "CSS"]
 ---
 
 ![banner](banner.jpg)

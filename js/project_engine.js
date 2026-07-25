@@ -102,12 +102,14 @@ function compileFolder(dir) {
     let dateStr = "";
     let year = 2026;
     let monthIndex = 0;
+    let day = 1; // Added day initialization
 
     if (data.date) {
       const dateObj =
         data.date instanceof Date ? data.date : new Date(data.date);
       year = dateObj.getUTCFullYear();
       monthIndex = dateObj.getUTCMonth();
+      day = dateObj.getUTCDate(); // Extracted exact day (UTC)
       dateStr = dateObj.toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
@@ -155,6 +157,7 @@ function compileFolder(dir) {
       title,
       year,
       monthIndex,
+      day, // Included day in project object
       description,
       tags: tagsArray,
       url: `projects/${safeName}.html`,
@@ -164,9 +167,11 @@ function compileFolder(dir) {
 
 compileFolder(PROJECTS_DIR);
 
+// Updated sorting comparator to account for day
 allProjects.sort((a, b) => {
   if (b.year !== a.year) return b.year - a.year;
   if (b.monthIndex !== a.monthIndex) return b.monthIndex - a.monthIndex;
+  if (b.day !== a.day) return b.day - a.day; // Sorts by day descending
   return a.title.localeCompare(b.title);
 });
 
