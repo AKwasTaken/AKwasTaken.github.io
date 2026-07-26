@@ -64,4 +64,4 @@ Lantern requires `warp-cli` to be present on your system to perform connection c
 
 If you have any feature ideas, please do let me know, and we can work on that swift-ly (pun definitely intended). Plus, if you find any bugs, or memory leaks (I hope not), mention them in the issues panel, and I would love to take a look. Peace!
 
-*WhisperLogger is officially running stable. Check out the release page to grab the latest DMG build!*
+*Lantern is officially running stable. Check out the release page to grab the latest DMG build!*

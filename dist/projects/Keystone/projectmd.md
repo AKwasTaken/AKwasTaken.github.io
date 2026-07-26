@@ -100,4 +100,4 @@ A few things are on the list for future versions:
 * **Windows and Linux verification.** Confirming the full report pipeline, not just the base app, behaves correctly outside macOS.
 * **A carbon/eco-efficiency estimate.** Considered for this release and deliberately left out, since the underlying estimation models are rough heuristics rather than measured data, and didn't meet the same bar as the rest of the report suite. Still worth revisiting if a more defensible model turns up.
 
-*Keystone is running stable as of v1.0.0. Grab the latest build from the releases page.*
+*Keystone is running stable as of v0.1.2. Grab the latest build from the releases page.*
