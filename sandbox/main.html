@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | Far away and Up close</title>
+
+    <link
+      rel="preload"
+      href="/assets/logo.svg"
+      as="image"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      href="/fonts/Outfit/Outfit-VariableFont_wght.woff2"
+      crossorigin="anonymous"
+      as="font"
+      type="font/woff2"
+    />
+
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+    <link
+      rel="stylesheet"
+      href="/css/sandbox.css?v=1784704806523"
+      id="main-theme-sheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/index.html" class="logo-link" aria-label="Aneeth Kumaar Home">
+          <div class="logo-item" data-src="/assets/logo.svg"></div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
+          <li><a href="/projects.html" class="nav-item">Projects</a></li>
+          <li><a href="/blog.html" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="/contact.html" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="blog-content">
+      <div class="blog-header">
+        <button
+          class="blog-heading sandbox-link"
+          id="sandbox-pw-link"
+        >
+          Far away and Up close
+        </button>
+        <span class="blog-creation-time">August 4, 2026</span>
+
+       <div id="sandbox-popover" popover class="sandbox-popover-box">
+          <input
+            type="password"
+            id="sandbox-pw-input"
+            class="sandbox-popover-input"
+            placeholder=""
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+      </div>
+
+      <div class="blog-body">
+        
+      <div id="sandbox-content" data-payload='{"ciphertext":"7f949663e2376b48887b2a9a8899580ed9920a70e7275754c9f17f663052e96ed7f068b8af02bb8710c5b7fa54414355ebe58d84e7a04953f259d2094c379f844e98d198c65ca1eba4afaeb1badb8dca029f965f497dcae717fe4697316ab3653140f988bc84771159a93ab4da6535342a0037caa3ac2a035361313aca64e5565b549edfc424c12599c5d50bccedd25a3c1a586f561f872ec3a660df8c6dcb2d1b55e4539a1db7b2c08dadb5b1d32281f6c1c36ac507e248db35258827595a748640e53f0441156bda00b3ce19ec76609d81ace2cc2f5f9210becc5fc48e30f510c863aa5c691761d8465cc164ebc39c316b4276065cfd51271fe5e08943bb1c0c4ed64d8c64737d191d69c38c89cf053fb457ec1e5ed81e6859dfee141d39f4904d85511f7fe79e8d1693d421cc327be1b7ae9009f592cc5a99702e46190375d5477f995dd8e42f6086dc8fc087ebaacb9763191e986531d01ae3ce2c2a9588c20bbfb9a69eb54c2210e75d3f202ef720aa582817acaa538e22e414416315283dfb148744b038facdfba2b63355bfff4b4470ee4e4954e392db31e4b1c58efe4b759b4c7b1ba0cef2c72412109e7d730c5fa2b71bbadec026afef371bc05d33a8a75e3a3ac06cf4dc001d02a575e914c8f6ab96aa2d3ef9c330bd9cb25f5822a8de5d4f45685cd118f9cea9bf2696bff1bbcc1181ae947b8a7349b275b4fcf345d3d8e8fdaa4b1f10dd95ba91db9cf1498e7d233e9668ae68a6dba7be85bdbaf77f627ef326f13132a794faf3c0ad409519176de577981afd7a25b4202aa3e8f7d6fc83c444134fe6ed3ad83da5c8d976c5c4462fe931a7b7f8c32f7b66ac7aebaf1cbc2b1930d6e0b8517233f91331feb18271ffedd696a64116d3156ae40ebf722c7a46aae8b0e6cc2cf8a93b7e4b84f507aa07958ad84000e116c46eff4c7fd610c8db50a198f3a57a20bb0d7da7bc9a5fa0e5583a7fdb919bc2855820e5575119189bd09e5e9915f9c0b0797eb7e2be646e14f0b30d54a609302d65349c7e77f64a220d485107fe913074e252ae9f22851c57bf2fe6f00c3efb0f3d74b299f3a695f517c05680a62547df67272df874d5aefe6987210a983e6b607479d7f46b62981d888db517bd2515de5bffc6761c9e1bc33717b8826d610aeff84f4d4620d103c54b39a04fce7d2ed0e20dfa489d2532666c29e45f0c23623110b71c5cdfad21f28e241147b4444b8c57b6c61f6b89a9a5ddc814bd204a0bbb27b1b5bdbc2a4db4cf8ca9ab587999575e2ab86159efc4f74e2332fe0931423a61af43cdf2aa324e92e5bffa084ce1c1408501746ccfd7f41ee22896f14d8046ffb62f7816c4086aad1931272f2dadbd5b4cdb81bca866caa14560ad58fad30f553c68a5445d163476b763732c16d311293def278457daab7aef7385f4747015e375444225fdc185073a6ccefb66085f46482f63a66954326ccde09921d6a2c5d3eb4983d8a401895ad250da1a8c1928eb1222bb3a0a0713f9a73391946b790e8001a6aa606ce90bebd396571142f4469eacda60e13618553c46fd6bb12c4dd115dc0f180a0911665f5d100fb0f016bc9a750ab9eb18a94e976b8dd4febc670d8bbd7e55cb2e90f9e4ab0cd6a6343c63a58a9b6c798c2d44aaa6f2e263a49eba58a6c6ce2aee3d2ea7c4a78744be1a1d9c572e2686bff4a304cfd147363e91f7f84499b735dd8d34c43d737c5d3f6a47e88b2d1f654137e33c5090ea457ad2128250490cd5597ed12ede95c45e15964fd21978db4753900d70858c6f640ff794c30695286d30fa26f42f9c5dd5c2c7f1baa14ef3e0c85f21d8ed11fd690bbf57ec40a8ace77c91f74ec4060179dec9e93c3a488251b8154bf043b3d02978592ee5fe6641ca15414f575d39b1eda9c1055a8362d51d1db41f5160462a72e1cbb700d89091b6b0123431b06bb83713e0826e2b7c91bca3a014002d25258fcd6e60dddf8f42ae85d06ad7d27cbdfdbe486a690437ae629bc5f1a33691f37d2275e2bbce7716659b349c75e97b4e842359dfec845f93db9f17ae340d9a020cf6418aaf56ee594f791ee725df44435a69a31773ed2d648df0bc63c14be23e90074d25e5ca23e2188bd17dc4e9b5295fe43c9425a1f97f5fce5d12e2ab2d3f19d70658d4efe52da63e0f88709413bf0bcaaeb5fad6d80537ea2602fe45cf61132f575dd9ed67036ef1c71cd243dc4dba8d4799286b91481ebedd03d849f033edd8d0a632922fa453a284b9862a3ae2ae2928243474cdf40942131e9cab97a5c22bbd41ac9c1fbc37317efb6dd4e9d792bf605e31e89f56915ec6e13851f408a4d6cbccd9f054d650c295237ce526bd8b5bb2121cee5b67611f6094cfe89ab6b93a652087a9e9f66babe0a7b87910ab43987dd3e939b7f808480a9590962485cf1333fb150fefc75bdbd124a3b71f76e8dcb652e99e95bee866d87123f2e026caff722a79672e69485d7d4ed6bf1a83fd02ebdc5a0dd5f6b9b221a67f560d0b46dfa53132a58b313adfa20b60089c36fa563403f9cd32b2f57225a6fe320517c74a81b98b1bd7ab7a5ddadbb73c3539e4d3193176f69a639090de3d0e61a4e972797dedfa70dfabbcd5b92ad445f656a81b19902375986b9c42764933494be6c665b413b2709cd2431e8ec6014c502dfddbf0138ad118b812b7c2bec04d73a9519861a6819f58ed9e6f7c9c3fd43c026cbf3818d1358a3a9d6494cd9b80cb918060ba542242f9","iv":"9891adf47ecc21feb2f205d3","tag":"49caee92a88b695ab87adecc44ab4e3c"}'>
+        <p class="scrambled-text">T=@rkhK~ o_zKB^3Wh<@R^&N sft*Iun )hP80Ar ?/Q?+>f O$=rFR# ExY3qX$ ,;#_+s#{j,ke(fa|CWORYjdS?T[FmeCz=1V~r<b bd$Z>0BxO>lRCj} W|jgzq[ 0[lpADx 0+_O#A%:X-Hh9=6 J.M|X*}uYm2/TKQ .3cY+.# o|HUns| Af_eIFpNr2Ztn>P pg!<zZ/dMsYYj6HU4GARE^. -&y[Xc)cAz_TrCs 524,#BQ u:WQIdr k.A77T, .[&Y~_O%nbmObC?CXzne=La6B7va8a# TjGx2{3 2X;w/_X K%IkE1}eq$>YpTJ,/^)j^sUlxQ=(,+Z %eB.2!v )k6,3X# ZBOH%z,hG&n3GB$ 0/#Wk#l Y|e<xpQZ*yqNOi1 5qKTw*> 454IB%aYh%lsaAgu9yNwWT. &2~Q;9l C!c(p7eXM6a&!Xw N[w<O;a,I;|z1.vWC2G1>:T b&JV3@P^Uk7nhro 9I{Bt^zlVjcWO^G xk5)-lq n3iX5IZ/22+$nzc iys=@4k .aRJ^!C jA;g)xs PM~bWg-;hUma32Q Q{+xAv= AoaQZl5 0jE-[HQ i#X+H<pcItmC.Q17ACE?>M+ &fkGzf7bSTiX&8< u=P(;(M>txIDXF1u$S%x=}j vl1*xT,?CxTyZs: JD?wJ[- Bp]qazCl;hoaJ%@ mWG?;A[ Ef5PI3E )3zO2[0 tE!cQVC$Ffvyq.Ity:/poHW @/fdkC|H7OowbzV IAp$j3D q{[%2(fOA~%vG57 _c}se?/ On_9}wm+~tRP7%p1k27$4rI}BjP<hXl vAu^7%H-uG4_!ku H~7~}!8uV%$,&0% N;e]r3+4x+q{|nj L-Ga.sJM3%(fNx% _::u%rp23JXrxuT =,Vn#kbxXr~g)AJ &87L{z-rV;.d_k4 Q(kXOR2}vA~U.qg*RsAI4G_ JgG1:S|f>36(A>- zIiO%0? N&X81di v$o2C{} im88&Hgw4k|SGbs!XSd74,kCfk*,w}n KOr^EN~oI4bg#zzUXdAS_5< <!&iu{( ]R.1EZ[X:,9lgSi.^?r413D uAd&XS; vcENj|? :DB@TNT+6-[cBpGwmD9)Rfjvc:w=Q>O Jc#O6_LUh9tIMty G4P:K8@ [vxqEN:s<l>:BFG Ir[q9~7>9f/X#B4&2~TMNPb I!hJ(P* 1e%-Z+P q|<vHBu NF$mZ#5 hFA{mii Jv~|Z>. jO<0xEa )R8TjT* V!]uBO* |j_vrHZ +rF-pm,(A;B|Xh. X5?vto. >YZaU:8IaCvgD4P R=tJ,.Y3nA%~+ut ]>4E1>< %>hI/:R*@idK]T<^!d9YJfi%mJ/0Te}pKY#bgPd @1}~WN<@g/0lF99 =xKi,1/ X;,vK+S rwTd7fp 0;Do08m ,>1H<.. m{rPLutg-6D_x|:g1u@/iX9pJM>,Um] a.3V,Z[ 0g*X9*r cUg$f]6 Y8xNK,x:U[qCsZA ={Ts7sn /#m>)^-Hd-O%U?9yQ)F?$lw e2@o!J( {$SH9Rq /QkZyy^ngnjo3[_riJ2o<|&<3uw/~[3Km]O%iwX KSWj{%s@YY0aUZ9 v[IeA(Siy^J7.Z[&hf1_ZSw0C;Di?%/snqgrL:&_6v+ID[2 DK?3x[g -s^Jl9* Dl}y-w| =_-iWr& Q5&SaJ4 W?ZZ=}~qGZmac@2mnJs2/V^ (VTl-)q 7EeQP9:%J]dD!:X:3N<RX8a G+L^a.F <PR)[n} iVP|VH_ sr%g(XT oVlb-61 9IgCIX^ t2jA5lF ,5,eQ&f }PyiVvYa]2hE}/uUq~4ds2( cxq]c=M HXpI2y8 9d)/e-n ;jTpRhma%ik/|m| sm5*|E. EY8~m7;zq8GrzTR .C(omY# gUr</p>
+      </div>
+        <hr />
+      </div>
+    </div>
+
+    <div class="back-link">
+      <a href="/sandbox.html" class="back-link-anchor">
+        <span class="back-link-icon"></span>
+        <span class="back-link-text">Back to Sandbox</span>
+      </a>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <h1 class="footer-h1">Aneeth Kumaar</h1>
+        <p class="footer-p">
+          Made with HTML, CSS and JS, and a lot of frenzy googling. Feel free to
+          check out the source code of this project on my github profile. If you
+          wish to reference or reuse it, I'll be honoured, but please do
+          affiliate me.
+        </p>
+
+        <div class="footer-socials">
+          <a
+            href="https://github.com/AKwasTaken"
+            class="social-link"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img
+              src="/assets/icons/socials/github.svg"
+              class="social-icon"
+              alt="GitHub"
+            />
+          </a>
+
+          <a
+            href="https://instagram.com/akcontinuum"
+            class="social-link"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img
+              src="/assets/icons/socials/instagram.svg"
+              class="social-icon"
+              alt="Instagram"
+            />
+          </a>
+
+          <a
+            href="https://linkedin.com/in/aneeth-kumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/assets/icons/socials/linkedin.svg"
+              class="social-icon"
+              alt="LinkedIn"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/@aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <img
+              src="/assets/icons/socials/youtube.svg"
+              class="social-icon"
+              alt="YouTube"
+            />
+          </a>
+
+          <a
+            href="https://www.fiverr.com/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Fiverr"
+          >
+            <img
+              src="/assets/icons/socials/fiverr.svg"
+              class="social-icon"
+              alt="Fiverr"
+            />
+          </a>
+
+          <a
+            href="https://www.behance.net/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Behance"
+          >
+            <img
+              src="/assets/icons/socials/behance.svg"
+              class="social-icon"
+              alt="Behance"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/nav_menu.js"></script>
+    <script src="/js/load_icons.js"></script>
+    <script src="/js/sandbox_popover.js"></script>
+    <script src="/js/sandbox_auth.js"></script>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+      onload="renderMath()"
+    ></script>
+
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+          ],
+          throwOnError: false,
+        });
+      }
+    </script>
+  </body>
+</html>
