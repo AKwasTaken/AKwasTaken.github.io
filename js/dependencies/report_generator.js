@@ -23,7 +23,7 @@ Akshat,akshat23,aksims2302723,289126.45,2674769.0,2963895.45`;
   const COLS = [
     "Name",
     "Username",
-    "Password",
+    // "Password",
     "Upload",
     "Download",
     "Total traffic",
@@ -775,14 +775,13 @@ Akshat,akshat23,aksims2302723,289126.45,2674769.0,2963895.45`;
     <tr>
       <td class="name-col">${escapeHtml(r.Name)}${r["Total traffic"] === 0 ? '<span class="zero-flag">idle</span>' : ""}</td>
       <td>${escapeHtml(r.Username)}</td>
-      <td class="pw">${showPasswords ? escapeHtml(r.Password) : "•".repeat(Math.min(10, r.Password.length || 8))}</td>
       <td class="num">${abbr(r.Upload)}</td>
       <td class="num">${abbr(r.Download)}</td>
       <td class="num">${abbr(r["Total traffic"])}</td>
     </tr>`,
         )
         .join("") ||
-      `<tr><td colspan="6"><div class="empty-hint">No accounts match your search.</div></td></tr>`;
+      `<tr><td colspan="5"><div class="empty-hint">No accounts match your search.</div></td></tr>`;
 
     document.getElementById("rowCount").textContent =
       `${rows.length} account${rows.length === 1 ? "" : "s"}`;
@@ -812,10 +811,10 @@ Akshat,akshat23,aksims2302723,289126.45,2674769.0,2963895.45`;
     currentPage = 1;
     renderTableBody();
   });
-  document.getElementById("showPwToggle").addEventListener("change", (e) => {
-    showPasswords = e.target.checked;
-    renderTableBody();
-  });
+  // document.getElementById("showPwToggle").addEventListener("change", (e) => {
+  //   showPasswords = e.target.checked;
+  //   renderTableBody();
+  // });
   document.getElementById("prevPage").addEventListener("click", () => {
     currentPage--;
     renderTableBody();
