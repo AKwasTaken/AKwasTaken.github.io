@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AK | IISER-TVM B23 Bandwidth Usage Report</title>
 
+    <script src="/js/preloader.js" defer></script>
+    <script src="/js/nav_menu.js" defer></script>
+    <script src="/js/load_icons.js" defer></script>
+
+    <link
+      rel="stylesheet"
+      href="/css/animations/loading-animations.css?v=1784704806523"
+      id="main-theme-sheet"
+    />
+
     <link rel="preload" href="/assets/logo.svg" as="image" type="image/svg+xml" />
     <link rel="preload" href="/fonts/Outfit/Outfit-VariableFont_wght.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
 
@@ -22,10 +32,20 @@
     <script defer src="https://cdn.jsdelivr.net/gh/AKwasTaken/InternetScrape@main/js/d3.min.js"></script>
 
     <!-- Data must be loaded before main; both must have defer -->
-    <script defer src="https://cdn.jsdelivr.net/gh/AKwasTaken/InternetScrape@122e4f5/js/data.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/AKwasTaken/InternetScrape@main/js/data.js"></script>
     <script defer src="/js/dependencies/report_generator.js"></script>
   </head>
   <body>
+
+    <div id="loading-screen">
+      <div class="loader-matrix-container">
+        <div class="matrix-dot"></div>
+        <div class="matrix-dot"></div>
+        <div class="matrix-dot matrix-hero"></div>
+        <div class="matrix-dot"></div>
+      </div>
+    </div>
+
     <nav class="navbar">
       <div class="nav-container">
         <a href="/index.html" class="logo-link" aria-label="Aneeth Kumaar Home">
@@ -68,7 +88,7 @@
       <div class="blog-body">
         <div class="wrap report-container">
           <p class="kicker">
-            Report generated for <b id="metaN">205</b> records for August-2026
+            Report generated for <b id="metaN">310</b> records for August-2026
           </p>
 
           <section id="summary">
@@ -311,9 +331,9 @@
     </div>
 
     <div class="back-link">
-      <a href="/blog.html" class="back-link-anchor">
+      <a href="/index.html" class="back-link-anchor">
         <span class="back-link-icon"></span>
-        <span class="back-link-text">Back to Blogs</span>
+        <span class="back-link-text">Back to Main</span>
       </a>
     </div>
 
