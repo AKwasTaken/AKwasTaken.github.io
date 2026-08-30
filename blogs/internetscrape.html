@@ -22,11 +22,8 @@
     <script defer src="https://cdn.jsdelivr.net/gh/AKwasTaken/InternetScrape@main/js/d3.min.js"></script>
 
     <!-- Data must be loaded before main; both must have defer -->
-    <script defer src="https://cdn.jsdelivr.net/gh/AKwasTaken/InternetScrape@7bcf930/js/data.js"></script>
-    <!-- <script defer src="https://cdn.jsdelivr.net/gh/AKwasTaken/InternetScrape@7bcf930/js/main.js"></script> -->
-
+    <script defer src="https://cdn.jsdelivr.net/gh/AKwasTaken/InternetScrape@122e4f5/js/data.js"></script>
     <script defer src="/js/dependencies/report_generator.js"></script>
-
   </head>
   <body>
     <nav class="navbar">
@@ -71,23 +68,23 @@
       <div class="blog-body">
         <div class="wrap report-container">
           <p class="kicker">
-            Data report, generated for <b id="metaN">205</b> records.
+            Data report, generated for <b id="metaN">205</b> records
           </p>
 
           <section id="summary">
-            <h2><span class="num">1 </span>Summary statistics</h2>
+            <h2><span class="num">1 </span>Summary statistics (MB)</h2>
             <div class="table-scroll">
               <table class="stat-table">
                 <thead>
                   <tr>
                     <th>Metric</th>
                     <th>N</th>
-                    <th>Mean</th>
-                    <th>Median</th>
+                    <th>Mean (MB)</th>
+                    <th>Median (MB)</th>
                     <th>Std. dev.</th>
-                    <th>Min</th>
-                    <th>Max</th>
-                    <th>Sum</th>
+                    <th>Min (MB)</th>
+                    <th>Max (MB)</th>
+                    <th>Sum (MB)</th>
                   </tr>
                 </thead>
                 <tbody id="statsTableBody"></tbody>
@@ -119,9 +116,9 @@
                     <th class="rank-col">#</th>
                     <th class="name-col">Name</th>
                     <th>Username</th>
-                    <th>Upload</th>
-                    <th>Download</th>
-                    <th>Total traffic</th>
+                    <th>Upload (MB)</th>
+                    <th>Download (MB)</th>
+                    <th>Total traffic (MB)</th>
                     <th>Share of total</th>
                   </tr>
                 </thead>
@@ -136,28 +133,26 @@
             <figure>
               <div class="fig-grid three">
                 <div>
-                  <div class="panel-label">Upload</div>
+                  <div class="panel-label">Upload (MB)</div>
                   <div class="chart-box short">
                     <canvas id="shareUploadChart"></canvas>
                   </div>
                 </div>
                 <div>
-                  <div class="panel-label">Download</div>
+                  <div class="panel-label">Download (MB)</div>
                   <div class="chart-box short">
                     <canvas id="shareDownloadChart"></canvas>
                   </div>
                 </div>
                 <div>
-                  <div class="panel-label">Total traffic</div>
+                  <div class="panel-label">Total traffic (MB)</div>
                   <div class="chart-box short">
                     <canvas id="shareTotalChart"></canvas>
                   </div>
                 </div>
               </div>
               <figcaption>
-                <b>Figure 1.</b> Top 10 accounts by each metric, against the
-                combined remainder ("other"). Replaces a per-user pie chart, which
-                stops being legible past a few dozen accounts.
+                <b>Figure 1.</b> Top 5 accounts by each metric against the remainder ("Other"). Proportions computed from total recorded megabytes.
               </figcaption>
             </figure>
 
@@ -176,8 +171,7 @@
               </div>
               <div class="chart-box tall"><canvas id="barChart"></canvas></div>
               <figcaption>
-                <b>Figure 2.</b> Accounts ranked by total traffic, highest to
-                lowest.
+                <b>Figure 2.</b> Accounts ranked by total traffic in MB, highest to lowest.
               </figcaption>
             </figure>
 
@@ -190,7 +184,7 @@
               </div>
               <div class="chart-box tall"><canvas id="scatterChart"></canvas></div>
               <figcaption>
-                <b>Figure 3.</b> Upload against download per account. Marker area is
+                <b>Figure 3.</b> Upload against download per account (in MB). Marker area is
                 proportional to total traffic; dashed line is the
                 ordinary-least-squares fit.
               </figcaption>
@@ -207,7 +201,7 @@
               <div class="chart-box"><canvas id="histChart"></canvas></div>
               <figcaption>
                 <b>Figure 4.</b> Distribution of
-                <span id="histCaptionMetric">upload</span> volume across accounts,
+                <span id="histCaptionMetric">upload</span> volume (MB) across accounts,
                 in 12 equal-width bins.
               </figcaption>
             </figure>
@@ -222,7 +216,7 @@
                 ></svg>
               </div>
               <figcaption>
-                <b>Figure 5.</b> Spread and outliers for each metric. Boxes span the
+                <b>Figure 5.</b> Spread and outliers for each metric in MB. Boxes span the
                 interquartile range (25th-75th percentile); whiskers extend to the
                 most extreme value within 1.5×IQR of the box; points beyond that are
                 flagged as outliers.
@@ -307,11 +301,11 @@
 
           <section class="report-footnote">
             <p>
-              Some of the accounts have 0 bandwidth usage, because I wasn't able to scrape their data. The dataset is sorted by total traffic in descending order. 
+              Some accounts have 0 bandwidth usage due to scrape restrictions. The dataset is sorted by total traffic in descending order.
             </p>
             <br />
             <p>
-              Reads embedded data from <code>data.js</code> and computes everything above in-browser, nothing is processed in a server.
+              Reads embedded data from <code>data.js</code> and computes everything in-browser. Nothing is transmitted to a server.
             </p>
           </section>
         </div>

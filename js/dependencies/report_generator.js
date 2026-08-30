@@ -60,13 +60,12 @@ Akshat,akshat23,aksims2302723,289126.45,2674769.0,2963895.45`;
   function abbr(n) {
     const sign = n < 0 ? "-" : "";
     n = Math.abs(n);
-    if (n >= 1e9) return sign + (n / 1e9).toFixed(2) + "B";
-    if (n >= 1e6) return sign + (n / 1e6).toFixed(2) + "M";
-    if (n >= 1e3) return sign + (n / 1e3).toFixed(2) + "K";
-    return sign + n.toFixed(2);
+    if (n >= 1e6) return sign + (n / 1e6).toFixed(2) + " TB"; // 1,000,000 MB = 1 TB
+    if (n >= 1e3) return sign + (n / 1e3).toFixed(2) + " GB"; // 1,000 MB = 1 GB
+    return sign + n.toFixed(1) + " MB";
   }
   function full(n) {
-    return Number(n).toLocaleString(undefined, { maximumFractionDigits: 2 });
+    return Number(n).toLocaleString("en-US", { maximumFractionDigits: 2 });
   }
   function escapeHtml(s) {
     return String(s).replace(
@@ -427,16 +426,16 @@ Akshat,akshat23,aksims2302723,289126.45,2674769.0,2963895.45`;
         },
         scales: {
           x: {
-            title: { display: true, text: "Upload" },
+            title: { display: true, text: "Upload (MB)" },
             grid: { color: CHART_GRID },
             ticks: { callback: (v) => abbr(v) },
           },
           y: {
-            title: { display: true, text: "Download" },
+            title: { display: true, text: "Download (MB)" },
             grid: { color: CHART_GRID },
             ticks: { callback: (v) => abbr(v) },
           },
-        },
+        }
       },
     });
   }
@@ -777,9 +776,9 @@ Akshat,akshat23,aksims2302723,289126.45,2674769.0,2963895.45`;
       <td class="name-col">${escapeHtml(r.Name)}${r["Total traffic"] === 0 ? '<span class="zero-flag">idle</span>' : ""}</td>
       <td>${escapeHtml(r.Username)}</td>
       <td class="pw">${showPasswords ? escapeHtml(r.Password) : "•".repeat(Math.min(10, r.Password.length || 8))}</td>
-      <td class="num">${full(r.Upload)}</td>
-      <td class="num">${full(r.Download)}</td>
-      <td class="num">${full(r["Total traffic"])}</td>
+      <td class="num">${abbr(r.Upload)}</td>
+      <td class="num">${abbr(r.Download)}</td>
+      <td class="num">${abbr(r["Total traffic"])}</td>
     </tr>`,
         )
         .join("") ||
