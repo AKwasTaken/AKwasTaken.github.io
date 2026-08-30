@@ -46,8 +46,6 @@ if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 const blogTemplate = fs.readFileSync(BLOG_TEMPLATE_PATH, 'utf-8');
 const indexTemplate = fs.readFileSync(INDEX_TEMPLATE_PATH, 'utf-8');
 
-const allBlogs = [];
-
 function compileFolder(dir) {
   const items = fs.readdirSync(dir);
   
@@ -67,17 +65,9 @@ function compileFolder(dir) {
     const cleanedContent = content.replace(/\s*---\s*$/, '');
     
     let dateStr = '';
-    let year = 2026; 
-    let monthIndex = 0;
-    let monthName = 'Jan';
-    let rawDateValue = 0;
 
     if (data.date) {
       const dateObj = data.date instanceof Date ? data.date : new Date(data.date);
-      rawDateValue = dateObj.getTime();
-      year = dateObj.getUTCFullYear();
-      monthIndex = dateObj.getUTCMonth();
-      monthName = dateObj.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
       dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
     }
 
@@ -90,12 +80,65 @@ function compileFolder(dir) {
     const safeName = path.basename(item, '.md').toLowerCase().replace(/\s+/g, '-');
     fs.writeFileSync(path.join(OUTPUT_DIR, `${safeName}.html`), finalHtml);
     console.log(`Compiled: blogs/${safeName}.html`);
-
-    allBlogs.push({ title, year, monthIndex, monthName, rawDateValue, url: `blogs/${safeName}.html` });
   }
 }
 
 compileFolder(BLOGS_DIR);
+
+// ==========================================
+// Scrape living HTML files from OUTPUT_DIR
+// ==========================================
+
+const allBlogs = [];
+
+function scrapeHtmlFolder(dir) {
+  const files = fs.readdirSync(dir);
+
+  for (const file of files) {
+    const fullPath = path.join(dir, file);
+    if (fs.statSync(fullPath).isDirectory()) {
+      scrapeHtmlFolder(fullPath);
+      continue;
+    }
+    if (path.extname(file) !== '.html') continue;
+
+    const html = fs.readFileSync(fullPath, 'utf-8');
+
+    // Extract title from <h1 class="blog-heading">...</h1>
+    const titleMatch = html.match(/<h1[^>]*class=["'][^"']*blog-heading[^"']*["'][^>]*>([\s\S]*?)<\/h1>/i);
+    const title = titleMatch ? titleMatch[1].trim() : path.basename(file, '.html');
+
+    // Extract date string from <span class="blog-creation-time">...</span>
+    const dateMatch = html.match(/<span[^>]*class=["'][^"']*blog-creation-time[^"']*["'][^>]*>([\s\S]*?)<\/span>/i);
+    const rawDateText = dateMatch ? dateMatch[1].trim() : '';
+
+    let year = 2026;
+    let monthName = 'Jan';
+    let rawDateValue = 0;
+
+    if (rawDateText) {
+      const parsedDate = new Date(rawDateText);
+      if (!isNaN(parsedDate.getTime())) {
+        rawDateValue = parsedDate.getTime();
+        year = parsedDate.getUTCFullYear();
+        monthName = parsedDate.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
+      }
+    }
+
+    // Relative path from root
+    const relativeUrl = path.relative(path.join(__dirname, '..'), fullPath).replace(/\\/g, '/');
+
+    allBlogs.push({
+      title,
+      year,
+      monthName,
+      rawDateValue,
+      url: relativeUrl
+    });
+  }
+}
+
+scrapeHtmlFolder(OUTPUT_DIR);
 
 allBlogs.sort((a, b) => b.rawDateValue - a.rawDateValue);
 
