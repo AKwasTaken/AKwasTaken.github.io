@@ -22,6 +22,19 @@ if (!MASTER_PASSWORD) {
   process.exit(1);
 }
 
+function slugify(text) {
+  return text
+    .toString()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/[\s_]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 function deriveKey(passphrase) {
   return crypto.createHash('sha256').update(passphrase).digest();
 }
@@ -130,7 +143,7 @@ function compileFolder(dir) {
       .replace(/\${date}/g, dateStr)
       .replace(/\${content}/g, contentMarkup);
 
-    const safeName = path.basename(item, '.md').toLowerCase().replace(/\s+/g, '-');
+    const safeName = slugify(title) || slugify(path.basename(item, '.md'));
     fs.writeFileSync(path.join(OUTPUT_DIR, `${safeName}.html`), finalHtml);
     console.log(`Compiled: sandbox/${safeName}.html ${data.password ? '(Custom Password)' : '(Master Password)'}`);
   }
