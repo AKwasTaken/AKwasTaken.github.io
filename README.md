@@ -2,7 +2,7 @@
 
 > "41. Trying to be someone else, is a waste of the person you are."
 >
-> *-an acquaintance*
+> *-someone*
 
 This is my personal portfolio/project site. 
 
