@@ -36,7 +36,7 @@ function slugify(text) {
 }
 
 function deriveKey(passphrase) {
-  return crypto.createHash('sha256').update(passphrase).digest();
+  return crypto.createHash('sha256').update(String(passphrase)).digest();
 }
 
 function encryptContent(plainHtml, passphrase) {
@@ -121,7 +121,8 @@ function compileFolder(dir) {
     const title = data.title || path.basename(item, '.md');
     const cleanedContent = content.replace(/\s*---\s*$/, '');
     
-    const activePassword = data.password || MASTER_PASSWORD;
+    const customPass = data.pass !== undefined ? String(data.pass) : (data.password !== undefined ? String(data.password) : null);
+    const activePassword = customPass || MASTER_PASSWORD;
 
     let dateStr = '';
     if (data.date) {
@@ -145,7 +146,7 @@ function compileFolder(dir) {
 
     const safeName = slugify(title) || slugify(path.basename(item, '.md'));
     fs.writeFileSync(path.join(OUTPUT_DIR, `${safeName}.html`), finalHtml);
-    console.log(`Compiled: sandbox/${safeName}.html ${data.password ? '(Custom Password)' : '(Master Password)'}`);
+    console.log(`Compiled: sandbox/${safeName}.html ${customPass ? '(Custom Password)' : '(Master Password)'}`);
   }
 }
 
