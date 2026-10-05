@@ -7,7 +7,7 @@ Absolutely ZERO parts of this is written by AI.
 
 The below is a drawing of mine. I drew this. I DREW THIS, YOU BLUNT PIECES OF SILVERWARES!
 
-![A drawing of mine](https://aneethkumaar.is-a.dev/assets/gallery/AK0-26.webp)
+![A drawing of mine](https://aneethkumaar.is-a.dev/assets/gallery/AK0-20.webp)
 
 I hate it. HATE it. AI is in everything now, in apps to draw, to apps to read, in booking flight tickets to booking a washing machine? I don’t care about AI. The only thing I could stand are LLMs, and not even very much so. People used to be people, have hobbies, and we were allowed to be bad at them. I used to be a graphic designer, a mid one at that too, but people still appreciated me because being more than bad in anything takes time and energy. But since the generative AI, everyone is treating everything as indispensable. They are treating ME like I can somehow create art in seconds, and modify it in time lesser than that. And that too the only reason people still ask designers for anything is because they KNOW the audience will not like it their content is generated. Profit incentive. And it’s JUST that. Why?
 
