@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "You're going to change the world, friend. Even if you choose to be a farmer or a writer, you're going to change it just by being in it.",
     "We are on a floating rock, an insignificant dust among all reality, trying to make sense of it all. Nothing matters. So take a paper, and paint something badly.",
     "The universe doesn't love you, because you are love.",
-    "I would have liked merely doing laundry and taxes with you.",
+    "In another life, I would have really liked just doing laundry and taxes with you.",
     "I am a mosaic of everyone I've ever loved. Even for a second, even for a heartbeat.",
     "All we have to decide is what to do with the time that is given us.",
     "I may lose myself for a bit, but I will always find my way back when I pick up this pen, and start writing.",
