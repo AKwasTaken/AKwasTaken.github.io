@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AK | Mechanical Brains</title>
+
+    <link
+      rel="preload"
+      href="/assets/logo.svg"
+      as="image"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      href="/fonts/Outfit/Outfit-VariableFont_wght.woff2"
+      crossorigin="anonymous"
+      as="font"
+      type="font/woff2"
+    />
+
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="33x33" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+    <link
+      rel="stylesheet"
+      href="/css/sandbox.css?v=1791012612594"
+      id="main-theme-sheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/index.html" class="logo-link" aria-label="Aneeth Kumaar Home">
+          <div class="logo-item" data-src="/assets/logo.svg"></div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/gallery.html" class="nav-item">Gallery</a></li>
+          <li><a href="/projects.html" class="nav-item">Projects</a></li>
+          <li><a href="/blog.html" class="nav-item">Blog</a></li>
+          <li>
+            <a
+              href="https://github.com/AKwasTaken"
+              class="nav-item"
+              target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="/contact.html" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="blog-content">
+      <div class="blog-header">
+        <button
+          class="blog-heading sandbox-link"
+          id="sandbox-pw-link"
+        >
+          Mechanical Brains
+        </button>
+        <span class="blog-creation-time">October 5, 2026</span>
+
+       <div id="sandbox-popover" popover class="sandbox-popover-box">
+          <input
+            type="password"
+            id="sandbox-pw-input"
+            class="sandbox-popover-input"
+            placeholder=""
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+      </div>
+
+      <div class="blog-body">
+        
+      <div id="sandbox-content" data-payload='{"ciphertext":"ab1e73d013978b2720efa1c851726035e763c3397840605760f0cc6e7e77712e03caccf07b4061f7d9a9a5cd9f1d08af0d79a4aeed5e6cd3bfe59dd7920e32f570b60bd3d9f03becfc762d981b9eb5cb9a73e48d3747db4cd98b29c32649b462a38b21cd64fe5edcce730e0298271db053f54c6384ed6d8fe5d102fb8e86d46129b41f28a1ef87aad403fa40bcc210af293a157cc9ddc2ee24c6fc3a13c7d33a7cf90a6738d2a9809ec61fb34ae38ddd569e590d0e4f959f76dd6dc68967fce5de8105e667a4881c05adfa6545cb17e6d906047aae1eeb62338337612b3bcd6852ee6d675548297497d5f2e21a26d419f14206446879e2eb7cf64bf354ff8e0cc426dc7bac96b80a2c39b273d413722d8d688440debbf837fd1dc0ca2e436b351bcbb3ac5107fa7ea30c9c7e484d35a7e1d62f249d85aceef760d263a95f37b65adf88f1e10b4d4e780ae688d4b028f2b4e04cf7d9b35db8d97ae9fe9c6fd65f9892730d94985d5db4e4a8b79298a65bc21275b93583a45f1527f03effd995611f03208bc056eabc958579b3deb4a82dea4d137e13d48ab65348d6add6f696e87bbb8ddecc5596dacee8a315624c4b6d7c86799cef6365834580d28791f353924f1580ec895225b75aeb604e2555444482afb411a6a7653ace19c3ea9e0a43b1aee4cebc12056040470cfdfc15b429e369984ef28cfe0082a43ca00f17411d6553eef53b693f6135dc766536039964ea58fb6563856a5170af3963eb1e9adc088f6621537e472080e1dfe9952047cfb5ee83bcc2f56b1ac3dd4d5ba211379ae3559a9f3499c4f315dd8e8e063197db0c33bb5e77d80c38ab26469a3c1a263d50a5754ab5cdb72d31bed7aa1c2f9b75a148d4693d792c17b63d9803ab22a6fabae845b127e802e3ff91b476f0ff3da0ac1e529ac5c6ef8da86d3e446ed0b014ab1ad35bf769f52fc2305aeb93559717cb957834a598a21a8655c9be3e4a4c8c1cb14eaed41202e72fb02e35793ff7d4d339dff87f86cc44eaa05a57a5c1eb730c4d262b32f004a4b18331352483e8c2c259ceb61dba4ebdf7feab72eab0e100e42dac29e2b3867edd052343d088e7b882203ee019f8e28fb66d2352fd179bd6c269d17f255c60e5b740f48abcbcd03c4d6c3e96ded30380a0c54d17a5ad2dd4779bb270ff80e4a73f19556bcd1d58756bfe56494b8ece6dfbf9bae5070aab634fe33632e535ee5b49b44da76b83a48f924323b1820aafada15b7f4b9edf8ca799c8099785be69848292ec292561955acf1ee11420fb4f866c517b109e2541d7862028b30a3e93af4ec696149e0ad7838a064dbdac13c9f429e2dd591ef8d62eae563e2e087072ecba3527c38b1207be05c880dc1a08abb62f7d3237367252dccb05f4cd9a52e95215f11e5a05722cc972b6d3fc8cee31661ea5b010a6d91ec5e2dbb33fd8a0c1b0d0fc01451c696c4ec62cf149f704489596646fa9c16aa78f376a7da21c19a2f7c7e264ad2046481559db15306c809a85b8e7caef8ed6e8ae4e1487be61d704d24baeed96bf74d71e335ca7eae7413b249f6b41042f95aa210e86a868e12999c73285174d1fa3a71bb8f9bd8f52e3db55b58965a68017caf0fc5033899a77fd244239f07d4203f3b8a5ff168c8f0273e211be3daab440d56658ee78198a1dd8b8f09c56666ef7853c663764c01e58380ba99e9a3f182397b40551214e762e89a91e686267921701261ea5359d83fb18d059559b1f541bc5e058489ab971ca1ac7a1627bb2ceab70d57c30d7d0b119bcbc0a04190f5f274fef5157bb99b1cd569dd85ddf6744554856b72257b3c71d8458df323634bb22fafd4ddb3a0411815a3eb10f5cb06f75deee0046caf28a8822d52b26508c0cde146e8aee65c303130ba5c02729fb05ae75642c1d99c620ab566713be800578e0ddfd755850c889a8e7fbe592f3e535240545895f68c13fe2cc6fe210b3c24109b0a14e1a0e6d6937f4d765a16f0e9ea70939eda03b509daa698e22b94356f2477df5e802e81f4e5a08ea6ffb8f1c71eacfdac9b4a65252b08cb3221f624ec2269248a5418c4c328c4b0a51c772073573f86bd43ef681a9685f36137c441e3aa4e4a58564f90af62d20fdc35b7aed5bf7f5dd471441a70121c82d6a1d52c83fba7a82a911bb23505aa2df31debab4757ba4ece603b452ddf505a318dd50a98de0d7c292f909d9de5985dd97390a3c55f1bfc4f87b7cf8b9206f7d3b75bb4ddae6b8320a95dfa83eb8884f4fd85384a26077896e365fd922760e983d728a1e65541fe99ac05a90309c4e3806af6f36f0b2617472d0ca4b2908188533c9624c32e9f1db420d902c2ccda05d8bfd6743a2ec2269dc6462761795098e5eea26f20460edf726c9d1dd22b2ca381accd5643b05c89b809b980c4af46703cee7499c122bd64f144c809a8415ada316720cd863cc53db8a871822190a84a6df80758993992ebe9d1f52c5d2d88bc14a654a5a547395b3003d751e27ead53c13b70246ffb6cd09fbc95de9b1b5cdbf721c0af46491fd27d24a27b26aa13f39ec0cbb3b1ef39f8a414bfe739a5c539c797da839c8951762721b424475bd1e735df29f7201e3a1f063f24989ff8833d703d30c2886a5ac5855511b51adfe40ea5513d1ec491ae5fa1e9ba482499fc1676d35f7250d90f415406508b28952de775e585aee06e0414062e60a0759a282a88008ea4e15d2d0d1dbf286b3b7ae10aef964ed9b2de17da362a6edb4065d9fd6bcd6b75aeedb06b98b40e05e15911febf3500f40ec25c24680b4d8cfc6a867da48259aa4fa87a887e319b26b49b3a36e1a40ae2fde35861dd2202c1bdf7545001622cbcc6fbecb480926329a1b76444a3753f245d5f662f749de203106ef8e5c011907d8e2754f31ae1fe8395ca15d3f086a991334dfd99ab8e0d76f42cd0e0311559a8a7bc4faf18c84c59d0c41a9d65de66011a5195410ece909a506a37281e341519fbec3a770626760be61e73ddb497f6ca11a935795570a02282b5670c276313949f8b1a303995d784701e0f6ddcbbcf6404769a4000cc7fe961ae3f8262fd082088f8a6836b308987796a0283832d855e109985703f8836628e72dc514e64a06190d9121e49b793522becddc2ba00d67a28d316e4d3f44dc9e40848afff12ff60e6daab5c15cc7b39870768becc8d089c4b67af0641785a050f8d46246bc8907cf98d69db4cf1114824b4570cb21b857bbad6166a4437af6fd969c5899fad93cfb6c468dee9ebb5befc1a987dbed2a13d4839941a6d1d4bd825e6ea155ab92311e8029c762c631125f5fe3db6eebf1b6d7bcab0a7e946cfe435886ffb3c2a1eff2d6f3aa4cbaf80b700ccebb0309883ba9db6960f3bc5e577012fb09bfb32e1886fec0ffa6d99366d061fa1b20e2574deb9ce7f39fe2206d82d1fe79b0360a34878b8d47a949aeb1b0ae29758c79eeadae16b73663037ab15526189552851f8c4129df7bfacb93e4be60f9f5a41e3b5b62a143363ec350e0cf6080ce76517c4386f60fdb1dfbebafde3514dd4770e323f512949f8f68506f4264296a825c4de84d80ed7bf4ed21fb56796dd52dbe000be38c8b16b45cc6f7a3bd3ab56756187483871e0b4d68624573baff56970582f2b963f3f182057672df881d5bdccb3114a827a697452eb9194361659a0f13c6a976a06323f45fc2602e241122930968307025b786a18e15feb32cb082691675226616779f16ea5f8964b7d24a148910b4b7c9b8706900d01bea2a984d7ac3e9223d47099161bae7f4f342751d47786ba765e1771fb2bbc45ba4c44cac16e993d11441d55d2554be3777ae11e5aaaa098fcc3cd5c5196b26b3fb3d7d61e15e6e50766a0dce12708f0be621ffc1f0a9f58425fe10d1a49e9b103cc7be590b0f5a871635149a5fcd0adeb5b92496c27e262dd7663138cf8516a8fd4a7c6c07e2aa141182d0442ee5608c45b2bfc00b2c7a2928037f4e9f108759405695c18bfe236ced90fa019379db443e1427f0549170b1e13f4e4ee47c0ec11b1e29170f24580e250205958653e706a875f5a2d2edcbef660ee64f228913bdfb7a6810f458b96b5e6713eeb7198455ce2065ae8efd53272e5b45181ee2d054025ef3e6e5cf24433be0b9a127c2414b4f6cd2baecfb1760cafdc369bae9df35a32ff1049691264e95dd5adc6d8f4ab37f470201a8eef7be27b6a6917d41b7bc5df5dfeffa18cbafd31f0a36cfbdb8f558104eceefb82c497ff93792df8fadbc028855b44f516f8d1b1a085197a8c41401bbf848343b369a828ce194d98e813401f744981f8df5dfcacba86428f3fc710e66642b1100f78505aa0e6b4c7d4463ac60dc0c7955cf8ca80acfb8234577a56404efb05a04361a74b8575399d94cfa4969256e6987d945e8e3380f84a55fd394bd16fe8fd438db858db9e5d7899a78f17afeff5612022bacfcb98d0c7ea5f8e4e175d2784ad88aa3d75b72cafc5d8aec5a9661f4139c4bde57a21b9184193b12024b45c2fe8622fd9ce609bb8e708f34dc8b71b0b7bf11ea34e777dff3082ce1913552a500fcb36904225d24f54810616471c5ebbcd7c33566613509b454de6386f1432de7fa88fbbbf45a74c128f3365d6f6becdfde587b881561a3216768977bcbbed321f0ecdd8410a40c5cca171ad830a56bd3b6b0809d7f3935dee19f99f7db1e6d50bdc603fc3a0e547d9abe5fa9b56dc199af67a7aa136ed7f27b3588d278fb20870821500253efc47797275e70198fb9bddd62ce8cd23d63a4603622edbbff4251ac668f6b924df8dbbe5c4409a4977a7b03215eb88dd34cb7fe302232d8dc312fc6624d28aa8302258d06eeea1ba79931265067a8195901d8c5ac88b97911a27cfcf1f99a5f40f1dd88fdaabbb59299a9d2cf8a02c6c8b739a45de67a487d08247f7b299f2b302383b701a2bce6a3b64d152dac3a0d41ee9900334f64e2991b0794e579fe5e0003424b8693072bbfcbc323e63b9051f26834317045afe738910f2b16dc99b4f522","iv":"2331bb72488b98df1f566e9a","tag":"8ceebd510400a99968492e9986c7aed5"}'>
+        <p class="scrambled-text">b;;Lxbv< cT,jTP2 }[d!TS& 0dA.a,- [60+69KH2@{Eo1Y >hPIK$V 6JAU*:~cQ/.Jn%R<}0hoLT# >#pTH=Z 3NN(ZZg /J2AFrhv<VJ.~3K utW2r_$ W(qK0a(1]ZkDtIP~96N{TMd Zw:%l9GBtD)C0h2shAjZy$8r+@fc&)INAQ34_03 }9=fwr@KTzt[I[LZ))ljxFS ?NOTxjM I;xZ-*J &GQ%Te3pQkD/=6t YJEKzP2 nXtxd9TD,40HMk> )x2S[Kv ~d-AM{~uGhuSrSS .%zedR16+{#rR<q |lM=6TX20]yxwbd $OFY|@q^~nF4/#z W;:LuYN 9-a(R/~ )xKOTDLh6/-Qmif oZJrSg] M$Ogt8/rJlRZ8i)tRzE6o>lO+(j_}N/ FCc5eJ[ qWB@|t. 2kz|qGf 1,o0ky: @Z9SC2J T<BNt}GN+Bw,#N7)wkVY5?j wxou)UOunB$5l[: 48OTNoRV{+_>rCO,34Xq7ZB lMO$aPy M*OXaqo)1q(-695 ]A7PWh2 3:-U7?T 1207P6t .q.v-,ksh9da~$E 7f]P;lr2Fef/C@2 7[QJ]M$ G],/9:m ~*tod)S $IAgNET>j3fl8Ge1ZbS5*4Kt<nTeJ?/ 8YOcoP* 6EK8;5^ .m$//r? TFF7fBb {tN#U}XbfV]c+H~ )TXgYSC ^s^_;5q *9xL{jKxg@;BlGc cY$lZ*>1EP[Ia6SeT[21n-t+CQKE4e7 G.joZ:M u#w[)>3 @(7}5|S@%rx0D(9 p?_q%ay <9y.SS#xdsl,..# b^%@YBJN{G,##i7 QOH[+j|o)?;aq4^C^,-;*tX yWH2IDp ^KM}~%x ?yR9At/FXtok8*W hSP;_EO&dd2:9A^ ?;yX8^A SI6lT8-tKL+Q~TG ~~>Q%NHn@<@rF;0p[73>Hwz$<$LLW,Fb4MPvFs)fpUiO][+Qm=_R$H$ (,y#@3e _OlT&[2I,)y-/Cj z4.rg*9Q)?JLs-& ~uk$PBI 123?D-f|*j$(.{^)|S^<n%$ #XCMaY4 izcW:Z5v*8e|{6C e:Ff[M*9F_e;U4P 8[fP}12 Q21RZQA s:g38jrUL>>J!ja :NoBh<: KY(Les[ ii805Ms Rg;cA.= c:$Y5fn oQNe0EB @*U<lvf -R.e?B79%%wUz2xP85hNjDS JCj}9e= 2Vz[W7o 2WN<yEj g>MXzR- 5.3%X.J ClE@(=v k>hARYi qJ}&&6{R,b*~k7D k$SWD1K4R(dbZsH|lp)Y>;1CW*ls^M|&0Ym*hs, ;E9K+rZ+InO&n:%-?.53H@33o1Wz<&3jWwx#x:t +4ll@wT?yZE<KQ$FdnQb@IP@j8pk0pe 2F}<7T6QtlIE8Xu C23F.~[]bHa5^]n}q/GLk#~ E$];9wdN~A]!SmF sQ&i,2G!$Uz<meQ FL8g%..Q8+5;F]N fv-Ukr<v?e1zE@X %bIj,CS0>y_@8W$ ${iPtNXz2O+6qY6 KtMOl}X coYwP4L l#P1__f gIG+k6SC{hD/L?c!IsWUWz0 m29ik^~ :.AJ&Db 94^0zLFO[jBg9-> VCVU[}$ +W*#eP^ +|j1n>4 4RU/E~G U;jk(Xo k[<*kXpG68M73xM9P2PN}Zn h]=%Cb] ln>5k@# RoITHjM_6GQVJ~q &<f72OS zbPHx5=Q3s0MAHu ]S#TR%C SAdwj%^ z=VGtnp||jyq_v- qz+6O]% -fV:jnKDN$f0!uH A#f3EGX l#aRm_-[kL)Rq@t {PN&RmT 22n4{?a 60Cm1,L4_0Ubnl. 2m2g|3D ml4EAW6 k8H?}j+ lu+TR+h 0.{;mm.Z1aqY5}F 4zZ_jv8 k)2]I6(N,9MZ?h4 t/I%;8F s,G[B-b 6/wkJP: 3CBf;uW u1.tmxA }&wGvMRK/N;9MKi /Z&oSM[|p~A}pWWBO8bd$jQgx5Q~fH5 bEBOt~C ]ciV_eY 3,3:M*YzfAHKQa? <sF})FC oi0HKQq /.gmZh0 j0?L.]?p|liYo!P JFy|2x3 e2_u~1/KWQ4[0dn O@fwBRL :u1(UbD r^CO9Oz_yMCm)W. %~?}?v_roRB}lkr$BWrk}rv KrE@Py? BzPg|9g C,C&{DMb}F6!0)#=YDb0ng0 TimuDU# }^,e&1d_zaRd11? _0H;xC2OI9c*@WvQ;,)GQ&0 #:ds#~: 9*2Rn,A ez6Z(0L oI/&W-v &zER1kP W@Rz)%w/shp8guK.y-n-I)S =(a>S95 8s*:Mk= .glx$|+d7RC(=aW($@.O1-X5#GAu_G3 Tyk~Jk,7^(x-zDm 2Pr}9fR ee^GdCs,uC<}rkW CQM#/y0r0%Owm^C tnegT3[ kBB)70u lwRi%cL ~gU9hD$ ow46/<{_2a2[fZ@ om@2k&5 9;x*Da1UQSoAprv ~&Md/_4 O4CZ2F<LH*UrVqc {#=b^Y] [nT0Q:N d)U**cKYV|@iF^/ x3<?0bb T2A/U-W wQ$O0W. +5~BpDm[@(KM-ISPPqqmt:$m}t.Dwh0 9N^y~M0 ^ia21lz Cz]~i<B$RjvI*sEkE(alhvi P(v}|wj i.&cJP_ !r7Z)4v B{,]X$[ yUC,Se^A}?I2p1[$Ocp@xWyjTJ$~oNi 8o]fZgPF^/8@XS& F)(ePOn^xV~6>H> [/@Zmlc,9fMT6XE gXhc8zP rLAi$^H7hgkT#Jawekuf;MR Uj~5(uI0+8&7>Yj .]-;^uN E[dM{<+1-E[Wugc_PS#Ks~J/{g>P%#zCU=c,nz4 ~V?#6BK >c5kKc|}DWmJ}u9 (gNO(3q-GQ{%k-n *oL>2?!)#l/7z|q:qf.H1RD&Vi+biJgwMo|=l&4 #F~=wF@ 0.gEX|# gdPwV|V WV=QW|d w<FK[b< GE=.KPQ ^F,t.0TLEzeAMW6 gJsF+&:m{wX6+6~ bx[D]&H /UE8We$ g>cHCk8.Q-2$[Qr M,f?[VQq6e*gSBH KcQr!;| Odg,lHeI&%I(!fR@v}+)-m% >y?qEX3 GHl>ZEg17-PS3,lr89pV-)6 b%Rk$S[ !t#zW=mu@2|sKli 0ICe+.0 nFMS#cQK=Q*Ty~Q ;i$h8#6 Oc686q* 5;waIcO Fq5_6gN Pvbs{qm,Ar+T=,h^dYM?e350O^RtTq4 :Mnvy7> q9nv?dG K>5zj{J %MMggghOg={8DygU.#qJk5$ MrZ),.: 2h#@5[H>WrMawEW eA$snI9 l07dIdf Pu-l:H|IAmqMpIC v&*TK^/ oqrOheG,*>,W{UJ5UN+sJ^C .av1GoQ Bw~u-=I MC3Al9H%z?NSJ}T ]%1G.~L e<Dqa,* q<C5^-b ]CDem$YWK7gz@l#f2?[?^cgy~9xE<,2 8r>H]&< :.Jml8, rj#r>v[I.ybcXd< 78Y@Ha:#~mgm3E[ s#s!!8yK~(2t5qX WUb=^eG {tU-/4s U4D;_{i ^D</p>
+      </div>
+        <hr />
+      </div>
+    </div>
+
+    <div class="back-link">
+      <a href="/sandbox.html" class="back-link-anchor">
+        <span class="back-link-icon"></span>
+        <span class="back-link-text">Back to Sandbox</span>
+      </a>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <h1 class="footer-h1">Aneeth Kumaar</h1>
+        <p class="footer-p">
+          Made with HTML, CSS and JS, and a lot of frenzy googling. Feel free to
+          check out the source code of this project on my github profile. If you
+          wish to reference or reuse it, I'll be honoured, but please do
+          affiliate me.
+        </p>
+
+        <div class="footer-socials">
+          <a
+            href="https://github.com/AKwasTaken"
+            class="social-link"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <img
+              src="/assets/icons/socials/github.svg"
+              class="social-icon"
+              alt="GitHub"
+            />
+          </a>
+
+          <a
+            href="https://instagram.com/akcontinuum"
+            class="social-link"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img
+              src="/assets/icons/socials/instagram.svg"
+              class="social-icon"
+              alt="Instagram"
+            />
+          </a>
+
+          <a
+            href="https://linkedin.com/in/aneeth-kumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/assets/icons/socials/linkedin.svg"
+              class="social-icon"
+              alt="LinkedIn"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/@aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <img
+              src="/assets/icons/socials/youtube.svg"
+              class="social-icon"
+              alt="YouTube"
+            />
+          </a>
+
+          <a
+            href="https://www.fiverr.com/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Fiverr"
+          >
+            <img
+              src="/assets/icons/socials/fiverr.svg"
+              class="social-icon"
+              alt="Fiverr"
+            />
+          </a>
+
+          <a
+            href="https://www.behance.net/aneethkumaar"
+            class="social-link"
+            target="_blank"
+            aria-label="Behance"
+          >
+            <img
+              src="/assets/icons/socials/behance.svg"
+              class="social-icon"
+              alt="Behance"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/nav_menu.js"></script>
+    <script src="/js/load_icons.js"></script>
+    <script src="/js/sandbox_popover.js"></script>
+    <script src="/js/sandbox_auth.js"></script>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+      onload="renderMath()"
+    ></script>
+
+    <script>
+      function renderMath() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+          ],
+          throwOnError: false,
+        });
+      }
+    </script>
+  </body>
+</html>
