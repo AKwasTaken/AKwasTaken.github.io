@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "I am a mosaic of everyone I've ever loved. Even for a second, even for a heartbeat.",
     "All we have to decide is what to do with the time that is given us.",
     "I may lose myself for a bit, but I will always find my way back when I pick up this pen, and start writing.",
+    "I will never forgive myself for the stupid things I've done, for my only punishment is to observe the life I've always wanted, but never get to live it."
 ];
 
   function getDailyQuote(quoteArray) {
