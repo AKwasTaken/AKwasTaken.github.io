@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: write # Needed to commit and push generated HTML files back to the repo
+  contents: write
   pages: write
   id-token: write
 
@@ -17,8 +17,10 @@ concurrency:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -37,21 +39,22 @@ jobs:
           DIARY_SECRET: ${{ secrets.DIARY_SECRET }}
         run: npm run git-build
 
-      # Commits modifications from npm run git-build back to Git
       - name: Commit build changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: auto-compile markdown to html [skip ci]"
 
-      # Runs AFTER commit, so modifications are only present in the runner workspace
       - name: Stamp CSS to Pages
         run: npm run stamp
+
+      - name: Clean node_modules before Pages upload
+        run: rm -rf node_modules
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: '.'
 
