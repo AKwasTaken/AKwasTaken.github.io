@@ -34,18 +34,23 @@ document.addEventListener("DOMContentLoaded", () => {
     "I am a mosaic of everyone I've ever loved. Even for a second, even for a heartbeat.",
     "All we have to decide is what to do with the time that is given us.",
     "I may lose myself for a bit, but I will always find my way back when I pick up this pen, and start writing.",
-    "I will never forgive myself for the stupid things I've done, for my only punishment is to observe the life I've always wanted, but never get to live it."
-];
+    "I will never forgive myself for the stupid things I've done, for my only punishment is to observe the life I've always wanted, but never get to live it.",
+    "I hope I mattered",
+    "The only footprint I shall leave are those that will was away.",
+    "Everyone is guilty of the good they didn’t do.",
+    "Because meaning lives in process and intent.",
+    "Let me be a fountain of life when I die",
+  ];
 
-  function getDailyQuote(quoteArray) {
+  function getHourlyQuote(quoteArray) {
     if (!quoteArray || quoteArray.length === 0) return "No quotes available.";
 
-    const today = new Date();
-    const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+    const now = new Date();
+    const timeString = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${now.getHours()}`;
 
     let hash = 0;
-    for (let i = 0; i < dateString.length; i++) {
-      hash = dateString.charCodeAt(i) + ((hash << 5) - hash);
+    for (let i = 0; i < timeString.length; i++) {
+      hash = timeString.charCodeAt(i) + ((hash << 5) - hash);
     }
 
     const randomIndex = Math.abs(hash) % quoteArray.length;
@@ -54,7 +59,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const quoteElement = document.getElementById("daily-quote-text");
-  if (quoteElement) {
-    quoteElement.textContent = `“${getDailyQuote(quotes)}”`;
+
+  function updateQuote() {
+    if (quoteElement) {
+      quoteElement.textContent = `“${getHourlyQuote(quotes)}”`;
+    }
   }
+
+  // Run immediately on load
+  updateQuote();
+
+  // Schedule automatic updates at the top of every hour without needing a page refresh
+  const now = new Date();
+  const msUntilNextHour =
+    (60 - now.getMinutes()) * 60 * 1000 - now.getSeconds() * 1000 - now.getMilliseconds();
+
+  setTimeout(() => {
+    updateQuote();
+    setInterval(updateQuote, 60 * 60 * 1000);
+  }, msUntilNextHour);
 });
